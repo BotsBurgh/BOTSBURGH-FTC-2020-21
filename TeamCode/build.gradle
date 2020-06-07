@@ -13,3 +13,7 @@
 
 // Include common definitions from above.
 apply from: '../build.common.gradle'
+
+dependencies {
+    annotationProcessor "org.projectlombok:lombok:1.18.12"
+}
