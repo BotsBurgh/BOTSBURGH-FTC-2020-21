@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmodetests;
+package org.firstinspires.ftc.teamcode.drive.OpModeTests;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
