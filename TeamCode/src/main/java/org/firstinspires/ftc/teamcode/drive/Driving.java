@@ -14,7 +14,7 @@ import android.os.AsyncTask;
 
 @Config
 @TeleOp (name = "Driving", group = "00-TeleOp")
-public class Driving extends LinearOpMode{
+public class Driving extends LinearOpMode {
 
     Robot robot = new Robot(hardwareMap);
 
