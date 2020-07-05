@@ -7,8 +7,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.drive.Robot;
-
 import android.os.AsyncTask;
 
 
@@ -27,7 +25,7 @@ public class Driving extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        telemetry.addData("Status", "Intialized");
+        telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         while (opModeIsActive()) {
