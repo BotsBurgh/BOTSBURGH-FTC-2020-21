@@ -19,26 +19,26 @@
 
 package org.firstinspires.ftc.teamcode.BotsBurghHW.Smart;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import lombok.Getter;
 import lombok.Setter;
 
 public class SmartMotor {
-    @Getter private DcMotor motor;
+    @Getter private DcMotorEx motor;
     @Getter private double power;
     private double oldPower;
 
     // Motor configuration
     @Getter @Setter double powerModifier = 1;
 
-    public SmartMotor(DcMotor motor) {
+    public SmartMotor(DcMotorEx motor) {
         this.motor = motor;
         power = 0;
         oldPower = 0;
     }
 
-    public void setPower(double power){
+    public void setPower(double power) {
         if (Math.abs(power - oldPower) > 0) {
             oldPower = power;
             this.power = power;
@@ -46,15 +46,15 @@ public class SmartMotor {
         }
     }
 
-    public void setDirection(DcMotor.Direction direction) {
+    public void setDirection(DcMotorEx.Direction direction) {
         motor.setDirection(direction);
     }
 
-    public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior zeroPowerBehavior) {
+    public void setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior zeroPowerBehavior) {
         motor.setZeroPowerBehavior(zeroPowerBehavior);
     }
 
-    public void setMode(DcMotor.RunMode runMode) {
+    public void setMode(DcMotorEx.RunMode runMode) {
         motor.setMode(runMode);
     }
 
