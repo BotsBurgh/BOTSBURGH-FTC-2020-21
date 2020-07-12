@@ -30,7 +30,7 @@ public class SmartMotor {
     private double oldPower;
 
     // Motor configuration
-    @Getter @Setter double maxPower = 1;
+    @Getter @Setter double powerModifier = 1;
 
     public SmartMotor(DcMotor motor) {
         this.motor = motor;
@@ -42,7 +42,7 @@ public class SmartMotor {
         if (Math.abs(power - oldPower) > 0) {
             oldPower = power;
             this.power = power;
-            motor.setPower(power*maxPower);
+            motor.setPower(power*powerModifier);
         }
     }
 
