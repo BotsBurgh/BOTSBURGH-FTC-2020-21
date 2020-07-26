@@ -2,19 +2,14 @@ language: android
 dist: trusty
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    - tools
-    - platform-tools
-
-    # The BuildTools version used by your project
-    - build-tools-29.0.3
-
-    # The SDK version used to compile your project
-    - android-28
-
-    # Additional components
-    - extra-google-m2repository
-    - extra-android-m2repository
-    - extra-google-google_play_services
-    - extra
+  - tools
+  - platform-tools
+  - build-tools-29.0.3
+  - android-28
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - extra-google-google_play_services
+  - extra
+notifications:
+  slack:
+    secure: Nz6Ug4cq5hrVZfgZL8Zz+GAhpBxegFw1hXh8chHTfxpKvvc7n1skjt2R4WXP+mXog6ZXfajzftGgC1yUejuDdg8wQfiWkqBp2hl+FaJATd5tWcn9Ofjaur0nQUikZA7mHpme1J+S3EU4etfkvhTxOiRMBVh1MEmm/ajuqmw5G/oPgYGdm9XFnp7dvm1llQ0tRUjfkS10zcOZk300utzvcjjNXECFsXkHwAOlrx7Sy4OHjXTJM5JtFrHzhceH2y5EKdwFeSkmSZAp7XPJEus219QKJ321FlGoJhwf1wa6ET5JH6tMvpxEL8q5tV03Nq4Rj0pfBAwAInAHYe8VfhHvLUOgvWhn5uLHnOA6IAEV82i2B72eWqCMR61Yj4Y1SY5AV1Z+FwXJe1gI5SMe1kVU0fqabA0WzauuG3UPJWyHg5rgLe34tbGSlqtU2e3GRtY7EoydEjkUzTzk9IieilFw3XBySIfSvF5qK2Tiv7xxNV38MghiqB2kHzxSUiK4sPN1Cdum3WCslgJdpygR/7oHp1vWOJ/J0chw2oNpyQgpnzNzO3RirU8gT07hd+3Ml28MggB9VPMuOsTbwhiueHzPtpnCrxK1YEWX+nFuEcC6l3/zylPOcq4v6x4yMJvMy5u7Q80JbOJ1WyUirKC6Hk5IgCg0FsTTrRkMZsLzf7QuDs4=
