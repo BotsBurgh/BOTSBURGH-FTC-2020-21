@@ -1,5 +1,11 @@
 language: android
 dist: trusty
+licenses:
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+before_install:
+  - yes | sdkmanager --update
 android:
   components:
   - tools
