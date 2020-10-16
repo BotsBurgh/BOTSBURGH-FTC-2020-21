@@ -48,10 +48,10 @@ public class MecanumDrive extends LinearOpMode {
             double y1 = gamepad1.left_stick_y;
             double rotation = -gamepad1.right_stick_x;
 
-            double flPower = Range.clip((y1 + x1 + rotation),-.8,.8);
-            double frPower = Range.clip((y1 - x1 - rotation),-.8,.8);
-            double blPower = Range.clip((y1 - x1 + rotation),-.8,.8);
-            double brPower = Range.clip((y1 + x1 - rotation),-.8,.8);
+            double flPower = Range.clip((y1 + x1 + rotation), -MAX_SPEED, MAX_SPEED);
+            double frPower = Range.clip((y1 - x1 - rotation), -MAX_SPEED, MAX_SPEED);
+            double blPower = Range.clip((y1 - x1 + rotation), -MAX_SPEED, MAX_SPEED);
+            double brPower = Range.clip((y1 + x1 - rotation), -MAX_SPEED, MAX_SPEED);
 
             robot.getMovement().move4x4(flPower, frPower, blPower, brPower);
 
