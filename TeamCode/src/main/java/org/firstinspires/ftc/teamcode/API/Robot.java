@@ -18,9 +18,6 @@ package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.InitRobot;
-import org.firstinspires.ftc.teamcode.API.HW.*;
-
 import lombok.Builder;
 import lombok.Getter;
 

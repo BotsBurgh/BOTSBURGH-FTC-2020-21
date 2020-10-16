@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -10,9 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import org.firstinspires.ftc.teamcode.API.HW.*;
-import org.firstinspires.ftc.teamcode.API.Movement;
-import org.firstinspires.ftc.teamcode.API.Robot;
-import org.firstinspires.ftc.teamcode.API.Sensor;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 
