@@ -21,7 +21,7 @@ import java.util.Objects;
  * between all opmodes.
  */
 public class InitRobot {
-    public static final boolean MODE_4x4 = false; // True if you are using 4x4 drive
+    public static final boolean MODE_4x4 = true; // True if you are using 4x4 drive
 
     private LinearOpMode l;
 
