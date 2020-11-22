@@ -373,7 +373,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        Movement.move4x4(v, v3, v2, v1);
+        Robot.movement.move4x4(v, v3, v2, v1);
     }
 
     @Override

@@ -19,7 +19,6 @@ package org.firstinspires.ftc.teamcode.API;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import lombok.Builder;
-import lombok.Getter;
 
 /**
  * Integrates Sensor class and Movement class so we can use VuForia and motors in one function.
@@ -30,10 +29,7 @@ import lombok.Getter;
  */
 @Builder
 public class Robot {
-    @Getter private static Sensor sensor;
-    @Getter private static Movement movement;
-
-    // Quick and dirty hack to prevent issues with stopping the robot
-    @Getter
-    private static LinearOpMode linearOpMode;
+    public static Sensor sensor;
+    public static Movement movement;
+    public static LinearOpMode linearOpMode;
 }

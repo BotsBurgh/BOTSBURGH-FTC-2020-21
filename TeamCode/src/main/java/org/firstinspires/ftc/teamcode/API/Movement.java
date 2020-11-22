@@ -51,9 +51,9 @@ public class Movement {
     private final static double FOUNDATION_OPEN  = 0.3;
     private final static double FOUNDATION_CLOSE = 0.95;
 
-    @Getter(AccessLevel.PUBLIC) private static HashMap<String, SmartMotor> motors;
-    @Getter(AccessLevel.PUBLIC) private static HashMap<String, SmartServo> servos;
-    @Getter(AccessLevel.PUBLIC) private static HashMap <String, CRServo> crServos;
+    @Getter(AccessLevel.PUBLIC) private HashMap<String, SmartMotor> motors;
+    @Getter(AccessLevel.PUBLIC) private HashMap<String, SmartServo> servos;
+    @Getter(AccessLevel.PUBLIC) private HashMap <String, CRServo> crServos;
 
     // Getters
 
@@ -76,7 +76,7 @@ public class Movement {
      * @param blPower Power to the back left wheel
      * @param brPower Power to the back right wheel
      */
-    public static void move4x4(double flPower, double frPower, double blPower, double brPower) {
+    public void move4x4(double flPower, double frPower, double blPower, double brPower) {
         Objects.requireNonNull(motors.get(Naming.MOTOR_FL_NAME)).setPower(flPower);
         Objects.requireNonNull(motors.get(Naming.MOTOR_FR_NAME)).setPower(frPower);
         Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(blPower);

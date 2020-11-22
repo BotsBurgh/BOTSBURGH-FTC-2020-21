@@ -16,29 +16,14 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * The Robot Initializer. Place initialzation code here. This prevents needing to sync the init code
- * between all opmodes.
+ * The Robot Initializer. Place initialization code here. This prevents needing to sync the init code
+ * between all OpModes.
  */
 public class InitRobot {
     public static final boolean MODE_4x4 = true; // True if you are using 4x4 drive
 
-    private static LinearOpMode l;
-
-    private boolean vuforia;
-
-    public InitRobot(LinearOpMode linearOpMode, Boolean vuforiaEnabled) {
-        this.l = linearOpMode;
-        this.vuforia = vuforiaEnabled;
-    }
-
-    public InitRobot(LinearOpMode linearOpMode) {
-        this(linearOpMode, false);
-    }
-
-    private static Robot robot;
-
     // TODO: JavaDoc
-    public static Robot init() {
+    public static void init(LinearOpMode l) {
         /*
         * #######                   ######
         * #       #####  # #####    #     # ###### #       ####  #    #
@@ -144,31 +129,23 @@ public class InitRobot {
                 .crServos(crServos)
                 .build();
 
-        // Add lists into sensor class
-        Sensor sensor = Sensor.builder()
+        Robot.sensor = Sensor.builder()
                 .colorSensors(colorSensors)
                 .webcams(webcams)
                 .gyros(gyros)
                 .build();
-
-        // Add movement and sensor class into robot class
-        robot = Robot.builder()
-                .sensor(sensor)
-                .movement(movement)
-                .linearOpMode(l)
-                .build();
+        Robot.movement = movement;
+        Robot.linearOpMode = l;
 
         // Send power to servos so they don't move
         for (String key : servos.keySet()) {
-            robot.getMovement().setServo(key, Objects.requireNonNull(servos.get(key)).getPosition());
+            Robot.movement.setServo(key, Objects.requireNonNull(servos.get(key)).getPosition());
         }
 
         // Initialize gyros
         for (String key : gyros.keySet()) {
-            robot.getSensor().initGyro(key);
+            Robot.sensor.initGyro(key);
         }
-
-        return robot;
     }
 }
 

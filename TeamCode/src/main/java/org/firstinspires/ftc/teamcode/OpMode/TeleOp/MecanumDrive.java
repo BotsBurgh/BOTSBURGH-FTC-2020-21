@@ -28,8 +28,7 @@ public class MecanumDrive extends LinearOpMode {
     private static final double MAX_SPEED = 0.8;
     @Override
     public void runOpMode() {
-        InitRobot initializer = new InitRobot(this);
-        Robot robot = initializer.init();
+        InitRobot.init(this);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -53,7 +52,7 @@ public class MecanumDrive extends LinearOpMode {
             double blPower = Range.clip((y1 - x1 + rotation), -MAX_SPEED, MAX_SPEED);
             double brPower = Range.clip((y1 + x1 - rotation), -MAX_SPEED, MAX_SPEED);
 
-            robot.getMovement().move4x4(flPower, frPower, blPower, brPower);
+            Robot.movement.move4x4(flPower, frPower, blPower, brPower);
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);
