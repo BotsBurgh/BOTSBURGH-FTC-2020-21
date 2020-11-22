@@ -19,7 +19,10 @@
 
 package org.firstinspires.ftc.teamcode.API.HW;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -68,6 +71,22 @@ public class SmartMotor {
 
     public boolean isBusy() {
         return motor.isBusy();
+    }
+
+    public MotorConfigurationType getMotorType() {
+        return motor.getMotorType();
+    }
+
+    public void setMotorType(MotorConfigurationType motorConfigurationType) {
+        motor.setMotorType(motorConfigurationType);
+    }
+
+    public double getVelocity() {
+        return motor.getVelocity();
+    }
+
+    public void setPIDFCoefficients(DcMotor.RunMode runMode, PIDFCoefficients compensatedCoefficients) {
+        motor.setPIDFCoefficients(runMode, compensatedCoefficients);
     }
 }
 

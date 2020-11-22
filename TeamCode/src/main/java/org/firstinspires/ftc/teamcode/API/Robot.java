@@ -30,8 +30,8 @@ import lombok.Getter;
  */
 @Builder
 public class Robot {
-    @Getter private Sensor sensor;
-    @Getter private Movement movement;
+    @Getter private static Sensor sensor;
+    @Getter private static Movement movement;
 
     // Quick and dirty hack to prevent issues with stopping the robot
     @Getter
