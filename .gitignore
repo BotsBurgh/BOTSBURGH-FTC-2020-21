@@ -89,3 +89,6 @@ lint/tmp/
 .DS_Store
 
 .idea
+*ASUS_PC_01*
+debug.log
+VuForiaKey.java
