@@ -37,10 +37,9 @@ android {
     }
 
     defaultConfig {
-        multiDexEnabled true
         signingConfig signingConfigs.debug
         applicationId 'com.qualcomm.ftcrobotcontroller'
-        minSdkVersion 19
+        minSdkVersion 25
         targetSdkVersion 28
 
         /**
@@ -70,6 +69,7 @@ android {
         //
         versionCode vCode
         versionName vName
+        multiDexEnabled true
     }
 
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed
@@ -107,6 +107,5 @@ repositories {
     flatDir {
         dirs rootProject.file('libs')
     }
-    mavenCentral()
 }
 apply from: 'build.release.gradle'
