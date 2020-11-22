@@ -35,5 +35,5 @@ public class Robot {
 
     // Quick and dirty hack to prevent issues with stopping the robot
     @Getter
-    private LinearOpMode linearOpMode;
+    private static LinearOpMode linearOpMode;
 }

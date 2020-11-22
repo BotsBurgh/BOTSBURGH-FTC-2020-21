@@ -8,10 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-
-import org.firstinspires.ftc.teamcode.API.HW.*;
-
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
+import org.firstinspires.ftc.teamcode.API.HW.SmartServo;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -23,7 +22,7 @@ import java.util.Objects;
 public class InitRobot {
     public static final boolean MODE_4x4 = true; // True if you are using 4x4 drive
 
-    private LinearOpMode l;
+    private static LinearOpMode l;
 
     private boolean vuforia;
 
@@ -36,10 +35,10 @@ public class InitRobot {
         this(linearOpMode, false);
     }
 
-    private Robot robot;
+    private static Robot robot;
 
     // TODO: JavaDoc
-    public Robot init() {
+    public static Robot init() {
         /*
         * #######                   ######
         * #       #####  # #####    #     # ###### #       ####  #    #
