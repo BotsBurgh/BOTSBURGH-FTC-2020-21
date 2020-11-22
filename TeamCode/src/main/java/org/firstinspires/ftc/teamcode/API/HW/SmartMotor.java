@@ -28,7 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SmartMotor {
-    @Getter private DcMotorEx motor;
+    @Getter private final DcMotorEx motor;
     @Getter private double power;
     private double oldPower;
 

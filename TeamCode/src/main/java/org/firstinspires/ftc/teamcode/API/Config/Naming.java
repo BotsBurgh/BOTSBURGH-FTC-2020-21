@@ -31,7 +31,7 @@ public class Naming {
     public static final String GYRO_0_NAME                        = "imu";
     public static final String GYRO_1_NAME                        = "imu 1";
 
-    public static final String WEBCAME_0_NAME                     = "Webcam 1";
+    public static final String WEBCAM_0_NAME = "Webcam 1";
 
     public static final int    SIDE_RED                           = -1;
     public static final int    SIDE_BLUE                          =  1;

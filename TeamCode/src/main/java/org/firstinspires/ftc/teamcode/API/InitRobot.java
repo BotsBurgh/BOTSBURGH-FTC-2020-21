@@ -107,11 +107,11 @@ public class InitRobot {
         //colorSensors.put(Naming.COLOR_SENSOR_PARK, parkSensor);
 
         // Get webcams
-        //WebcamName webcam1 = l.hardwareMap.get(WebcamName.class, Naming.WEBCAME_0_NAME);
+        //WebcamName webcam1 = l.hardwareMap.get(WebcamName.class, Naming.WEBCAM_0_NAME);
 
         // Add webcams to list
         HashMap<String, WebcamName> webcams = new HashMap<>();
-        //webcams.put(Naming.WEBCAME_0_NAME, webcam1);
+        //webcams.put(Naming.WEBCAM_0_NAME, webcam1);
 
         // Get gyros
         //BNO055IMU gyro0 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_0_NAME);

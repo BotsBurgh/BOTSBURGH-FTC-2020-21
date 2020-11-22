@@ -64,13 +64,13 @@ public class Sensor {
     private final float CAMERA_LEFT_DISPLACEMENT     = 5.625f * mmPerInch;   // eg: Camera is ON the robot's center line
 
     // Phone configuration
-    private static       float phoneXRotate    = 0;
+    private static final float phoneXRotate    = 0;
     private static final float phoneZRotate    = 9.5f;
 
     // Color sensor configuration
-    private static final double RED_THESH =   500;
-    private static final double GREEN_THESH = 700;
-    private static final double BLUE_THESH =  600;
+    private static final double RED_THRESH =   500;
+    private static final double GREEN_THRESH = 700;
+    private static final double BLUE_THRESH =  600;
 
     private static final double THRESH_LIMIT = 0.15;
 
@@ -178,7 +178,7 @@ public class Sensor {
      * @return 0 if red, 1 if green, 2 if blue, 3 if none
      */
     public int getRGB(String id) {
-        return getRGB(id, RED_THESH, GREEN_THESH, BLUE_THESH);
+        return getRGB(id, RED_THRESH, GREEN_THRESH, BLUE_THRESH);
     }
 
     public BNO055IMU getGyro(String id) {

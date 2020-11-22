@@ -155,11 +155,10 @@ public class Movement {
     public void openGrabber(boolean command) {
         SmartServo sg; // sg: Servo grabber
         sg = servos.get(Naming.SERVO_GRABBER_NAME);
+        assert sg != null;
         if (command) {
-            assert sg != null;
             sg.setPosition(GRABBER_OPEN); // Opens the grabber
         } else {
-            assert sg != null;
             sg.setPosition(GRABBER_CLOSE); // Closes the grabber
         }
     }
@@ -171,11 +170,10 @@ public class Movement {
     public void openSwivel(boolean command) {
         SmartServo ss; // ss: Servo Swivel
         ss = servos.get(Naming.SERVO_ROTATE_NAME);
+        assert ss != null;
         if (command) {
-            assert ss != null;
             ss.setPosition(SWIVEL_OPEN); // Opens the swivel
         } else {
-            assert ss != null;
             ss.setPosition(SWIVEL_CLOSE); // Closes the swivel
         }
     }
@@ -184,13 +182,12 @@ public class Movement {
         SmartServo slfn, srfn;
         slfn = servos.get(Naming.SERVO_FOUNDATION_LEFT_NEW_NAME); // sfln: Servo Left Foundation New
         srfn = servos.get(Naming.SERVO_FOUNDATION_RIGHT_NEW_NAME); // sfrn: Servo Right Foundation New
+        assert slfn != null;
         if (command) { // Grabs foundation
-            assert slfn != null;
             slfn.setPosition(FOUNDATION_CLOSE);
             assert srfn != null;
             srfn.setPosition(FOUNDATION_CLOSE);
         } else { // Releases foundation
-            assert slfn != null;
             slfn.setPosition(FOUNDATION_OPEN);
             assert srfn != null;
             srfn.setPosition(FOUNDATION_OPEN);

@@ -27,7 +27,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SmartServo {
-    @Getter private ServoImplEx servo;
+    @Getter private final ServoImplEx servo;
     @Getter private double position;
 
     // Motor configuration
