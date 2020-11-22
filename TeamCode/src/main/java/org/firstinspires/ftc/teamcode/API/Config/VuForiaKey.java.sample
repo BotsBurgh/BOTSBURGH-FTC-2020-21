@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.BotsBurghHW.Config;
+package org.firstinspires.ftc.teamcode.API.Config;
 
 public class VuForiaKey {
     public static final String VUFORIAKEY = "";
