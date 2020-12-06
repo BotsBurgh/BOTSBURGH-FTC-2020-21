@@ -18,16 +18,14 @@ package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.API.HW.*;
-
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
+import org.firstinspires.ftc.teamcode.API.HW.SmartServo;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 
 /**
  * The Movement class. Interfaces with servos and motors so you don't have to
@@ -51,9 +49,9 @@ public class Movement {
     private final static double FOUNDATION_OPEN  = 0.3;
     private final static double FOUNDATION_CLOSE = 0.95;
 
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, SmartMotor> motors;
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, SmartServo> servos;
-    @Getter(AccessLevel.PUBLIC) private HashMap <String, CRServo> crServos;
+    public static HashMap<String, SmartMotor> motors;
+    public static HashMap<String, SmartServo> servos;
+    public static HashMap <String, CRServo> crServos;
 
     // Getters
 

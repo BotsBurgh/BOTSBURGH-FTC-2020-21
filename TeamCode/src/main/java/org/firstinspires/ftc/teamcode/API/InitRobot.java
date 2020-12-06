@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.HW.Encoder;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 import org.firstinspires.ftc.teamcode.API.HW.SmartServo;
 
@@ -21,6 +22,8 @@ import java.util.Objects;
  */
 public class InitRobot {
     public static final boolean MODE_4x4 = true; // True if you are using 4x4 drive
+    private static SmartMotor bl, br, fl, fr;
+    private static Encoder leftEncoder, rightEncoder, lateralEncoder;
 
     // TODO: JavaDoc
     public static void init(LinearOpMode l) {
@@ -35,7 +38,6 @@ public class InitRobot {
         */
 
         // Get motors
-        SmartMotor bl, br, fl, fr;
         bl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BL_NAME));
         br = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BR_NAME));
         if (MODE_4x4) {
@@ -122,19 +124,31 @@ public class InitRobot {
         //gyros.put(Naming.GYRO_0_NAME, gyro0);
         //gyros.put(Naming.GYRO_1_NAME, gyro1);
 
-        // Add lists into the movement class
-        Movement movement = Movement.builder()
-                .motors(motors)
-                .servos(servos)
-                .crServos(crServos)
-                .build();
+        // Get dead wheel encoders
+        leftEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        rightEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_RIGHT));
+        lateralEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LATERAL));
 
-        Robot.sensor = Sensor.builder()
-                .colorSensors(colorSensors)
-                .webcams(webcams)
-                .gyros(gyros)
-                .build();
+        // Add encoders to list
+        HashMap<String, Encoder> encoders = new HashMap<>();
+        encoders.put(Naming.ENCODER_LEFT, leftEncoder);
+        encoders.put(Naming.ENCODER_RIGHT, rightEncoder);
+        encoders.put(Naming.ENCODER_LATERAL, lateralEncoder);
+
+        // Add lists into the movement class
+        Movement movement = new Movement();
+        Movement.motors = motors;
+        Movement.servos = servos;
+        Movement.crServos = crServos;
+
+        Sensor sensor = new Sensor();
+        Sensor.gyros = gyros;
+        Sensor.colorSensors = colorSensors;
+        Sensor.webcams = webcams;
+        Sensor.encoders = encoders;
+
         Robot.movement = movement;
+        Robot.sensor = sensor;
         Robot.linearOpMode = l;
 
         // Send power to servos so they don't move
