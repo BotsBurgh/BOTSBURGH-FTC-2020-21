@@ -36,5 +36,9 @@ public class Naming {
     public static final int    SIDE_RED                           = -1;
     public static final int    SIDE_BLUE                          =  1;
 
+
+    public static final String ENCODER_LATERAL                    = "lateralEncoder";
+    public static final String ENCODER_LEFT                       = "leftEncoder";
+    public static final String ENCODER_RIGHT                      = "rightEncoder";
 }
 

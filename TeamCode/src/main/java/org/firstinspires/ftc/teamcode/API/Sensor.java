@@ -31,6 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+import org.firstinspires.ftc.teamcode.API.HW.Encoder;
 
 import java.io.File;
 import java.util.HashMap;
@@ -38,8 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
@@ -49,7 +48,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
  * This is a class which interfaces with sensors, so you don't have to. See the README for more
  * information.
  */
-@Builder
 public class Sensor {
     // Potentiometer configuration
     private static final int    POT_MAX = 270;   // Max range in degrees
@@ -141,12 +139,13 @@ public class Sensor {
     private boolean targetVisible;
 
     // TODO: Add more sensor capability
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, BNO055IMU> gyros; // Initialize gyroscopes
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, AnalogInput> pots; // Initialize potentiometers
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, DigitalChannel> buttons; // Initialize buttons
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, ColorSensor> colorSensors; // Initialize color sensors
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, DistanceSensor> distances; // Initialize distance sensors
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, WebcamName> webcams; // Initialize webcams
+    public static HashMap<String, BNO055IMU> gyros; // Initialize gyroscopes
+    public static HashMap<String, AnalogInput> pots; // Initialize potentiometers
+    public static HashMap<String, DigitalChannel> buttons; // Initialize buttons
+    public static HashMap<String, ColorSensor> colorSensors; // Initialize color sensors
+    public static HashMap<String, DistanceSensor> distances; // Initialize distance sensors
+    public static HashMap<String, WebcamName> webcams; // Initialize webcams
+    public static HashMap<String, Encoder> encoders; // Special encoders
 
     /**
      * Gets the RGB value of the color sensor
@@ -181,7 +180,7 @@ public class Sensor {
         return getRGB(id, RED_THRESH, GREEN_THRESH, BLUE_THRESH);
     }
 
-    public BNO055IMU getGyro(String id) {
+    public static BNO055IMU getGyro(String id) {
         return gyros.get(id);
     }
 
@@ -228,6 +227,10 @@ public class Sensor {
      */
     public double getPotDeg(String id) {
         return (POT_MAX/(Vmax-Vmin))*(Objects.requireNonNull(pots.get(id)).getVoltage()-Vmin); // Converts voltage to angle (degrees)
+    }
+
+    public static Encoder getEncoder(String id) {
+        return encoders.get(id);
     }
 
     /**

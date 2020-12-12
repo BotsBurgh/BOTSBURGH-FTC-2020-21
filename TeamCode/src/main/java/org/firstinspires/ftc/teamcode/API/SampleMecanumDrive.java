@@ -29,6 +29,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.Util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.API.Util.LynxModuleUtil;
 
@@ -83,7 +84,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private LinkedList<Pose2d> poseHistory;
 
-    private SmartMotor leftFront, leftRear, rightRear, rightFront;
+    private static SmartMotor leftFront, leftRear, rightRear, rightFront;
     private List<SmartMotor> motors;
     private BNO055IMU imu;
 
@@ -128,10 +129,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         // upward (normal to the floor) using a command like the following:
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        leftFront = hardwareMap.get(SmartMotor.class, "leftFront");
-        leftRear = hardwareMap.get(SmartMotor.class, "leftRear");
-        rightRear = hardwareMap.get(SmartMotor.class, "rightRear");
-        rightFront = hardwareMap.get(SmartMotor.class, "rightFront");
+        leftFront = Robot.movement.getMotor(Naming.MOTOR_FL_NAME);
+        leftRear = Robot.movement.getMotor(Naming.MOTOR_BL_NAME);
+        rightRear = Robot.movement.getMotor(Naming.MOTOR_BR_NAME);
+        rightFront = Robot.movement.getMotor(Naming.MOTOR_FR_NAME);
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -155,6 +156,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
