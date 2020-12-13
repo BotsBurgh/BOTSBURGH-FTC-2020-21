@@ -23,8 +23,8 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 
-@TeleOp(name = "Mecanum Drive", group = "Linear OpMode")
-public class MecanumDrive extends LinearOpMode {
+@TeleOp(name = "TeleOp Main", group = "Linear OpMode")
+public class TeleOpMain extends LinearOpMode {
     private static final double MAX_SPEED = 0.8;
     @Override
     public void runOpMode() {

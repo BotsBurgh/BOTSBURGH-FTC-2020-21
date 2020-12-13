@@ -30,10 +30,9 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 import org.firstinspires.ftc.teamcode.API.Util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.API.Util.LynxModuleUtil;
-
-import org.firstinspires.ftc.teamcode.API.HW.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,7 +83,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private LinkedList<Pose2d> poseHistory;
 
-    private static SmartMotor leftFront, leftRear, rightRear, rightFront;
+    private static SmartMotor fl, bl, br, fr;
     private List<SmartMotor> motors;
     private BNO055IMU imu;
 
@@ -129,12 +128,12 @@ public class SampleMecanumDrive extends MecanumDrive {
         // upward (normal to the floor) using a command like the following:
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        leftFront = Robot.movement.getMotor(Naming.MOTOR_FL_NAME);
-        leftRear = Robot.movement.getMotor(Naming.MOTOR_BL_NAME);
-        rightRear = Robot.movement.getMotor(Naming.MOTOR_BR_NAME);
-        rightFront = Robot.movement.getMotor(Naming.MOTOR_FR_NAME);
+        fl = Robot.movement.getMotor(Naming.MOTOR_FL_NAME);
+        bl = Robot.movement.getMotor(Naming.MOTOR_BL_NAME);
+        br = Robot.movement.getMotor(Naming.MOTOR_BR_NAME);
+        fr = Robot.movement.getMotor(Naming.MOTOR_FR_NAME);
 
-        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
+        motors = Arrays.asList(fl, bl, br, fr);
 
         for (SmartMotor motor : motors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
@@ -151,8 +150,6 @@ public class SampleMecanumDrive extends MecanumDrive {
         if (RUN_USING_ENCODER && MOTOR_VELO_PID != null) {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
-
-        // TODO: reverse any motors using DcMotor.setDirection()
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
@@ -374,8 +371,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     }
 
     @Override
-    public void setMotorPowers(double v, double v1, double v2, double v3) {
-        Robot.movement.move4x4(v, v3, v2, v1);
+    public void setMotorPowers(double fl, double bl, double br, double fr) {
+        Robot.movement.move4x4(fl, bl, br, fr);
     }
 
     @Override
