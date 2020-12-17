@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.API.Sensor;
  * This is a simple program to reach the white line
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name="White line", group = "drive")
 public class WhiteLine extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,7 +24,7 @@ public class WhiteLine extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData(">", "Press stop");
             telemetry.update();
             if (Robot.sensor.getRGB("line", 1000, 1000, 1000) == Sensor.Colors.WHITE) {
