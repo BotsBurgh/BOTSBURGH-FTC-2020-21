@@ -9,7 +9,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
-import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -33,6 +32,9 @@ import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 import org.firstinspires.ftc.teamcode.API.Util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.API.Util.LynxModuleUtil;
+import org.firstinspires.ftc.teamcode.API.Util.MecanumDrive;
+import org.firstinspires.ftc.teamcode.API.Util.MecanumKinematics;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,7 +121,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = Sensor.getGyro(Naming.GYRO_0_NAME);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
@@ -151,9 +153,14 @@ public class SampleMecanumDrive extends MecanumDrive {
             setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, MOTOR_VELO_PID);
         }
 
+        bl.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.FORWARD);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
-        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
+        //setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
@@ -368,6 +375,14 @@ public class SampleMecanumDrive extends MecanumDrive {
             wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
         }
         return wheelVelocities;
+    }
+
+    @Override
+    public void setDrivePower(@NotNull Pose2d drivePower) {
+        List<Double> powers = MecanumKinematics.robotToWheelVelocities(
+                drivePower, 1.0, 1.0, 1);
+        Robot.movement.move4x4(powers.get(0), powers.get(3), powers.get(1), powers.get(2));
+
     }
 
     @Override

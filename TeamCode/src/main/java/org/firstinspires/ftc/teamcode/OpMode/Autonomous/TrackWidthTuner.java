@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.MovingStatistics;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.API.Config.Constants;
+import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 
 /*
@@ -32,6 +33,8 @@ public class TrackWidthTuner extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        InitRobot.init(this);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         // TODO: if you haven't already, set the localizer to something that doesn't depend on

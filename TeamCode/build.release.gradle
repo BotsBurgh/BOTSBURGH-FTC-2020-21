@@ -1,3 +1,6 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
 dependencies {
     implementation project(':FtcRobotController')
     implementation 'org.firstinspires.ftc:RobotCore:6.0.1'

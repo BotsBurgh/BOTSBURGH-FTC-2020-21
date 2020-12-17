@@ -7,9 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
+import org.firstinspires.ftc.teamcode.API.Movement;
 import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.API.StandardTrackingWheelLocalizer;
+
+import java.util.Objects;
 
 /**
  * Opmode designed to assist the user in tuning the `StandardTrackingWheelLocalizer`'s
@@ -112,6 +116,13 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
             telemetry.clearAll();
             telemetry.addLine("Total Heading (deg): " + Math.toDegrees(headingAccumulator));
             telemetry.addLine("Raw Heading (deg): " + Math.toDegrees(heading));
+            telemetry.addData("Heading", vel.getHeading());
+            telemetry.addData("X", vel.getX());
+            telemetry.addData("Y", vel.getY());
+            telemetry.addData("Back Left", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_BL_NAME)).getVelocity());
+            telemetry.addData("Back Right", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_BR_NAME)).getVelocity());
+            telemetry.addData("Front Left", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_FL_NAME)).getVelocity());
+            telemetry.addData("Front right", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_FR_NAME)).getVelocity());
             telemetry.addLine();
             telemetry.addLine("Press Y/△ to conclude routine");
             telemetry.update();

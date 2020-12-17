@@ -79,10 +79,10 @@ public class InitRobot {
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         bl.setDirection(DcMotor.Direction.FORWARD);
-        br.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.REVERSE);
         if (MODE_4x4) {
             fl.setDirection(DcMotor.Direction.FORWARD);
-            fr.setDirection(DcMotor.Direction.FORWARD);
+            fr.setDirection(DcMotor.Direction.REVERSE);
         }
 
         // Set motors to spin in the correct direction
@@ -116,13 +116,13 @@ public class InitRobot {
         //webcams.put(Naming.WEBCAM_0_NAME, webcam1);
 
         // Get gyros
-        //BNO055IMU gyro0 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_0_NAME);
-        //BNO055IMU gyro1 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_1_NAME);
+        BNO055IMU gyro0 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_0_NAME);
+        BNO055IMU gyro1 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_1_NAME);
 
         // Add gyros to list
         HashMap<String, BNO055IMU> gyros = new HashMap<>();
-        //gyros.put(Naming.GYRO_0_NAME, gyro0);
-        //gyros.put(Naming.GYRO_1_NAME, gyro1);
+        gyros.put(Naming.GYRO_0_NAME, gyro0);
+        gyros.put(Naming.GYRO_1_NAME, gyro1);
 
         // Get dead wheel encoders
         leftEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
