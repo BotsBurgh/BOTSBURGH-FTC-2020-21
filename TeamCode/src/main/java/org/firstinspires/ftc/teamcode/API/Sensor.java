@@ -147,36 +147,46 @@ public class Sensor {
     public static HashMap<String, WebcamName> webcams; // Initialize webcams
     public static HashMap<String, Encoder> encoders; // Special encoders
 
+    public enum Colors {
+        RED,
+        GREEN,
+        BLUE,
+        WHITE,
+        GRAY
+    }
+
     /**
      * Gets the RGB value of the color sensor
-     * @return 0 if red, 1 if green, 2 if blue, 3 if none
+     * @return enum for color
      */
-    public int getRGB(String id, double redThresh, double greenThresh, double blueThresh) {
+    public Colors getRGB(String id, double redThresh, double greenThresh, double blueThresh) {
         double red   = getRed(id);
         double green = getGreen(id);
         double blue  = getBlue(id);
 
         if (((Math.abs(red-green)/red) < THRESH_LIMIT) || ((Math.abs(red-green)/green) < THRESH_LIMIT) || ((Math.abs(red-blue)/red) < THRESH_LIMIT) ||
                 ((Math.abs(red-blue)/blue) < THRESH_LIMIT) || ((Math.abs(green-blue)/green) < THRESH_LIMIT) || ((Math.abs(green-blue)/blue) < THRESH_LIMIT)) {
-            return 3;
+            return Colors.GRAY;
         }
 
         if ((red>blue) && (red>green) && (red>redThresh)) {
-            return 0;
+            return Colors.RED;
         } else if ((green>red) && (green>blue) && (green>greenThresh)) {
-            return 1;
+            return Colors.GREEN;
         } else if ((blue>red) && (blue>green) && (blue>blueThresh)) {
-            return 2;
+            return Colors.BLUE;
+        } else if ((red>redThresh) && (green>greenThresh) && (blue>blueThresh)) {
+            return Colors.WHITE;
         } else {
-            return 3;
+            return Colors.GRAY;
         }
     }
 
     /**
      * Gets the RGB value of the color sensor
-     * @return 0 if red, 1 if green, 2 if blue, 3 if none
+     * @return enum for color
      */
-    public int getRGB(String id) {
+    public Colors getRGB(String id) {
         return getRGB(id, RED_THRESH, GREEN_THRESH, BLUE_THRESH);
     }
 
