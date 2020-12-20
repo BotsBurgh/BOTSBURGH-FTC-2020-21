@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 import org.firstinspires.ftc.teamcode.API.Sensor;
@@ -12,8 +13,11 @@ import org.firstinspires.ftc.teamcode.API.Sensor;
  * This is a simple program to reach the white line
  */
 @Config
-@Autonomous(name="White line", group = "drive")
+@Autonomous(name="White Line", group = "drive")
 public class WhiteLine extends LinearOpMode {
+    private static final double REDFUDGE   = 25*30;
+    private static final double GREENFUDGE = 15*30;
+    private static final double BLUEFUDGE  = 15*30;
     @Override
     public void runOpMode() throws InterruptedException {
         InitRobot.init(this);
@@ -27,11 +31,11 @@ public class WhiteLine extends LinearOpMode {
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData(">", "Press stop");
             telemetry.update();
-            if (Robot.sensor.getRGB("line", 1000, 1000, 1000) == Sensor.Colors.WHITE) {
-                Robot.movement.move4x4(0.6,0.6,0.6,0.6);
-            } else {
+            if (Robot.sensor.getRGB(Naming.COLOR_SENSOR_PARK, REDFUDGE, GREENFUDGE, BLUEFUDGE) == Sensor.Colors.WHITE) {
                 Robot.movement.move4x4(0,0,0,0);
                 requestOpModeStop();
+            } else {
+                Robot.movement.move4x4(0.3,0.3,0.3,0.3); // Only power back wheels because one of the front wheels isn't working
             }
         }
     }

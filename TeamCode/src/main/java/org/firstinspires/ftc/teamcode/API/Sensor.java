@@ -16,12 +16,15 @@
 
 package org.firstinspires.ftc.teamcode.API;
 
+import android.graphics.Color;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -66,9 +69,15 @@ public class Sensor {
     private static final float phoneZRotate    = 9.5f;
 
     // Color sensor configuration
-    private static final double RED_THRESH =   500;
-    private static final double GREEN_THRESH = 700;
-    private static final double BLUE_THRESH =  600;
+    // TODO: implement
+    private static final double BLACK_THRESH  = 0.2;
+    private static final double WHITE_THRESH  = 0.9;
+    private static final double RED_THRESH    = 600;
+    private static final double ORANGE_THRESH = 600;
+    private static final double YELLOW_THRESH = 600;
+    private static final double GREEN_THRESH  = 600;
+    private static final double BLUE_THRESH   = 600;
+    private static final double PURPLE_THRESH = 600;
 
     private static final double THRESH_LIMIT = 0.15;
 
@@ -142,52 +151,65 @@ public class Sensor {
     public static HashMap<String, BNO055IMU> gyros; // Initialize gyroscopes
     public static HashMap<String, AnalogInput> pots; // Initialize potentiometers
     public static HashMap<String, DigitalChannel> buttons; // Initialize buttons
-    public static HashMap<String, ColorSensor> colorSensors; // Initialize color sensors
+    public static HashMap<String, NormalizedColorSensor> colorSensors; // Initialize color sensors
     public static HashMap<String, DistanceSensor> distances; // Initialize distance sensors
     public static HashMap<String, WebcamName> webcams; // Initialize webcams
     public static HashMap<String, Encoder> encoders; // Special encoders
 
     public enum Colors {
         RED,
+        ORANGE,
+        YELLOW,
         GREEN,
         BLUE,
+        PURPLE,
         WHITE,
-        GRAY
+        GRAY,
+        BLACK,
+        BROWN
     }
 
     /**
      * Gets the RGB value of the color sensor
      * @return enum for color
      */
-    public Colors getRGB(String id, double redThresh, double greenThresh, double blueThresh) {
-        double red   = getRed(id);
-        double green = getGreen(id);
-        double blue  = getBlue(id);
+    public Colors getRGB(String id, double redFudge, double greenFudge, double blueFudge) {
+        float[] hsv = new float[3];
+        Color.RGBToHSV(
+                (int) Range.clip(getRed(id) * 255 * redFudge, 0, 255),
+                (int) Range.clip(getGreen(id) * 255 * greenFudge, 0, 255),
+                (int) Range.clip(getBlue(id) * 255 * blueFudge, 0, 255),
+                hsv
+        );
 
-        if (((Math.abs(red-green)/red) < THRESH_LIMIT) || ((Math.abs(red-green)/green) < THRESH_LIMIT) || ((Math.abs(red-blue)/red) < THRESH_LIMIT) ||
-                ((Math.abs(red-blue)/blue) < THRESH_LIMIT) || ((Math.abs(green-blue)/green) < THRESH_LIMIT) || ((Math.abs(green-blue)/blue) < THRESH_LIMIT)) {
-            return Colors.GRAY;
+        if (hsv[1] < 0.2) {
+            // Greyscale (inner core in HSV cylinder)
+            if (hsv[2] > WHITE_THRESH) {
+                return Colors.WHITE;
+            } else if (hsv[2] < BLACK_THRESH) {
+                return Colors.BLACK;
+            }
         }
 
-        if ((red>blue) && (red>green) && (red>redThresh)) {
-            return Colors.RED;
-        } else if ((green>red) && (green>blue) && (green>greenThresh)) {
-            return Colors.GREEN;
-        } else if ((blue>red) && (blue>green) && (blue>blueThresh)) {
-            return Colors.BLUE;
-        } else if ((red>redThresh) && (green>greenThresh) && (blue>blueThresh)) {
-            return Colors.WHITE;
+        // If the value is too low, black
+        if (hsv[2] < BLACK_THRESH) {
+            return Colors.BLACK;
         } else {
-            return Colors.GRAY;
+            if ((hsv[0] > 320) || (hsv[0] <= 20)) {
+                return Colors.RED;
+            } else if ((hsv[0] > 20) && (hsv[0] <= 46)) {
+                return Colors.ORANGE;
+            } else if ((hsv[0] > 46) && (hsv[0] <= 64)) {
+                return Colors.YELLOW;
+            } else if ((hsv[0] > 146) && (hsv[0] <= 160)) {
+                return Colors.GREEN;
+            } else if ((hsv[0] > 160) && (hsv[0] <= 248)) {
+                return Colors.BLUE;
+            } else if ((hsv[0] > 248) && (hsv[0] <= 320)) {
+                return Colors.PURPLE;
+            }
         }
-    }
-
-    /**
-     * Gets the RGB value of the color sensor
-     * @return enum for color
-     */
-    public Colors getRGB(String id) {
-        return getRGB(id, RED_THRESH, GREEN_THRESH, BLUE_THRESH);
+        return Colors.GRAY;
     }
 
     public static BNO055IMU getGyro(String id) {
@@ -199,8 +221,8 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects red or not
      */
-    public int getRed(String id) {
-        return Objects.requireNonNull(colorSensors.get(id)).red();
+    public double getRed(String id) {
+        return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().red;
     }
 
     /**
@@ -208,8 +230,8 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects green or not
      */
-    public int getGreen(String id) {
-        return Objects.requireNonNull(colorSensors.get(id)).green();
+    public double getGreen(String id) {
+        return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().green;
     }
 
     /**
@@ -217,8 +239,8 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects blue or not
      */
-    public int getBlue(String id) {
-        return Objects.requireNonNull(colorSensors.get(id)).blue();
+    public double getBlue(String id) {
+        return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().blue;
     }
 
     /**
@@ -274,6 +296,39 @@ public class Sensor {
         String filename = String.format(Locale.ENGLISH, "BNO055IMUCalibration%s.json", id);
         File file = AppUtil.getInstance().getSettingsFile(filename);
         ReadWriteFile.writeFile(file, calibrationData.serialize());
+    }
+
+    public static double[] RGBtoHSV(double[] rgb) {
+        double[] hsv = new double[] {0, 0, 0};
+        double max = Math.max(Math.max(rgb[0], rgb[1]), rgb[2]);
+        double min = Math.min(Math.min(rgb[0], rgb[1]), rgb[2]);
+        double delta = max - min;
+
+        if (delta == 0) {
+            hsv[0] = 360;
+            hsv[1] = 0;
+            hsv[2] = max;
+            return hsv;
+        }
+
+        if (max == rgb[0]) {
+            hsv[0] = (rgb[1] - rgb[2]) / delta % 6;
+        } else if (max == rgb[1]) {
+            hsv[0] = (rgb[2] - rgb[0]) / delta + 2;
+        } else {
+            hsv[0] = (rgb[0] - rgb[1]) / delta + 4;
+        }
+        hsv[0] *= 60;
+
+        if (max == 0) {
+            hsv[1] = 0;
+        } else {
+            hsv[1] = delta / max;
+        }
+
+        hsv[2] = max;
+
+        return hsv;
     }
 }
 

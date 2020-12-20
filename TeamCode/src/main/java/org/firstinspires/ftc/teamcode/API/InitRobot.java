@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
@@ -100,13 +101,13 @@ public class InitRobot {
         // Get color sensors
         //ColorSensor scissorDownLimit = l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_DOWN_LIMIT_NAME);
         //ColorSensor scissorUpLimit = l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_UP_LIMIT_NAME);
-        //ColorSensor parkSensor = l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK);
+        NormalizedColorSensor parkSensor = (NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK);
 
         // Add color sensors into list
-        HashMap<String, ColorSensor> colorSensors = new HashMap<>();
+        HashMap<String, NormalizedColorSensor> colorSensors = new HashMap<>();
         //colorSensors.put(Naming.COLOR_SENSOR_DOWN_LIMIT_NAME, scissorDownLimit);
         //colorSensors.put(Naming.COLOR_SENSOR_UP_LIMIT_NAME, scissorUpLimit);
-        //colorSensors.put(Naming.COLOR_SENSOR_PARK, parkSensor);
+        colorSensors.put(Naming.COLOR_SENSOR_PARK, parkSensor);
 
         // Get webcams
         //WebcamName webcam1 = l.hardwareMap.get(WebcamName.class, Naming.WEBCAM_0_NAME);
