@@ -35,7 +35,7 @@ public class WhiteLine extends LinearOpMode {
                 Robot.movement.move4x4(0,0,0,0);
                 requestOpModeStop();
             } else {
-                Robot.movement.move4x4(0.3,0.3,0.3,0.3); // Only power back wheels because one of the front wheels isn't working
+                Robot.movement.move4x4(0.3,0.3,0.3,0.3);
             }
         }
     }
