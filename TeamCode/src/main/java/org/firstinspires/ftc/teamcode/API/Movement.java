@@ -41,11 +41,13 @@ public class Movement {
 
     // Servo configuration
     private final static int    SERVO_SLEEP      = 10; // Milliseconds
-    private final static double SERVO_STEP       = 0.01;  // Degrees
-    private final static double GRABBER_OPEN     = 0; // Degrees
-    private final static double GRABBER_CLOSE    = 0.65; // Degrees
-    private final static double SWIVEL_OPEN      = 0; // Degrees
-    private final static double SWIVEL_CLOSE     = 1; // Degrees
+    private final static double SERVO_STEP       = 0.01;  // on a scale of  0-1
+    private final static double GRABBER_OPEN     = 0; // on a scale of  0-1
+    private final static double GRABBER_CLOSE    = 0.65; // on a scale of  0-1
+    private final static double WOBBLE_IN        = 1; // on a scale of  0-1
+    private final static double WOBBLE_OUT       = 0.3; // on a scale of  0-1
+    private final static double SWIVEL_OPEN      = 0; // on a scale of  0-1
+    private final static double SWIVEL_CLOSE     = 1; // on a scale of  0-1
     private final static double FOUNDATION_OPEN  = 0.3;
     private final static double FOUNDATION_CLOSE = 0.95;
 
@@ -114,7 +116,7 @@ public class Movement {
     /**
      * Sets the servo to a specific position. Useful if we do not want to slowly scan the servo to a position
      * @param id ID of the servo
-     * @param degrees Position (in degrees) to set the servo to.
+     * @param degrees Position (in on a scale of  0-1) to set the servo to.
      */
     public void setServo(String id, double degrees) {
         Objects.requireNonNull(servos.get(id)).setPosition(degrees);
@@ -123,7 +125,7 @@ public class Movement {
     /**
      * Scan the servo (move the servo slowly) to a position.
      * @param id ID of servo
-     * @param degrees Position (in degrees) to scan the servo to.
+     * @param degrees Position (in on a scale of  0-1) to scan the servo to.
      */
     public void scanServo(String id, double degrees, boolean clockwise) {
         while (Math.abs(Objects.requireNonNull(servos.get(id)).getPosition() - degrees) < 0.001) {
@@ -160,5 +162,17 @@ public class Movement {
      */
     public void moveIntake(double intakePower) {
         Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
+    }
+
+    /**
+     * Opens the grabber based on a boolean assignment
+     * @param command tue to open
+     */
+    public void moveWobble(boolean command) {
+        if (command) {
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_IN); // Opens the grabber
+        } else {
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_OUT); // Closes the grabber
+        }
     }
 }

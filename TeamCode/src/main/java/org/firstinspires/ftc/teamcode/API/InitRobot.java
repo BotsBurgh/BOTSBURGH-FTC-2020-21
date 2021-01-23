@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
@@ -59,6 +60,7 @@ public class InitRobot {
         motors.put(Naming.MOTOR_INTAKE, intake);
 
         // Get servos
+        SmartServo wobble = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER_NAME));
         //SmartServo grabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_GRABBER_NAME));
         //SmartServo rotate = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_ROTATE_NAME));
         //SmartServo fLeftNew = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_FOUNDATION_LEFT_NEW_NAME));
@@ -69,6 +71,7 @@ public class InitRobot {
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
+        servos.put(Naming.SERVO_WOBBLE_GRABBER_NAME, wobble);
         //servos.put(Naming.SERVO_GRABBER_NAME, grabber);
         //servos.put(Naming.SERVO_ROTATE_NAME, rotate);
         //servos.put(Naming.SERVO_FOUNDATION_LEFT_NEW_NAME, fLeftNew);
