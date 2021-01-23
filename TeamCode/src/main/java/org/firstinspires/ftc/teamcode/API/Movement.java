@@ -147,48 +147,18 @@ public class Movement {
     }
 
     /**
-     * Opens the grabber based on a boolean assignment
-     * @param command true to open the grabber or false to close the grabber
+     * Set the movement of the flywheel
+     * @param wheelPower Power sent to flywheel
      */
-    public void openGrabber(boolean command) {
-        SmartServo sg; // sg: Servo grabber
-        sg = servos.get(Naming.SERVO_GRABBER_NAME);
-        assert sg != null;
-        if (command) {
-            sg.setPosition(GRABBER_OPEN); // Opens the grabber
-        } else {
-            sg.setPosition(GRABBER_CLOSE); // Closes the grabber
-        }
+    public void moveFlywheel(double wheelPower) {
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FLYWHEEL)).setPower(wheelPower);
     }
 
     /**
-     * Opens the swivel based on a boolean assignment
-     * @param command true to open the swivel or false to close the swivel
+     * Set the movement of the intake
+     * @param intakePower Power sent to intake
      */
-    public void openSwivel(boolean command) {
-        SmartServo ss; // ss: Servo Swivel
-        ss = servos.get(Naming.SERVO_ROTATE_NAME);
-        assert ss != null;
-        if (command) {
-            ss.setPosition(SWIVEL_OPEN); // Opens the swivel
-        } else {
-            ss.setPosition(SWIVEL_CLOSE); // Closes the swivel
-        }
-    }
-
-    public void grabFoundation(boolean command) {
-        SmartServo slfn, srfn;
-        slfn = servos.get(Naming.SERVO_FOUNDATION_LEFT_NEW_NAME); // sfln: Servo Left Foundation New
-        srfn = servos.get(Naming.SERVO_FOUNDATION_RIGHT_NEW_NAME); // sfrn: Servo Right Foundation New
-        assert slfn != null;
-        if (command) { // Grabs foundation
-            slfn.setPosition(FOUNDATION_CLOSE);
-            assert srfn != null;
-            srfn.setPosition(FOUNDATION_CLOSE);
-        } else { // Releases foundation
-            slfn.setPosition(FOUNDATION_OPEN);
-            assert srfn != null;
-            srfn.setPosition(FOUNDATION_OPEN);
-        }
+    public void moveIntake(double intakePower) {
+        Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
     }
 }

@@ -23,7 +23,7 @@ import java.util.Objects;
  */
 public class InitRobot {
     public static final boolean MODE_4x4 = true; // True if you are using 4x4 drive
-    private static SmartMotor bl, br, fl, fr;
+    private static SmartMotor bl, br, fl, fr, flywheel, intake;
     private static Encoder leftEncoder, rightEncoder, lateralEncoder;
 
     // TODO: JavaDoc
@@ -45,6 +45,8 @@ public class InitRobot {
             fl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FL_NAME));
             fr = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FR_NAME));
         }
+        flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
+        intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
 
         HashMap<String, SmartMotor> motors = new HashMap<>();
         motors.put(Naming.MOTOR_BL_NAME, bl);
@@ -53,6 +55,8 @@ public class InitRobot {
             motors.put(Naming.MOTOR_FL_NAME, fl);
             motors.put(Naming.MOTOR_FR_NAME, fr);
         }
+        motors.put(Naming.MOTOR_FLYWHEEL, flywheel);
+        motors.put(Naming.MOTOR_INTAKE, intake);
 
         // Get servos
         //SmartServo grabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_GRABBER_NAME));

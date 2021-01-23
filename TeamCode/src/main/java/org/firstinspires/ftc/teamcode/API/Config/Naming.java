@@ -40,5 +40,8 @@ public class Naming {
     public static final String ENCODER_LATERAL                    = "lateralEncoder";
     public static final String ENCODER_LEFT                       = "leftEncoder";
     public static final String ENCODER_RIGHT                      = "rightEncoder";
+
+    public static final String MOTOR_FLYWHEEL                     = "flywheel";
+    public static final String MOTOR_INTAKE                       = "intake";
 }
 

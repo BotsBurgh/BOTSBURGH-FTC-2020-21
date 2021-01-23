@@ -53,6 +53,8 @@ public class TeleOpMain extends LinearOpMode {
             double frPower = Range.clip((-x1 - y1 - rotation), -MAX_SPEED, MAX_SPEED);
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
+            Robot.movement.moveFlywheel(gamepad2.left_trigger);
+            Robot.movement.moveIntake(gamepad2.left_trigger);
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);
