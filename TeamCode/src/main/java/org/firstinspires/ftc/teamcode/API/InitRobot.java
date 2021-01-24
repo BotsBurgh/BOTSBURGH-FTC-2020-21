@@ -48,6 +48,8 @@ public class InitRobot {
         }
         flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
         intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         HashMap<String, SmartMotor> motors = new HashMap<>();
         motors.put(Naming.MOTOR_BL_NAME, bl);
@@ -60,7 +62,9 @@ public class InitRobot {
         motors.put(Naming.MOTOR_INTAKE, intake);
 
         // Get servos
-        SmartServo wobble = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER_NAME));
+        SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM_NAME));
+        SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER_NAME));
+        SmartServo launcher = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_LAUNCHER));
         //SmartServo grabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_GRABBER_NAME));
         //SmartServo rotate = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_ROTATE_NAME));
         //SmartServo fLeftNew = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_FOUNDATION_LEFT_NEW_NAME));
@@ -71,7 +75,9 @@ public class InitRobot {
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
-        servos.put(Naming.SERVO_WOBBLE_GRABBER_NAME, wobble);
+        servos.put(Naming.SERVO_WOBBLE_ARM_NAME, wobbleArm);
+        servos.put(Naming.SERVO_WOBBLE_GRABBER_NAME, wobbleGrabber);
+        servos.put(Naming.SERVO_LAUNCHER, launcher);
         //servos.put(Naming.SERVO_GRABBER_NAME, grabber);
         //servos.put(Naming.SERVO_ROTATE_NAME, rotate);
         //servos.put(Naming.SERVO_FOUNDATION_LEFT_NEW_NAME, fLeftNew);

@@ -44,12 +44,16 @@ public class Movement {
     private final static double SERVO_STEP       = 0.01;  // on a scale of  0-1
     private final static double GRABBER_OPEN     = 0; // on a scale of  0-1
     private final static double GRABBER_CLOSE    = 0.65; // on a scale of  0-1
-    private final static double WOBBLE_IN        = 1; // on a scale of  0-1
+    private final static double WOBBLE_IN        = 0.75; // on a scale of  0-1
     private final static double WOBBLE_OUT       = 0.3; // on a scale of  0-1
+    private final static double WOBBLE_GRAB      = 1;
+    private final static double WOBBLE_RELEASE   = 0;
     private final static double SWIVEL_OPEN      = 0; // on a scale of  0-1
     private final static double SWIVEL_CLOSE     = 1; // on a scale of  0-1
     private final static double FOUNDATION_OPEN  = 0.3;
     private final static double FOUNDATION_CLOSE = 0.95;
+    private final static double LAUNCHER_OPEN    = 0.8;
+    private final static double LAUNCHER_CLOSE   = 1;
 
     public static HashMap<String, SmartMotor> motors;
     public static HashMap<String, SmartServo> servos;
@@ -170,9 +174,30 @@ public class Movement {
      */
     public void moveWobble(boolean command) {
         if (command) {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_IN); // Opens the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM_NAME)).setPosition(WOBBLE_IN); // Opens the grabber
         } else {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_OUT); // Closes the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM_NAME)).setPosition(WOBBLE_OUT); // Closes the grabber
+        }
+    }
+
+    /**
+     * Opens the grabber based on a boolean assignment
+     * @param command tue to open
+     */
+    public void grabWobble(boolean command) {
+        if (command) {
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_GRAB); // Opens the grabber
+        } else {
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_RELEASE); // Closes the grabber
+        }
+    }
+
+
+    public void launch(boolean command) {
+        if (command) {
+            Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_OPEN);
+        } else {
+            Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_CLOSE);
         }
     }
 }

@@ -40,7 +40,7 @@ public class ZeroServo extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.x) {
-                zeroServo.setPosition(0.3);
+                zeroServo.setPosition(0.8);
             } else if (gamepad1.y) {
                 zeroServo.setPosition(1);
             }

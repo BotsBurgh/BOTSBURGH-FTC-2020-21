@@ -17,6 +17,8 @@ public class Naming {
     public static final String SERVO_FOUNDATION_RIGHT_NAME        = "foundationRight";
     public static final String SERVO_ROTATE_NAME                  = "rotate";
     public static final String SERVO_WOBBLE_GRABBER_NAME          = "wobbleGrabber";
+    public static final String SERVO_WOBBLE_ARM_NAME              = "wobbleArm";
+    public static final String SERVO_LAUNCHER                     = "launcher";
 
     // Only for temporary purposes
     public static final String SERVO_FOUNDATION_LEFT_NEW_NAME     = "testFoundationLeft";
