@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.API.Robot;
 @TeleOp(name = "TeleOp Main", group = "Linear OpMode")
 public class TeleOpMain extends LinearOpMode {
     private double maxspeed = 0.6;
-    private boolean switch = false;
+    private boolean brakeSwitch = false;
     @Override
     public void runOpMode() {
         InitRobot.init(this);
@@ -63,7 +63,7 @@ public class TeleOpMain extends LinearOpMode {
             Robot.movement.moveIntake(gamepad2.left_trigger);
             
             if (gamepad1.left_bumper) {
-                if (switch) {
+                if (brakeSwitch) {
                     Robot.movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     Robot.movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     Robot.movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -74,7 +74,7 @@ public class TeleOpMain extends LinearOpMode {
                     Robot.movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                     Robot.movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
-                switch = !switch;
+                brakeSwitch = !brakeSwitch;
             }
             
             if (gamepad1.right_bumper) {
