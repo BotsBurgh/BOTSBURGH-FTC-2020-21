@@ -47,9 +47,9 @@ public class InitRobot {
             fr = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FR_NAME));
         }
         flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
-        intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        //intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         HashMap<String, SmartMotor> motors = new HashMap<>();
         motors.put(Naming.MOTOR_BL_NAME, bl);
@@ -59,7 +59,7 @@ public class InitRobot {
             motors.put(Naming.MOTOR_FR_NAME, fr);
         }
         motors.put(Naming.MOTOR_FLYWHEEL, flywheel);
-        motors.put(Naming.MOTOR_INTAKE, intake);
+        //motors.put(Naming.MOTOR_INTAKE, intake);
 
         // Get servos
         SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM_NAME));
@@ -106,6 +106,13 @@ public class InitRobot {
         if (MODE_4x4) {
             fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+
+        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if (MODE_4x4) {
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
         // Switch direction of servo

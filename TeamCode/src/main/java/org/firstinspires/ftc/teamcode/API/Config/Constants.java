@@ -7,7 +7,7 @@ public class Constants {
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = 537.6;
+    public static final double TICKS_PER_REV = 4096;
     public static final double MAX_RPM = 340;
 
     /*
@@ -31,7 +31,7 @@ public class Constants {
      */
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 2; // in
+    public static double TRACK_WIDTH = 1.5; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using

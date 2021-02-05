@@ -42,7 +42,7 @@ import java.util.Objects;
  *
  * 6. Spin the bot 10 times, counterclockwise. Make sure to keep track of these turns.
  *
- * 7. Once the bot has finished spinning 10 times, press A to finishing the routine. The indicators
+ * 7. Once the bot has finished spinning 10 times, press Y to finishing the routine. The indicators
  * on the bot and on the ground you created earlier should be lined up.
  *
  * 8. Your effective LATERAL_DISTANCE will be given. Stick this value into your
