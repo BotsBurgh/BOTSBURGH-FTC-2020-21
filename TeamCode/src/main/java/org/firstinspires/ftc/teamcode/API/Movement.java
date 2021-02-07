@@ -81,10 +81,10 @@ public class Movement {
      * @param brPower Power to the back right wheel
      */
     public void move4x4(double flPower, double frPower, double blPower, double brPower) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FL_NAME)).setPower(flPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FR_NAME)).setPower(frPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(blPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BR_NAME)).setPower(brPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FL)).setPower(flPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FR)).setPower(frPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(blPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(brPower);
     }
 
     /**
@@ -93,10 +93,10 @@ public class Movement {
      * @param rPower Power to the right side
      */
     public void move2x4(double lPower, double rPower) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FL_NAME)).setPower(lPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FR_NAME)).setPower(rPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(lPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BR_NAME)).setPower(rPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FL)).setPower(lPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FR)).setPower(rPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(lPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(rPower);
     }
 
     /**
@@ -105,8 +105,8 @@ public class Movement {
      * @param rPower Power sent to back right motor
      */
     public void move2x2(double lPower, double rPower) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(lPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BR_NAME)).setPower(rPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(lPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(rPower);
     }
 
     /**
@@ -114,7 +114,7 @@ public class Movement {
      * @param speed Speed of the elevator
      */
     public void moveElevator(double speed) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_LIFT_NAME)).setPower(speed*ELEVATOR_POWER);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_LIFT)).setPower(speed*ELEVATOR_POWER);
     }
 
     /**
@@ -166,6 +166,7 @@ public class Movement {
      */
     public void moveIntake(double intakePower) {
         Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
+        Objects.requireNonNull(crServos.get(Naming.CRSERVO_INTAKE)).setPower(intakePower);
     }
 
     /**
@@ -174,9 +175,9 @@ public class Movement {
      */
     public void moveWobble(boolean command) {
         if (command) {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM_NAME)).setPosition(WOBBLE_IN); // Opens the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_IN); // Opens the grabber
         } else {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM_NAME)).setPosition(WOBBLE_OUT); // Closes the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_OUT); // Closes the grabber
         }
     }
 
@@ -186,9 +187,9 @@ public class Movement {
      */
     public void grabWobble(boolean command) {
         if (command) {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_GRAB); // Opens the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER)).setPosition(WOBBLE_GRAB); // Opens the grabber
         } else {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER_NAME)).setPosition(WOBBLE_RELEASE); // Closes the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER)).setPosition(WOBBLE_RELEASE); // Closes the grabber
         }
     }
 

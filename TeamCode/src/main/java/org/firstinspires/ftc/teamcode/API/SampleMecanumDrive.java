@@ -124,7 +124,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
-        imu = Sensor.getGyro(Naming.GYRO_0_NAME);
+        imu = Sensor.getGyro(Naming.GYRO_0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
@@ -133,10 +133,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         // upward (normal to the floor) using a command like the following:
         BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        fl = Robot.movement.getMotor(Naming.MOTOR_FL_NAME);
-        bl = Robot.movement.getMotor(Naming.MOTOR_BL_NAME);
-        br = Robot.movement.getMotor(Naming.MOTOR_BR_NAME);
-        fr = Robot.movement.getMotor(Naming.MOTOR_FR_NAME);
+        fl = Robot.movement.getMotor(Naming.MOTOR_FL);
+        bl = Robot.movement.getMotor(Naming.MOTOR_BL);
+        br = Robot.movement.getMotor(Naming.MOTOR_BR);
+        fr = Robot.movement.getMotor(Naming.MOTOR_FR);
 
         motors = Arrays.asList(fl, bl, br, fr);
 

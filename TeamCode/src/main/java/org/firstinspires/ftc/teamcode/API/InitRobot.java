@@ -40,55 +40,44 @@ public class InitRobot {
         */
 
         // Get motors
-        bl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BL_NAME));
-        br = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BR_NAME));
+        bl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BL));
+        br = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BR));
         if (MODE_4x4) {
-            fl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FL_NAME));
-            fr = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FR_NAME));
+            fl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FL));
+            fr = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FR));
         }
         flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
-        //intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        //intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         HashMap<String, SmartMotor> motors = new HashMap<>();
-        motors.put(Naming.MOTOR_BL_NAME, bl);
-        motors.put(Naming.MOTOR_BR_NAME, br);
+        motors.put(Naming.MOTOR_BL, bl);
+        motors.put(Naming.MOTOR_BR, br);
         if (MODE_4x4) {
-            motors.put(Naming.MOTOR_FL_NAME, fl);
-            motors.put(Naming.MOTOR_FR_NAME, fr);
+            motors.put(Naming.MOTOR_FL, fl);
+            motors.put(Naming.MOTOR_FR, fr);
         }
         motors.put(Naming.MOTOR_FLYWHEEL, flywheel);
-        //motors.put(Naming.MOTOR_INTAKE, intake);
+        motors.put(Naming.MOTOR_INTAKE, intake);
 
         // Get servos
-        SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM_NAME));
-        SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER_NAME));
+        SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM));
+        SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER));
         SmartServo launcher = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_LAUNCHER));
-        //SmartServo grabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_GRABBER_NAME));
-        //SmartServo rotate = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_ROTATE_NAME));
-        //SmartServo fLeftNew = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_FOUNDATION_LEFT_NEW_NAME));
-        //SmartServo fRightNew = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_FOUNDATION_RIGHT_NEW_NAME));
-
-        //fLeftNew.setDirection(Servo.Direction.REVERSE);
-        //fRightNew.setDirection(Servo.Direction.FORWARD);
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
-        servos.put(Naming.SERVO_WOBBLE_ARM_NAME, wobbleArm);
-        servos.put(Naming.SERVO_WOBBLE_GRABBER_NAME, wobbleGrabber);
+        servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
+        servos.put(Naming.SERVO_WOBBLE_GRABBER, wobbleGrabber);
         servos.put(Naming.SERVO_LAUNCHER, launcher);
-        //servos.put(Naming.SERVO_GRABBER_NAME, grabber);
-        //servos.put(Naming.SERVO_ROTATE_NAME, rotate);
-        //servos.put(Naming.SERVO_FOUNDATION_LEFT_NEW_NAME, fLeftNew);
-        //servos.put(Naming.SERVO_FOUNDATION_RIGHT_NEW_NAME, fRightNew);
 
         // Get CRServos
-        //CRServo armExtend = l.hardwareMap.get(CRServo.class, Naming.CRSERVO_EXTEND_NAME);
+        CRServo intake2 = l.hardwareMap.get(CRServo.class, Naming.CRSERVO_INTAKE);
 
         // Add CRServos into the list
         HashMap<String, CRServo> crServos = new HashMap<>();
-        //crServos.put(Naming.CRSERVO_EXTEND_NAME, armExtend);
+        crServos.put(Naming.CRSERVO_INTAKE, intake2);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -100,7 +89,6 @@ public class InitRobot {
         }
 
         // Set motors to spin in the correct direction
-        //sc.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         if (MODE_4x4) {
@@ -119,31 +107,27 @@ public class InitRobot {
         //rotate.setDirection(Servo.Direction.REVERSE);
 
         // Get color sensors
-        //ColorSensor scissorDownLimit = l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_DOWN_LIMIT_NAME);
-        //ColorSensor scissorUpLimit = l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_UP_LIMIT_NAME);
         NormalizedColorSensor parkSensor = (NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK);
 
         // Add color sensors into list
         HashMap<String, NormalizedColorSensor> colorSensors = new HashMap<>();
-        //colorSensors.put(Naming.COLOR_SENSOR_DOWN_LIMIT_NAME, scissorDownLimit);
-        //colorSensors.put(Naming.COLOR_SENSOR_UP_LIMIT_NAME, scissorUpLimit);
         colorSensors.put(Naming.COLOR_SENSOR_PARK, parkSensor);
 
         // Get webcams
-        //WebcamName webcam1 = l.hardwareMap.get(WebcamName.class, Naming.WEBCAM_0_NAME);
+        WebcamName webcam1 = l.hardwareMap.get(WebcamName.class, Naming.WEBCAM_0);
 
         // Add webcams to list
         HashMap<String, WebcamName> webcams = new HashMap<>();
-        //webcams.put(Naming.WEBCAM_0_NAME, webcam1);
+        webcams.put(Naming.WEBCAM_0, webcam1);
 
         // Get gyros
-        BNO055IMU gyro0 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_0_NAME);
-        BNO055IMU gyro1 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_1_NAME);
+        BNO055IMU gyro0 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_0);
+        BNO055IMU gyro1 = l.hardwareMap.get(BNO055IMU.class, Naming.GYRO_1);
 
         // Add gyros to list
         HashMap<String, BNO055IMU> gyros = new HashMap<>();
-        gyros.put(Naming.GYRO_0_NAME, gyro0);
-        gyros.put(Naming.GYRO_1_NAME, gyro1);
+        gyros.put(Naming.GYRO_0, gyro0);
+        gyros.put(Naming.GYRO_1, gyro1);
 
         // Get dead wheel encoders
         leftEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));

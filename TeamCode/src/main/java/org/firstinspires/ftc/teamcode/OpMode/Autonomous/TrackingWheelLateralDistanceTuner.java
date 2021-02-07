@@ -119,10 +119,10 @@ public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
             telemetry.addData("Heading", vel.getHeading());
             telemetry.addData("X", vel.getX());
             telemetry.addData("Y", vel.getY());
-            telemetry.addData("Back Left", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_BL_NAME)).getVelocity());
-            telemetry.addData("Back Right", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_BR_NAME)).getVelocity());
-            telemetry.addData("Front Left", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_FL_NAME)).getVelocity());
-            telemetry.addData("Front right", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_FR_NAME)).getVelocity());
+            telemetry.addData("Back Left", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_BL)).getVelocity());
+            telemetry.addData("Back Right", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_BR)).getVelocity());
+            telemetry.addData("Front Left", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_FL)).getVelocity());
+            telemetry.addData("Front right", Objects.requireNonNull(Movement.motors.get(Naming.MOTOR_FR)).getVelocity());
             telemetry.addLine();
             telemetry.addLine("Press Y/△ to conclude routine");
             telemetry.update();
