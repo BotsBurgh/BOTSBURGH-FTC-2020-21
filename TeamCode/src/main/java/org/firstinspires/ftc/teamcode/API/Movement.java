@@ -52,7 +52,7 @@ public class Movement {
     private final static double SWIVEL_CLOSE     = 1; // on a scale of  0-1
     private final static double FOUNDATION_OPEN  = 0.3;
     private final static double FOUNDATION_CLOSE = 0.95;
-    private final static double LAUNCHER_OPEN    = 0.8;
+    private final static double LAUNCHER_OPEN    = 0.7;
     private final static double LAUNCHER_CLOSE   = 1;
 
     public static HashMap<String, SmartMotor> motors;
@@ -166,7 +166,7 @@ public class Movement {
      */
     public void moveIntake(double intakePower) {
         Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
-        Objects.requireNonNull(crServos.get(Naming.CRSERVO_INTAKE)).setPower(intakePower);
+        Objects.requireNonNull(crServos.get(Naming.CRSERVO_INTAKE)).setPower(-intakePower);
     }
 
     /**

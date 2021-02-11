@@ -60,7 +60,7 @@ public class TeleOpMain extends LinearOpMode {
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
             Robot.movement.moveFlywheel(gamepad2.left_trigger);
-            Robot.movement.moveIntake(gamepad2.left_trigger);
+            Robot.movement.moveIntake(gamepad2.right_trigger);
             
             if (gamepad1.left_bumper) {
                 if (brakeSwitch) {

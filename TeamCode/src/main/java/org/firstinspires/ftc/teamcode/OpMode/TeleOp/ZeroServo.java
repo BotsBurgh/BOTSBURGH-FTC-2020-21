@@ -24,7 +24,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ZeroServo extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Servo zeroServo = hardwareMap.get(Servo.class, "zeroServo");
+        Servo zeroServo = hardwareMap.get(Servo.class, "launcher");
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -39,9 +39,9 @@ public class ZeroServo extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()) {
-            if (gamepad1.x) {
-                zeroServo.setPosition(0.8);
-            } else if (gamepad1.y) {
+            if (gamepad2.left_bumper) {
+                zeroServo.setPosition(0.7);
+            } else {
                 zeroServo.setPosition(1);
             }
         }
