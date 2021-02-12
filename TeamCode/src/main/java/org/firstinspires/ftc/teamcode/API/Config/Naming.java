@@ -16,8 +16,6 @@ public class Naming {
     public static final String SERVO_WOBBLE_ARM                   = "wobbleArm";
     public static final String SERVO_LAUNCHER                     = "launcher";
 
-    public static final String CRSERVO_INTAKE                     = "intake2";
-
     public static final String COLOR_SENSOR_PARK                  = "parkSensor";
 
     public static final String GYRO_0                             = "imu";
@@ -31,5 +29,6 @@ public class Naming {
 
     public static final String MOTOR_FLYWHEEL                     = "flywheel";
     public static final String MOTOR_INTAKE                       = "intake";
+    public static final String MOTOR_INTAKE2                      = "rightEncoder";
 }
 

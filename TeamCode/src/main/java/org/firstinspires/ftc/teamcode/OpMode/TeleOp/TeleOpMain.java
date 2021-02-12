@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 
@@ -59,7 +60,7 @@ public class TeleOpMain extends LinearOpMode {
             double frPower = Range.clip((-x1 - y1 - rotation), -maxspeed, maxspeed);
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
-            Robot.movement.moveFlywheel(gamepad2.left_trigger);
+            Robot.movement.moveFlywheel(Range.clip(Math.log10(gamepad2.left_trigger*10+1), 0, 1));
             Robot.movement.moveIntake(gamepad2.right_trigger);
             
             if (gamepad1.left_bumper) {
@@ -103,6 +104,7 @@ public class TeleOpMain extends LinearOpMode {
             telemetry.addData("Back Right", brPower);
             telemetry.addData("Front Left", flPower);
             telemetry.addData("Front Right", frPower);
+            telemetry.addData("Flywheel", Robot.movement.getMotor(Naming.MOTOR_FLYWHEEL).getPower());
             telemetry.update();
         }
     }

@@ -24,8 +24,8 @@ import java.util.Objects;
  */
 public class InitRobot {
     public static final boolean MODE_4x4 = true; // True if you are using 4x4 drive
-    private static SmartMotor bl, br, fl, fr, flywheel, intake;
-    private static Encoder leftEncoder, rightEncoder, lateralEncoder;
+    private static SmartMotor fl;
+    private static SmartMotor fr;
 
     // TODO: JavaDoc
     public static void init(LinearOpMode l) {
@@ -40,16 +40,18 @@ public class InitRobot {
         */
 
         // Get motors
-        bl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BL));
-        br = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BR));
+        SmartMotor bl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BL));
+        SmartMotor br = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_BR));
         if (MODE_4x4) {
             fl = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FL));
             fr = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FR));
         }
-        flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
-        intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        SmartMotor flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
+        SmartMotor intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        SmartMotor intake2 = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_INTAKE2));
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         HashMap<String, SmartMotor> motors = new HashMap<>();
         motors.put(Naming.MOTOR_BL, bl);
@@ -60,6 +62,7 @@ public class InitRobot {
         }
         motors.put(Naming.MOTOR_FLYWHEEL, flywheel);
         motors.put(Naming.MOTOR_INTAKE, intake);
+        motors.put(Naming.MOTOR_INTAKE2, intake2);
 
         // Get servos
         SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM));
@@ -73,11 +76,12 @@ public class InitRobot {
         servos.put(Naming.SERVO_LAUNCHER, launcher);
 
         // Get CRServos
-        CRServo intake2 = l.hardwareMap.get(CRServo.class, Naming.CRSERVO_INTAKE);
+        
+        // Set direction of CRServos
+        //intake2.setDirection(CRServo.Direction.REVERSE);
 
         // Add CRServos into the list
         HashMap<String, CRServo> crServos = new HashMap<>();
-        crServos.put(Naming.CRSERVO_INTAKE, intake2);
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -87,6 +91,8 @@ public class InitRobot {
             fl.setDirection(DcMotor.Direction.FORWARD);
             fr.setDirection(DcMotor.Direction.REVERSE);
         }
+        
+        intake2.setDirection(DcMotor.Direction.REVERSE);
 
         // Set motors to spin in the correct direction
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -130,9 +136,9 @@ public class InitRobot {
         gyros.put(Naming.GYRO_1, gyro1);
 
         // Get dead wheel encoders
-        leftEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
-        rightEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_RIGHT));
-        lateralEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LATERAL));
+        Encoder leftEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
+        Encoder rightEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_RIGHT));
+        Encoder lateralEncoder = new Encoder(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LATERAL));
 
         // Add encoders to list
         HashMap<String, Encoder> encoders = new HashMap<>();
