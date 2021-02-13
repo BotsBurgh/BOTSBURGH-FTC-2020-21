@@ -38,6 +38,9 @@ public class Movement {
 
     // Elevator configuration
     private final static double ELEVATOR_POWER   = 1.00;
+    
+    // Motor configuration
+    private final static double INTAKE2_THRESH   = 0.8;
 
     // Servo configuration
     private final static int    SERVO_SLEEP      = 10; // Milliseconds
@@ -166,7 +169,7 @@ public class Movement {
      */
     public void moveIntake(double intakePower) {
         Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE2)).setPower(intakePower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE2)).setPower(intakePower*INTAKE2_THRESH);
     }
 
     /**
