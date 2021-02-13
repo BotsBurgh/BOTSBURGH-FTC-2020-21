@@ -13,11 +13,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.teamcode.API.Config.Constants;
 import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 
 import java.util.Objects;
 
+import static org.firstinspires.ftc.teamcode.API.Config.Constants.MAX_ACCEL;
+import static org.firstinspires.ftc.teamcode.API.Config.Constants.MAX_VEL;
 import static org.firstinspires.ftc.teamcode.API.Config.Constants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.teamcode.API.Config.Constants.kA;
 import static org.firstinspires.ftc.teamcode.API.Config.Constants.kStatic;
@@ -32,7 +33,7 @@ import static org.firstinspires.ftc.teamcode.API.Config.Constants.kV;
  * you are using the Control Hub. Once you've successfully connected, start the program, and your
  * robot will begin moving forward and backward according to a motion profile. Your job is to graph
  * the velocity errors over time and adjust the feedforward coefficients. Once you've found a
- * satisfactory set of gains, add them to the appropriate fields in the Constants.java file.
+ * satisfactory set of gains, add them to the appropriate fields in the DriveConstants.java file.
  *
  * Pressing X (on the Xbox and Logitech F310 gamepads, square on the PS4 Dualshock gamepad) will
  * pause the tuning process and enter driver override, allowing the user to reset the position of
@@ -59,10 +60,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
         MotionState goal = new MotionState(movingForward ? DISTANCE : 0, 0, 0, 0);
-        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal,
-                Constants.BASE_CONSTRAINTS.maxVel,
-                Constants.BASE_CONSTRAINTS.maxAccel,
-                Constants.BASE_CONSTRAINTS.maxJerk);
+        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, MAX_VEL, MAX_ACCEL);
     }
 
     @Override
@@ -123,8 +121,8 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
                     // update telemetry
                     telemetry.addData("targetVelocity", motionState.getV());
-                    telemetry.addData("poseVelocity", currentVelo);
-                    telemetry.addData("error", currentVelo - motionState.getV());
+                    telemetry.addData("measuredVelocity", currentVelo);
+                    telemetry.addData("error", motionState.getV() - currentVelo);
                     break;
                 case DRIVER_MODE:
                     if (gamepad1.a) {
