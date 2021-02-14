@@ -30,7 +30,7 @@ public class Constants {
      */
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 1.5; // in
+    public static double TRACK_WIDTH = 15.5; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -50,8 +50,8 @@ public class Constants {
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling). All distance units are inches.
      */
-    public static double MAX_VEL = 30.0;
-    public static double MAX_ACCEL = 30.0;
+    public static double MAX_VEL = 40.0;
+    public static double MAX_ACCEL = 40.0;
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
     public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
 

@@ -9,6 +9,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -39,7 +40,6 @@ import org.firstinspires.ftc.teamcode.API.Util.AxesSigns;
 import org.firstinspires.ftc.teamcode.API.Util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.API.Util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.API.Util.LynxModuleUtil;
-import org.firstinspires.ftc.teamcode.API.Util.MecanumDrive;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -391,7 +391,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double fl, double bl, double br, double fr) {
-        Robot.movement.move4x4(fl, bl, br, fr);
+        Robot.movement.move4x4(fl, fr, bl, br);
     }
 
     @Override

@@ -213,7 +213,7 @@ public class Sensor {
     }
 
     public static BNO055IMU getGyro(String id) {
-        return gyros.get(id);
+        return Objects.requireNonNull(gyros.get(id));
     }
 
     /**

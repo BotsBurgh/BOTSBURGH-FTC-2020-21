@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 @Config
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
-    public static double ANGLE = 90; // deg
+    public static double ANGLE = Math.PI; // rad
 
     @Override
     public void runOpMode() throws InterruptedException {
