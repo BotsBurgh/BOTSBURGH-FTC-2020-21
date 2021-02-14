@@ -108,3 +108,4 @@ repositories {
     }
 }
 apply from: 'build.release.gradle'
+apply plugin: 'kotlin-android'
