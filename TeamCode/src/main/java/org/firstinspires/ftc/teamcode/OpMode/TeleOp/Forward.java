@@ -18,13 +18,12 @@ package org.firstinspires.ftc.teamcode.OpMode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 
-@TeleOp(name = "Mecanum Drive", group = "Linear OpMode")
-public class MecanumDrive extends LinearOpMode {
+@TeleOp(name = "Forward!", group = "Linear OpMode")
+public class Forward extends LinearOpMode {
     private static final double MAX_SPEED = 0.8;
     @Override
     public void runOpMode() {
@@ -43,22 +42,11 @@ public class MecanumDrive extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()) {
-            double x1 = -gamepad1.left_stick_x;
-            double y1 = gamepad1.left_stick_y;
-            double rotation = -gamepad1.right_stick_x;
-
-            double flPower = Range.clip((y1 + x1 + rotation), -MAX_SPEED, MAX_SPEED);
-            double frPower = Range.clip((y1 - x1 - rotation), -MAX_SPEED, MAX_SPEED);
-            double blPower = Range.clip((y1 - x1 + rotation), -MAX_SPEED, MAX_SPEED);
-            double brPower = Range.clip((y1 + x1 - rotation), -MAX_SPEED, MAX_SPEED);
-
-            Robot.movement.move4x4(flPower, frPower, blPower, brPower);
-
-            telemetry.addData("Back Left", blPower);
-            telemetry.addData("Back Right", brPower);
-            telemetry.addData("Front Left", flPower);
-            telemetry.addData("Front right", frPower);
-            telemetry.update();
+            if (gamepad1.x) {
+                Robot.movement.move4x4(1, 1, 1, 1);
+            } else {
+                Robot.movement.move4x4(0,0,0,0);
+            }
         }
     }
 }

@@ -15,11 +15,24 @@
 apply from: '../build.common.gradle'
 
 repositories {
+    google()
     maven { url = "https://dl.bintray.com/first-tech-challenge/ftcsdk/" }
 }
 
 dependencies {
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
     compileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+  	annotationProcessor 'org.projectlombok:lombok:1.18.16'
+}
+
+buildscript {
+    ext.kotlinVersion = '1.4.21'
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
 }

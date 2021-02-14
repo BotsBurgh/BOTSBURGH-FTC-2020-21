@@ -18,16 +18,14 @@ package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.API.HW.*;
-
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
+import org.firstinspires.ftc.teamcode.API.HW.SmartServo;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Getter;
 
 /**
  * The Movement class. Interfaces with servos and motors so you don't have to
@@ -40,20 +38,29 @@ public class Movement {
 
     // Elevator configuration
     private final static double ELEVATOR_POWER   = 1.00;
+    
+    // Motor configuration
+    private final static double INTAKE2_THRESH   = 0.8;
 
     // Servo configuration
     private final static int    SERVO_SLEEP      = 10; // Milliseconds
-    private final static double SERVO_STEP       = 0.01;  // Degrees
-    private final static double GRABBER_OPEN     = 0; // Degrees
-    private final static double GRABBER_CLOSE    = 0.65; // Degrees
-    private final static double SWIVEL_OPEN      = 0; // Degrees
-    private final static double SWIVEL_CLOSE     = 1; // Degrees
+    private final static double SERVO_STEP       = 0.01;  // on a scale of  0-1
+    private final static double GRABBER_OPEN     = 0; // on a scale of  0-1
+    private final static double GRABBER_CLOSE    = 0.65; // on a scale of  0-1
+    private final static double WOBBLE_IN        = 0.75; // on a scale of  0-1
+    private final static double WOBBLE_OUT       = 0.3; // on a scale of  0-1
+    private final static double WOBBLE_GRAB      = 1;
+    private final static double WOBBLE_RELEASE   = 0;
+    private final static double SWIVEL_OPEN      = 0; // on a scale of  0-1
+    private final static double SWIVEL_CLOSE     = 1; // on a scale of  0-1
     private final static double FOUNDATION_OPEN  = 0.3;
     private final static double FOUNDATION_CLOSE = 0.95;
+    private final static double LAUNCHER_OPEN    = 0.6;
+    private final static double LAUNCHER_CLOSE   = 1;
 
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, SmartMotor> motors;
-    @Getter(AccessLevel.PUBLIC) private HashMap<String, SmartServo> servos;
-    @Getter(AccessLevel.PUBLIC) private HashMap <String, CRServo> crServos;
+    public static HashMap<String, SmartMotor> motors;
+    public static HashMap<String, SmartServo> servos;
+    public static HashMap <String, CRServo> crServos;
 
     // Getters
 
@@ -77,10 +84,10 @@ public class Movement {
      * @param brPower Power to the back right wheel
      */
     public void move4x4(double flPower, double frPower, double blPower, double brPower) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FL_NAME)).setPower(flPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FR_NAME)).setPower(frPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(blPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BR_NAME)).setPower(brPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FL)).setPower(flPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FR)).setPower(frPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(blPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(brPower);
     }
 
     /**
@@ -89,10 +96,10 @@ public class Movement {
      * @param rPower Power to the right side
      */
     public void move2x4(double lPower, double rPower) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FL_NAME)).setPower(lPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_FR_NAME)).setPower(rPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(lPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BR_NAME)).setPower(rPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FL)).setPower(lPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FR)).setPower(rPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(lPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(rPower);
     }
 
     /**
@@ -101,8 +108,8 @@ public class Movement {
      * @param rPower Power sent to back right motor
      */
     public void move2x2(double lPower, double rPower) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BL_NAME)).setPower(lPower);
-        Objects.requireNonNull(motors.get(Naming.MOTOR_BR_NAME)).setPower(rPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(lPower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(rPower);
     }
 
     /**
@@ -110,13 +117,13 @@ public class Movement {
      * @param speed Speed of the elevator
      */
     public void moveElevator(double speed) {
-        Objects.requireNonNull(motors.get(Naming.MOTOR_LIFT_NAME)).setPower(speed*ELEVATOR_POWER);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_LIFT)).setPower(speed*ELEVATOR_POWER);
     }
 
     /**
      * Sets the servo to a specific position. Useful if we do not want to slowly scan the servo to a position
      * @param id ID of the servo
-     * @param degrees Position (in degrees) to set the servo to.
+     * @param degrees Position (in on a scale of  0-1) to set the servo to.
      */
     public void setServo(String id, double degrees) {
         Objects.requireNonNull(servos.get(id)).setPosition(degrees);
@@ -125,7 +132,7 @@ public class Movement {
     /**
      * Scan the servo (move the servo slowly) to a position.
      * @param id ID of servo
-     * @param degrees Position (in degrees) to scan the servo to.
+     * @param degrees Position (in on a scale of  0-1) to scan the servo to.
      */
     public void scanServo(String id, double degrees, boolean clockwise) {
         while (Math.abs(Objects.requireNonNull(servos.get(id)).getPosition() - degrees) < 0.001) {
@@ -149,48 +156,52 @@ public class Movement {
     }
 
     /**
-     * Opens the grabber based on a boolean assignment
-     * @param command true to open the grabber or false to close the grabber
+     * Set the movement of the flywheel
+     * @param wheelPower Power sent to flywheel
      */
-    public void openGrabber(boolean command) {
-        SmartServo sg; // sg: Servo grabber
-        sg = servos.get(Naming.SERVO_GRABBER_NAME);
-        assert sg != null;
+    public void moveFlywheel(double wheelPower) {
+        Objects.requireNonNull(motors.get(Naming.MOTOR_FLYWHEEL)).setPower(wheelPower);
+    }
+
+    /**
+     * Set the movement of the intake
+     * @param intakePower Power sent to intake
+     */
+    public void moveIntake(double intakePower) {
+        Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
+        Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE2)).setPower(intakePower*INTAKE2_THRESH);
+    }
+
+    /**
+     * Opens the grabber based on a boolean assignment
+     * @param command tue to open
+     */
+    public void moveWobble(boolean command) {
         if (command) {
-            sg.setPosition(GRABBER_OPEN); // Opens the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_IN); // Opens the grabber
         } else {
-            sg.setPosition(GRABBER_CLOSE); // Closes the grabber
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_OUT); // Closes the grabber
         }
     }
 
     /**
-     * Opens the swivel based on a boolean assignment
-     * @param command true to open the swivel or false to close the swivel
+     * Opens the grabber based on a boolean assignment
+     * @param command tue to open
      */
-    public void openSwivel(boolean command) {
-        SmartServo ss; // ss: Servo Swivel
-        ss = servos.get(Naming.SERVO_ROTATE_NAME);
-        assert ss != null;
+    public void grabWobble(boolean command) {
         if (command) {
-            ss.setPosition(SWIVEL_OPEN); // Opens the swivel
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER)).setPosition(WOBBLE_GRAB); // Opens the grabber
         } else {
-            ss.setPosition(SWIVEL_CLOSE); // Closes the swivel
+            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER)).setPosition(WOBBLE_RELEASE); // Closes the grabber
         }
     }
 
-    public void grabFoundation(boolean command) {
-        SmartServo slfn, srfn;
-        slfn = servos.get(Naming.SERVO_FOUNDATION_LEFT_NEW_NAME); // sfln: Servo Left Foundation New
-        srfn = servos.get(Naming.SERVO_FOUNDATION_RIGHT_NEW_NAME); // sfrn: Servo Right Foundation New
-        assert slfn != null;
-        if (command) { // Grabs foundation
-            slfn.setPosition(FOUNDATION_CLOSE);
-            assert srfn != null;
-            srfn.setPosition(FOUNDATION_CLOSE);
-        } else { // Releases foundation
-            slfn.setPosition(FOUNDATION_OPEN);
-            assert srfn != null;
-            srfn.setPosition(FOUNDATION_OPEN);
+
+    public void launch(boolean command) {
+        if (command) {
+            Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_OPEN);
+        } else {
+            Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_CLOSE);
         }
     }
 }
