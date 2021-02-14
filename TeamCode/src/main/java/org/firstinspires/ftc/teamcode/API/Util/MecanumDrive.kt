@@ -18,12 +18,12 @@ import com.acmerobotics.roadrunner.util.Angle
  * @param lateralMultiplier lateral multiplier
  */
 abstract class MecanumDrive @JvmOverloads constructor(
-        private val kV: Double,
-        private val kA: Double,
-        private val kStatic: Double,
-        private val trackWidth: Double,
-        private val wheelBase: Double = trackWidth,
-        private val lateralMultiplier: Double = 1.0
+    private val kV: Double,
+    private val kA: Double,
+    private val kStatic: Double,
+    private val trackWidth: Double,
+    private val wheelBase: Double = trackWidth,
+    private val lateralMultiplier: Double = 1.0
 ) : Drive() {
 
     /**
@@ -33,8 +33,8 @@ abstract class MecanumDrive @JvmOverloads constructor(
      * @param useExternalHeading use external heading provided by an external sensor (e.g., IMU, gyroscope)
      */
     class MecanumLocalizer @JvmOverloads constructor(
-            private val drive: MecanumDrive,
-            private val useExternalHeading: Boolean = true
+        private val drive: MecanumDrive,
+        private val useExternalHeading: Boolean = true
     ) : Localizer {
         private var _poseEstimate = Pose2d()
         override var poseEstimate: Pose2d
@@ -55,18 +55,22 @@ abstract class MecanumDrive @JvmOverloads constructor(
             val extHeading = if (useExternalHeading) drive.externalHeading else Double.NaN
             if (lastWheelPositions.isNotEmpty()) {
                 val wheelDeltas = wheelPositions
-                        .zip(lastWheelPositions)
-                        .map { it.first - it.second }
+                    .zip(lastWheelPositions)
+                    .map { it.first - it.second }
                 val robotPoseDelta = MecanumKinematics.wheelToRobotVelocities(
-                        wheelDeltas, drive.trackWidth, drive.wheelBase, drive.lateralMultiplier
+                    wheelDeltas,
+                    drive.trackWidth,
+                    drive.wheelBase,
+                    drive.lateralMultiplier
                 )
-                val finalHeadingDelta = if (useExternalHeading)
+                val finalHeadingDelta = if (useExternalHeading) {
                     Angle.normDelta(extHeading - lastExtHeading)
-                else
+                } else {
                     robotPoseDelta.heading
+                }
                 _poseEstimate = Kinematics.relativeOdometryUpdate(
-                        _poseEstimate,
-                        Pose2d(robotPoseDelta.vec(), finalHeadingDelta)
+                    _poseEstimate,
+                    Pose2d(robotPoseDelta.vec(), finalHeadingDelta)
                 )
             }
 
@@ -74,7 +78,10 @@ abstract class MecanumDrive @JvmOverloads constructor(
             val extHeadingVel = drive.getExternalHeadingVelocity()
             if (wheelVelocities != null) {
                 poseVelocity = MecanumKinematics.wheelToRobotVelocities(
-                        wheelVelocities, drive.trackWidth, drive.wheelBase, drive.lateralMultiplier
+                    wheelVelocities,
+                    drive.trackWidth,
+                    drive.wheelBase,
+                    drive.lateralMultiplier
                 )
                 if (useExternalHeading && extHeadingVel != null) {
                     poseVelocity = Pose2d(poseVelocity!!.vec(), extHeadingVel)
@@ -90,16 +97,28 @@ abstract class MecanumDrive @JvmOverloads constructor(
 
     override fun setDriveSignal(driveSignal: DriveSignal) {
         val velocities = MecanumKinematics.robotToWheelVelocities(
-                driveSignal.vel, trackWidth, wheelBase, lateralMultiplier)
+            driveSignal.vel,
+            trackWidth,
+            wheelBase,
+            lateralMultiplier
+        )
         val accelerations = MecanumKinematics.robotToWheelAccelerations(
-                driveSignal.accel, trackWidth, wheelBase, lateralMultiplier)
+            driveSignal.accel,
+            trackWidth,
+            wheelBase,
+            lateralMultiplier
+        )
         val powers = Kinematics.calculateMotorFeedforward(velocities, accelerations, kV, kA, kStatic)
         setMotorPowers(powers[0], powers[1], powers[2], powers[3])
     }
 
     override fun setDrivePower(drivePower: Pose2d) {
         val powers = MecanumKinematics.robotToWheelVelocities(
-                drivePower, 1.0, 1.0, lateralMultiplier)
+            drivePower,
+            1.0,
+            1.0,
+            lateralMultiplier
+        )
         setMotorPowers(powers[0], powers[1], powers[2], powers[3])
     }
 
@@ -120,4 +139,3 @@ abstract class MecanumDrive @JvmOverloads constructor(
      */
     open fun getWheelVelocities(): List<Double>? = null
 }
-

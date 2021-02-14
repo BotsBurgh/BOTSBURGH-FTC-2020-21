@@ -9,6 +9,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -39,9 +40,6 @@ import org.firstinspires.ftc.teamcode.API.Util.AxesSigns;
 import org.firstinspires.ftc.teamcode.API.Util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.API.Util.DashboardUtil;
 import org.firstinspires.ftc.teamcode.API.Util.LynxModuleUtil;
-import org.firstinspires.ftc.teamcode.API.Util.MecanumDrive;
-import org.firstinspires.ftc.teamcode.API.Util.MecanumKinematics;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,11 +65,11 @@ public class SampleMecanumDrive extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 4;
+    public static double LATERAL_MULTIPLIER = 1;
 
-    public static double VX_WEIGHT = 4;
-    public static double VY_WEIGHT = 4;
-    public static double OMEGA_WEIGHT = 4;
+    public static double VX_WEIGHT = 1;
+    public static double VY_WEIGHT = 1;
+    public static double OMEGA_WEIGHT = 1;
 
     public static int POSE_HISTORY_LIMIT = 100;
 
@@ -292,7 +290,7 @@ public class SampleMecanumDrive extends MecanumDrive {
                 break;
             }
             case FOLLOW_TRAJECTORY: {
-                setDriveSignal(follower.update(currentPose));
+                setDriveSignal(follower.update(currentPose, getPoseVelocity()));
 
                 Trajectory trajectory = follower.getTrajectory();
 
@@ -389,14 +387,6 @@ public class SampleMecanumDrive extends MecanumDrive {
             wheelVelocities.add(encoderTicksToInches(motor.getVelocity()));
         }
         return wheelVelocities;
-    }
-
-    @Override
-    public void setDrivePower(@NotNull Pose2d drivePower) {
-        List<Double> powers = MecanumKinematics.robotToWheelVelocities(
-                drivePower, 1.0, 1.0, 1);
-        Robot.movement.move4x4(powers.get(0), powers.get(3), powers.get(1), powers.get(2));
-
     }
 
     @Override
