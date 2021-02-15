@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
+import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.API.Util.LoggingUtil;
 import org.firstinspires.ftc.teamcode.API.Util.RegressionUtil;
@@ -45,6 +46,8 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
         }
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        InitRobot.init(this);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
