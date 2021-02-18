@@ -119,8 +119,8 @@ public class Sensor {
     private VuforiaTrackables targetsSkyStone;
     @Getter TFObjectDetector tfod;
 
-    // To get this to work, copy the file VuForiaKey.java.example to VuForiaKey.java and add your key in that file.
-    //private static final String VUFORIA_KEY = VuForiaKey.VUFORIAKEY;
+    // To get this to work, copy the file VuForiaKey.java.java.example to VuForiaKey.java.java and add your key in that file.
+    //private static final String VUFORIA_KEY = VuForiaKey.java.VUFORIAKEY;
 
     // Since ImageTarget trackables use mm to specify their dimensions, we must use mm for all the physical dimension.
     // We will define some constants and conversions here
