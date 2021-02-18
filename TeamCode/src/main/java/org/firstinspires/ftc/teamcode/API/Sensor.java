@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -264,6 +265,11 @@ public class Sensor {
     public static Encoder getEncoder(String id) {
         return encoders.get(id);
     }
+
+    public CameraName getWebcam(String id) {
+        return webcams.get(id);
+    }
+
 
     /**
      * Initializes the gyroscope.
