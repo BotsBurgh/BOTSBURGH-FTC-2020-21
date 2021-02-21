@@ -34,14 +34,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
-import org.firstinspires.ftc.teamcode.API.Config.VuForiaKey;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
+import org.firstinspires.ftc.teamcode.BuildConfig;
 
 import java.util.List;
 
@@ -74,7 +73,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
      */
-    private static final String VUFORIA_KEY = VuForiaKey.VUFORIAKEY;
+    private static final String VUFORIA_KEY = BuildConfig.VUFORIA_KEY;
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
