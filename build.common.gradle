@@ -69,7 +69,13 @@ android {
         //
         versionCode vCode
         versionName vName
-        buildConfigField "String" , "VUFORIA_KEY" ,  "$VUFORIA_KEY"
+        def vuForiaKey = System.getenv("VUFORIA_KEY")
+        if (vuForiaKey == null) {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            vuForiaKey = properties.getProperty('VUFORIA_KEY')?:""
+        }
+        buildConfigField "String" , "VUFORIA_KEY" ,  vuForiaKey
     }
 
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed
