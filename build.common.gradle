@@ -73,7 +73,7 @@ android {
         if (vuForiaKey == null) {
             Properties properties = new Properties()
             properties.load(project.rootProject.file('local.properties').newDataInputStream())
-            vuForiaKey = properties.getProperty('VUFORIA_KEY')?:""
+            vuForiaKey = properties.getProperty('VUFORIA_KEY')?:"\"\""
         }
         buildConfigField "String" , "VUFORIA_KEY" ,  vuForiaKey
     }
