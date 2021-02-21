@@ -7,7 +7,7 @@ licenses:
 before_install:
   - yes | sdkmanager --update
 env:
-  - VUFORIA_KEY=""
+  - VUFORIA_KEY="\"\""
 android:
   components:
   - tools
