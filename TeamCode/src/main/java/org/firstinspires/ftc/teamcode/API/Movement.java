@@ -17,6 +17,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
@@ -203,5 +204,26 @@ public class Movement {
         } else {
             Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_CLOSE);
         }
+    }
+
+
+    public void armOut() {
+        SmartMotor arm = Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM);
+        arm.setDirection(DcMotor.Direction.FORWARD);
+        for (int tick = 0; tick < 300; tick++) {
+            arm.setTargetPosition(tick);
+            arm.setPower(-0.7*Math.sin((Math.PI*tick)/(200*2)) + 1);
+        }
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    }
+
+    public void armIn() {
+        SmartMotor arm = Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM);
+        arm.setDirection(DcMotor.Direction.REVERSE);
+        for (int tick = 0; tick < 300; tick++) {
+            arm.setTargetPosition(tick);
+            arm.setPower(-0.7*Math.sin((Math.PI*tick)/(200*2)) + 1);
+        }
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 }
