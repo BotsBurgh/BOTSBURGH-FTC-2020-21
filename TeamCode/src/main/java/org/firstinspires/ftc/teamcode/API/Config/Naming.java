@@ -11,9 +11,10 @@ public class Naming {
     public static final String MOTOR_BL                           = "bl";
     public static final String MOTOR_FR                           = "fr";
     public static final String MOTOR_BR                           = "br";
+    public static final String MOTOR_WOBBLE_ARM                   = "wobbleArm";
 
     public static final String SERVO_WOBBLE_GRABBER               = "wobbleGrabber";
-    public static final String SERVO_WOBBLE_ARM                   = "wobbleArm";
+    public static final String SERVO_WOBBLE_ARM                   = "";
     public static final String SERVO_LAUNCHER                     = "launcher";
 
     public static final String COLOR_SENSOR_PARK                  = "parkSensor";
@@ -23,7 +24,7 @@ public class Naming {
 
     public static final String WEBCAM_0                           = "Webcam 1";
 
-    public static final String ENCODER_LATERAL                    = "lateralEncoder";
+    public static final String ENCODER_LATERAL                    = "fr";
     public static final String ENCODER_LEFT                       = "leftEncoder";
     public static final String ENCODER_RIGHT                      = "rightEncoder";
 

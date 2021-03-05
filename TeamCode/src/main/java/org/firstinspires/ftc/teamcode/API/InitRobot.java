@@ -49,6 +49,7 @@ public class InitRobot {
         SmartMotor flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
         SmartMotor intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
         SmartMotor intake2 = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_INTAKE2));
+        SmartMotor wobbleArm = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_WOBBLE_ARM));
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -63,15 +64,16 @@ public class InitRobot {
         motors.put(Naming.MOTOR_FLYWHEEL, flywheel);
         motors.put(Naming.MOTOR_INTAKE, intake);
         motors.put(Naming.MOTOR_INTAKE2, intake2);
+        motors.put(Naming.MOTOR_WOBBLE_ARM, wobbleArm);
 
         // Get servos
-        SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM));
+        //SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM));
         SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER));
         SmartServo launcher = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_LAUNCHER));
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
-        servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
+        //servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
         servos.put(Naming.SERVO_WOBBLE_GRABBER, wobbleGrabber);
         servos.put(Naming.SERVO_LAUNCHER, launcher);
 
@@ -108,6 +110,10 @@ public class InitRobot {
             fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
+
+        wobbleArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        wobbleArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wobbleArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         // Switch direction of servo
         //rotate.setDirection(Servo.Direction.REVERSE);
