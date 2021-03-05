@@ -21,6 +21,8 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
@@ -98,8 +100,13 @@ public class TeleOpMain extends LinearOpMode {
                 Robot.movement.grabWobble(false);
             }
 
-            // Launch async because we don't want the robot to hang while it does stuff
             Robot.movement.launch(gamepad2.left_bumper);
+
+            if (gamepad2.dpad_down) {
+                armOut();
+            } else if (gamepad2.dpad_up) {
+                armIn();
+            }
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);
@@ -107,6 +114,23 @@ public class TeleOpMain extends LinearOpMode {
             telemetry.addData("Front Right", frPower);
             telemetry.addData("Flywheel", Robot.movement.getMotor(Naming.MOTOR_FLYWHEEL).getPower());
             telemetry.update();
+        }
+    }
+    public void armOut() {
+        Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).setDirection(DcMotorSimple.Direction.FORWARD);
+        for (int tick = 71; tick < 720; tick++) {
+            Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).setTargetPosition(tick);
+            Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).setPower(-Math.sin(Math.PI*tick/1440) + 1);
+            sleep(10);
+        }
+    }
+
+    public void armIn() {
+        Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).setDirection(DcMotorSimple.Direction.REVERSE);
+        for (int tick = 0; tick < 720-71; tick++) {
+            Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).setTargetPosition(tick);
+            Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).setPower(-Math.sin(Math.PI*tick/1440) + 1);
+            sleep(10);
         }
     }
 }
