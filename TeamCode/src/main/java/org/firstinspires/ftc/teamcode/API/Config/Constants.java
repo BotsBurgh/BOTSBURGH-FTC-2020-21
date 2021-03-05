@@ -50,8 +50,8 @@ public class Constants {
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling). All distance units are inches.
      */
-    public static double MAX_VEL = 40.0;
-    public static double MAX_ACCEL = 40.0;
+    public static double MAX_VEL = 30.0;
+    public static double MAX_ACCEL = 20.0;
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
     public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
 

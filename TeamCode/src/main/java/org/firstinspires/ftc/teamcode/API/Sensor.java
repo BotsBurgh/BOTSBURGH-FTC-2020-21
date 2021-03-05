@@ -23,7 +23,9 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
@@ -335,6 +337,18 @@ public class Sensor {
         hsv[2] = max;
 
         return hsv;
+    }
+
+    // Computes the current battery voltage
+    public double getBatteryVoltage(HardwareMap.DeviceMapping<VoltageSensor> voltageSensors) {
+        double result = Double.POSITIVE_INFINITY;
+        for (VoltageSensor sensor : voltageSensors) {
+            double voltage = sensor.getVoltage();
+            if (voltage > 0) {
+                result = Math.min(result, voltage);
+            }
+        }
+        return result;
     }
 }
 

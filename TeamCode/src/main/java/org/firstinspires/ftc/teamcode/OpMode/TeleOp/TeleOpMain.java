@@ -21,6 +21,8 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.BatteryChecker;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
@@ -60,9 +62,18 @@ public class TeleOpMain extends LinearOpMode {
             double frPower = Range.clip((-x1 - y1 - rotation), -maxspeed, maxspeed);
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
-            Robot.movement.moveFlywheel(Math.log10(gamepad2.left_trigger*9+1));
+            //Robot.movement.moveFlywheel(Math.log10(gamepad2.left_trigger*9+1));
+            if (gamepad2.left_trigger < 0.33) {
+                Robot.movement.moveFlywheel(0);
+            } else if (gamepad2.left_trigger < 0.66) {
+                Robot.movement.moveFlywheel(10.0/Robot.sensor.getBatteryVoltage(hardwareMap.voltageSensor));
+            } else if (gamepad2.left_trigger <= 1) {
+                Robot.movement.moveFlywheel(11.27/Robot.sensor.getBatteryVoltage(hardwareMap.voltageSensor));
+            } else {
+                Robot.movement.moveFlywheel(0);
+            }
             Robot.movement.moveIntake(gamepad2.right_trigger);
-            Robot.movement.moveIntake((gamepad2.right_bumper ? -1 : 0));
+            Robot.movement.moveIntake((gamepad2.left_bumper ? -1 : 0));
             
             if (gamepad1.left_bumper) {
                 if (brakeSwitch) {
@@ -99,7 +110,7 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             // Launch async because we don't want the robot to hang while it does stuff
-            Robot.movement.launch(gamepad2.left_bumper);
+            Robot.movement.launch(gamepad2.right_bumper);
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);

@@ -40,7 +40,7 @@ public class Movement {
     private final static double ELEVATOR_POWER   = 1.00;
     
     // Motor configuration
-    private final static double INTAKE2_THRESH   = 0.8;
+    private final static double INTAKE2_THRESH   = 1.0;
 
     // Servo configuration
     private final static int    SERVO_SLEEP      = 10; // Milliseconds

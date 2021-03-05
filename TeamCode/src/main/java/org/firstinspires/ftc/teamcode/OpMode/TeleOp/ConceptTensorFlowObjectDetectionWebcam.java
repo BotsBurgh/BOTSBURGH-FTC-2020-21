@@ -29,7 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.OpMode.TeleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -41,6 +41,7 @@ import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 import org.firstinspires.ftc.teamcode.BuildConfig;
+import org.firstinspires.ftc.teamcode.R;
 
 import java.util.List;
 
@@ -55,7 +56,6 @@ import java.util.List;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-@Disabled
 public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
@@ -111,6 +111,8 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
             tfod.setZoom(2.5, 16.0/9.0);
         }
 
+        FtcDashboard.getInstance().startCameraStream(vuforia, 0);
+
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
@@ -151,10 +153,11 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = Robot.sensor.getWebcam(Naming.WEBCAM_0);
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
