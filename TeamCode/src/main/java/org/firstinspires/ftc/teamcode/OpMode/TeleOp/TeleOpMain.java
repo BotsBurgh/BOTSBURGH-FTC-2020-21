@@ -98,9 +98,9 @@ public class TeleOpMain extends LinearOpMode {
 
             // Moving the wobble
             if (gamepad2.x) {
-                Robot.movement.moveWobble(true);
+                Robot.movement.moveArm(true);
             } else if (gamepad2.y) {
-                Robot.movement.moveWobble(false);
+                Robot.movement.moveArm(false);
             }
             
             if (gamepad2.a) {
@@ -110,12 +110,6 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             Robot.movement.launch(gamepad2.right_bumper);
-
-            if (gamepad2.dpad_down) {
-                Robot.movement.armOut();
-            } else if (gamepad2.dpad_up) {
-                Robot.movement.armIn();
-            }
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);

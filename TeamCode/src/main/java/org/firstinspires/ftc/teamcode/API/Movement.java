@@ -18,6 +18,7 @@ package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
@@ -58,6 +59,8 @@ public class Movement {
     private final static double FOUNDATION_CLOSE = 0.95;
     private final static double LAUNCHER_OPEN    = 0.6;
     private final static double LAUNCHER_CLOSE   = 1;
+    private final static double ARM_POWER_THRESH = 0.7;
+    private final static double ARM_TICKS        = 300;
 
     public static HashMap<String, SmartMotor> motors;
     public static HashMap<String, SmartServo> servos;
@@ -177,18 +180,6 @@ public class Movement {
      * Opens the grabber based on a boolean assignment
      * @param command tue to open
      */
-    public void moveWobble(boolean command) {
-        if (command) {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_IN); // Opens the grabber
-        } else {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_OUT); // Closes the grabber
-        }
-    }
-
-    /**
-     * Opens the grabber based on a boolean assignment
-     * @param command tue to open
-     */
     public void grabWobble(boolean command) {
         if (command) {
             Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_GRABBER)).setPosition(WOBBLE_GRAB); // Opens the grabber
@@ -206,23 +197,20 @@ public class Movement {
         }
     }
 
-
-    public void armOut() {
-        SmartMotor arm = Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM);
-        arm.setDirection(DcMotor.Direction.FORWARD);
-        for (int tick = 0; tick < 300; tick++) {
-            arm.setTargetPosition(tick);
-            arm.setPower(-0.7*Math.sin((Math.PI*tick)/(200*2)) + 1);
+    /**
+     * Opens the arm out based on the boolean assignment
+     * @param command true to open the arm out
+     */
+    public void moveArm(boolean command) {
+        SmartMotor arm = Objects.requireNonNull(motors.get(Naming.MOTOR_WOBBLE_ARM));
+        if (command) {
+            arm.setDirection(DcMotor.Direction.FORWARD);
+        } else {
+            arm.setDirection(DcMotor.Direction.REVERSE);
         }
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-    }
-
-    public void armIn() {
-        SmartMotor arm = Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM);
-        arm.setDirection(DcMotor.Direction.REVERSE);
-        for (int tick = 0; tick < 300; tick++) {
+        for (int tick = 0; tick < ARM_TICKS; tick++) {
             arm.setTargetPosition(tick);
-            arm.setPower(-0.7*Math.sin((Math.PI*tick)/(200*2)) + 1);
+            arm.setPower(-ARM_POWER_THRESH*Math.sin((Math.PI*tick)/(ARM_TICKS*2)) + 1);
         }
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
