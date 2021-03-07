@@ -69,10 +69,10 @@ public class PowerShot extends LinearOpMode {
 
         // Shoot the first disk
         Robot.shootAuto(Naming.MOTOR_FLYWHEEL, Naming.SERVO_LAUNCHER, 0.8, 1);
-        drive.turn(-0.35*TURNFUDGE);
+        drive.turn(-0.3*TURNFUDGE);
         // Shoot again
         Robot.shootAuto(Naming.MOTOR_FLYWHEEL, Naming.SERVO_LAUNCHER, 0.8, 1);
-        drive.turn(-0.3*TURNFUDGE);
+        drive.turn(-0.2*TURNFUDGE);
         // And again
         Robot.shootAuto(Naming.MOTOR_FLYWHEEL, Naming.SERVO_LAUNCHER, 0.8, 1);
         //drive.turn(0.3*TURNFUDGE);

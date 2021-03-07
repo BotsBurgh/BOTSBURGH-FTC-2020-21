@@ -46,7 +46,7 @@ public class Robot {
     
     public static void shootAuto(String flywheel, String launcher, double power, int count) {
         // Power up flywheel
-        movement.moveFlywheel(power);
+        movement.moveFlywheel(10.00/Robot.sensor.getBatteryVoltage(linearOpMode.hardwareMap.voltageSensor));
         linearOpMode.sleep(500);
         for (int i =  0; i < count; i++) {
             movement.launch(true);
