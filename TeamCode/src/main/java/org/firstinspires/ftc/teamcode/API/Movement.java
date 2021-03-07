@@ -95,6 +95,15 @@ public class Movement {
     }
 
     /**
+     * Moves each of the four motors individually. Best for mecanum drives.
+     * @param power Power to all the wheels
+     */
+    public void move1x4(double power) {
+        move4x4(power,power,power,power);
+    }
+
+
+    /**
      * Move the base with four motors based on individual sides, not wheels
      * @param lPower Power to the left side
      * @param rPower Power to the right side

@@ -25,11 +25,33 @@ import lombok.Builder;
  * Use like so: Robot robot = new Robot(new Sensor(whatever), new Movement(whatever));
  * Refer to Movement and Sensor classes for more information on what those classes do.
  * NOTE: You really should edit this file to suit your robot. If you find an error occurring here,
- * add it to our GitHub issues page at https://github.com/botsburgh/BOTSBURGH-FTC-2019-20/issues
+ * add it to our GitHub issues page at https://github.com/botsburgh/BOTSBURGH-FTC-2020-21/issues
  */
 @Builder
 public class Robot {
     public static Sensor sensor;
     public static Movement movement;
     public static LinearOpMode linearOpMode;
+    public static void whiteLine(double redFudge, double greenFudge, double blueFudge, String sensor, double power) {
+        while (true) {
+            Sensor.Colors color = Robot.sensor.getRGB(sensor, redFudge, greenFudge, blueFudge);
+            if (color == Sensor.Colors.WHITE) {
+                movement.move1x4(0);
+                break;
+            } else {
+                movement.move1x4(power);
+            }
+        }
+    }
+    
+    public static void shootAuto(String flywheel, String launcher, double power, int count) {
+        // Power up flywheel
+        movement.moveFlywheel(power);
+        linearOpMode.sleep(500);
+        for (int i =  0; i < count; i++) {
+            movement.launch(true);
+            linearOpMode.sleep(500);
+            movement.launch(false);
+        }
+    }
 }
