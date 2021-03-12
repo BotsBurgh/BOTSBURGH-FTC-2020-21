@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.API.Config;
 
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.API.Sensor;
+
 public class Constants {
     /*
      * These are motor constants that should be listed online for your motors.
@@ -76,6 +78,9 @@ public class Constants {
     public static final double ARM_RED_FUDGE   = 25*4;
     public static final double ARM_GREEN_FUDGE = 15*4;
     public static final double ARM_BLUE_FUDGE  = 15*4;
+    
+    public static final Sensor.Colors ARM_EXTEND_COLOR = Sensor.Colors.RED;
+    public static final Sensor.Colors ARM_CLOSE_COLOR = Sensor.Colors.BLUE;
 
     // Motor power config
     public static final double MOTOR_ARM_POWER = 0.6;

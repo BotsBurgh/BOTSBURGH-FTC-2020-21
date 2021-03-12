@@ -40,7 +40,7 @@ public class Robot {
     public static LinearOpMode linearOpMode;
     public static void whiteLine(String sensor, double power) {
         while (true) {
-            Sensor.Colors color = Robot.sensor.getRGB(sensor);
+            Sensor.Colors color = Sensor.getRGB(sensor);
             if (color == Sensor.Colors.WHITE) {
                 movement.move1x4(0);
                 break;
@@ -63,20 +63,26 @@ public class Robot {
     
     public static void moveArm(boolean command, String sensor, String arm) {
         SmartMotor armMotor = Movement.getMotor(arm);
-        Sensor.Colors target;
+        Sensor.Colors target, current;
 
         if (command) {
             armMotor.setDirection(DcMotor.Direction.FORWARD);
-            target = Sensor.Colors.RED;
+            target = Constants.ARM_EXTEND_COLOR;
+            current = Constants.ARM_CLOSE_COLOR;
         } else {
             armMotor.setDirection(DcMotor.Direction.REVERSE);
-            target = Sensor.Colors.BLUE;
+            target = Constants.ARM_CLOSE_COLOR;
+            current = Constants.ARM_EXTEND_COLOR;
         }
         
         long end = System.currentTimeMillis() + 5000;
-
-        while ((Sensor.getRGB(sensor) != target) && (!linearOpMode.isStopRequested()) && (System.currentTimeMillis() < end)) {
-            armMotor.setPower(Constants.MOTOR_ARM_POWER);
+        
+        if (Sensor.getRGB(sensor) != current) {
+            while ((Sensor.getRGB(sensor) != target) &&
+                    (!linearOpMode.isStopRequested()) &&
+                    (System.currentTimeMillis() < end)) {
+                armMotor.setPower(Constants.MOTOR_ARM_POWER);
+            }
         }
         
         armMotor.setPower(0);
