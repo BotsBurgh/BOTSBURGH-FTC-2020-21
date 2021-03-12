@@ -35,7 +35,7 @@ public class WhiteLine extends LinearOpMode {
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData(">", "Press stop");
-            Sensor.Colors color = Robot.sensor.getRGB(Naming.COLOR_SENSOR_PARK, REDFUDGE, GREENFUDGE, BLUEFUDGE);
+            Sensor.Colors color = Robot.sensor.getRGB(Naming.COLOR_SENSOR_PARK);
             if (color == Sensor.Colors.WHITE) {
                 Robot.movement.move4x4(0,0,0,0);
                 requestOpModeStop();

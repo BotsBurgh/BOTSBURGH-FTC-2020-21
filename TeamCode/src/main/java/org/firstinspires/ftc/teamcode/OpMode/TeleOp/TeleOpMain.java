@@ -27,6 +27,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
+import org.firstinspires.ftc.teamcode.API.Movement;
 import org.firstinspires.ftc.teamcode.API.Robot;
 
 @TeleOp(name = "TeleOp Main", group = "Linear OpMode")
@@ -77,15 +78,15 @@ public class TeleOpMain extends LinearOpMode {
             
             if (gamepad1.left_bumper) {
                 if (brakeSwitch) {
-                    Robot.movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    Robot.movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    Robot.movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    Robot.movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 } else {
-                    Robot.movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    Robot.movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    Robot.movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    Robot.movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
                 brakeSwitch = !brakeSwitch;
             }
@@ -98,9 +99,9 @@ public class TeleOpMain extends LinearOpMode {
 
             // Moving the wobble
             if (gamepad2.x) {
-                Robot.movement.moveArm(true);
+                Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
             } else if (gamepad2.y) {
-                Robot.movement.moveArm(false);
+                Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
             }
             
             if (gamepad2.a) {
@@ -115,8 +116,8 @@ public class TeleOpMain extends LinearOpMode {
             telemetry.addData("Back Right", brPower);
             telemetry.addData("Front Left", flPower);
             telemetry.addData("Front Right", frPower);
-            telemetry.addData("Flywheel", Robot.movement.getMotor(Naming.MOTOR_FLYWHEEL).getPower());
-            telemetry.addData("Wobble Arm", Robot.movement.getMotor(Naming.MOTOR_WOBBLE_ARM).getCurrentPosition());
+            telemetry.addData("Flywheel", Movement.getMotor(Naming.MOTOR_FLYWHEEL).getPower());
+            telemetry.addData("Wobble Arm", Movement.getMotor(Naming.MOTOR_WOBBLE_ARM).getCurrentPosition());
             telemetry.update();
         }
     }

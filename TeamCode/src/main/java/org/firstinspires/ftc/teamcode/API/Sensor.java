@@ -38,6 +38,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.API.HW.Encoder;
+import org.firstinspires.ftc.teamcode.API.HW.SmartColorSensor;
 
 import java.io.File;
 import java.util.HashMap;
@@ -60,29 +61,8 @@ public class Sensor {
     private static final double Vmax    = 0.004; // Minimum voltage
     private static final double Vmin    = 3.304; // Maximum voltage
 
-    // VuForia configuration
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK; // Back camera or front
-    private static final boolean PHONE_IS_PORTRAIT = true; // Set to true because our camera is rotated at 90 degrees
-    private final float CAMERA_FORWARD_DISPLACEMENT  = 7.88f  * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
-    private final float CAMERA_VERTICAL_DISPLACEMENT = 4.5f   * mmPerInch;   // eg: Camera is 8 Inches above ground
-    private final float CAMERA_LEFT_DISPLACEMENT     = 5.625f * mmPerInch;   // eg: Camera is ON the robot's center line
-
-    // Phone configuration
-    private static final float phoneXRotate    = 0;
-    private static final float phoneZRotate    = 9.5f;
-
-    // Color sensor configuration
-    // TODO: implement
     private static final double BLACK_THRESH  = 0.2;
     private static final double WHITE_THRESH  = 0.9;
-    private static final double RED_THRESH    = 600;
-    private static final double ORANGE_THRESH = 600;
-    private static final double YELLOW_THRESH = 600;
-    private static final double GREEN_THRESH  = 600;
-    private static final double BLUE_THRESH   = 600;
-    private static final double PURPLE_THRESH = 600;
-
-    private static final double THRESH_LIMIT = 0.15;
 
     /*
         ######  #######    #     # ####### #######    ####### ######  ### #######
@@ -154,7 +134,7 @@ public class Sensor {
     public static HashMap<String, BNO055IMU> gyros; // Initialize gyroscopes
     public static HashMap<String, AnalogInput> pots; // Initialize potentiometers
     public static HashMap<String, DigitalChannel> buttons; // Initialize buttons
-    public static HashMap<String, NormalizedColorSensor> colorSensors; // Initialize color sensors
+    public static HashMap<String, SmartColorSensor> colorSensors; // Initialize color sensors
     public static HashMap<String, DistanceSensor> distances; // Initialize distance sensors
     public static HashMap<String, WebcamName> webcams; // Initialize webcams
     public static HashMap<String, Encoder> encoders; // Special encoders
@@ -176,7 +156,12 @@ public class Sensor {
      * Gets the RGB value of the color sensor
      * @return enum for color
      */
-    public Colors getRGB(String id, double redFudge, double greenFudge, double blueFudge) {
+    public static Colors getRGB(String id) {
+        SmartColorSensor sensor = Objects.requireNonNull(colorSensors.get(id));
+        double redFudge = sensor.getRedFudge();
+        double greenFudge = sensor.getGreenFudge();
+        double blueFudge = sensor.getBlueFudge();
+
         float[] hsv = new float[3];
         Color.RGBToHSV(
                 (int) Range.clip(getRed(id) * 255 * redFudge, 0, 255),
@@ -224,7 +209,7 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects red or not
      */
-    public double getRed(String id) {
+    public static double getRed(String id) {
         return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().red;
     }
 
@@ -233,7 +218,7 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects green or not
      */
-    public double getGreen(String id) {
+    public static double getGreen(String id) {
         return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().green;
     }
 
@@ -242,8 +227,12 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects blue or not
      */
-    public double getBlue(String id) {
+    public static double getBlue(String id) {
         return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().blue;
+    }
+    
+    public static SmartColorSensor getColorSensor(String id) {
+        return Objects.requireNonNull(colorSensors.get(id));
     }
 
     /**

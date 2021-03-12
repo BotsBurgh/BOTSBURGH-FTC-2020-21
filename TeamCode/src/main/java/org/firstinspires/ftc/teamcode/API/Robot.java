@@ -17,6 +17,12 @@
 package org.firstinspires.ftc.teamcode.API;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.API.Config.Constants;
+import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
+
+import java.util.Timer;
 
 import lombok.Builder;
 
@@ -32,9 +38,9 @@ public class Robot {
     public static Sensor sensor;
     public static Movement movement;
     public static LinearOpMode linearOpMode;
-    public static void whiteLine(double redFudge, double greenFudge, double blueFudge, String sensor, double power) {
+    public static void whiteLine(String sensor, double power) {
         while (true) {
-            Sensor.Colors color = Robot.sensor.getRGB(sensor, redFudge, greenFudge, blueFudge);
+            Sensor.Colors color = Robot.sensor.getRGB(sensor);
             if (color == Sensor.Colors.WHITE) {
                 movement.move1x4(0);
                 break;
@@ -53,5 +59,26 @@ public class Robot {
             linearOpMode.sleep(500);
             movement.launch(false);
         }
+    }
+    
+    public static void moveArm(boolean command, String sensor, String arm) {
+        SmartMotor armMotor = Movement.getMotor(arm);
+        Sensor.Colors target;
+
+        if (command) {
+            armMotor.setDirection(DcMotor.Direction.FORWARD);
+            target = Sensor.Colors.RED;
+        } else {
+            armMotor.setDirection(DcMotor.Direction.REVERSE);
+            target = Sensor.Colors.BLUE;
+        }
+        
+        long end = System.currentTimeMillis() + 5000;
+
+        while ((Sensor.getRGB(sensor) != target) && (!linearOpMode.isStopRequested()) && (System.currentTimeMillis() < end)) {
+            armMotor.setPower(Constants.MOTOR_ARM_POWER);
+        }
+        
+        armMotor.setPower(0);
     }
 }

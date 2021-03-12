@@ -67,4 +67,16 @@ public class Constants {
         // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
         return 32767 / ticksPerSecond;
     }
+
+    // Color sensor configuration
+    public static final double PARK_RED_FUDGE   = 250;
+    public static final double PARK_GREEN_FUDGE = 150;
+    public static final double PARK_BLUE_FUDGE  = 150;
+
+    public static final double ARM_RED_FUDGE   = 25*4;
+    public static final double ARM_GREEN_FUDGE = 15*4;
+    public static final double ARM_BLUE_FUDGE  = 15*4;
+
+    // Motor power config
+    public static final double MOTOR_ARM_POWER = 0.6;
 }

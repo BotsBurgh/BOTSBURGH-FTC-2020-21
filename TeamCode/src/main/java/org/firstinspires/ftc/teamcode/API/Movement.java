@@ -47,20 +47,10 @@ public class Movement {
     // Servo configuration
     private final static int    SERVO_SLEEP      = 10; // Milliseconds
     private final static double SERVO_STEP       = 0.01;  // on a scale of  0-1
-    private final static double GRABBER_OPEN     = 0; // on a scale of  0-1
-    private final static double GRABBER_CLOSE    = 0.65; // on a scale of  0-1
-    private final static double WOBBLE_IN        = 0.75; // on a scale of  0-1
-    private final static double WOBBLE_OUT       = 0.3; // on a scale of  0-1
-    private final static double WOBBLE_GRAB      = 1;
+    private final static double WOBBLE_GRAB      = 0.3;
     private final static double WOBBLE_RELEASE   = 0;
-    private final static double SWIVEL_OPEN      = 0; // on a scale of  0-1
-    private final static double SWIVEL_CLOSE     = 1; // on a scale of  0-1
-    private final static double FOUNDATION_OPEN  = 0.3;
-    private final static double FOUNDATION_CLOSE = 0.95;
     private final static double LAUNCHER_OPEN    = 0.6;
     private final static double LAUNCHER_CLOSE   = 1;
-    private final static double ARM_POWER_THRESH = 0.7;
-    private final static double ARM_TICKS        = 300;
 
     public static HashMap<String, SmartMotor> motors;
     public static HashMap<String, SmartServo> servos;
@@ -68,7 +58,7 @@ public class Movement {
 
     // Getters
 
-    public SmartMotor getMotor(String id) {
+    public static SmartMotor getMotor(String id) {
         return motors.get(id);
     }
 
@@ -204,23 +194,5 @@ public class Movement {
         } else {
             Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_CLOSE);
         }
-    }
-
-    /**
-     * Opens the arm out based on the boolean assignment
-     * @param command true to open the arm out
-     */
-    public void moveArm(boolean command) {
-        SmartMotor arm = Objects.requireNonNull(motors.get(Naming.MOTOR_WOBBLE_ARM));
-        if (command) {
-            arm.setDirection(DcMotor.Direction.FORWARD);
-        } else {
-            arm.setDirection(DcMotor.Direction.REVERSE);
-        }
-        for (int tick = 0; tick < ARM_TICKS; tick++) {
-            arm.setTargetPosition(tick);
-            arm.setPower(-ARM_POWER_THRESH*Math.sin((Math.PI*tick)/(ARM_TICKS*2)) + 1);
-        }
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 }

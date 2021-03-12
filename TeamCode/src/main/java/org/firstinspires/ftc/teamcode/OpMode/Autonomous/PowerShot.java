@@ -22,12 +22,7 @@ import org.firstinspires.ftc.teamcode.API.Sensor;
 @Config
 @Autonomous(name="Power Shot", group = "drive")
 public class PowerShot extends LinearOpMode {
-    public static double FUDGE = 10;
-    public static double REDFUDGE   = 25*FUDGE;
-    public static double GREENFUDGE = 15*FUDGE;
-    public static double BLUEFUDGE  = 15*FUDGE;
     public static double DRIVEFUDGE = 60.0/42;
-    public static double DRIVEX     = 15;
     public static double DRIVEY     = 15;
     public static double TURNFUDGE  = 180.0/150;
     @Override
@@ -44,20 +39,8 @@ public class PowerShot extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
 
-        // Move away from the wall
-        //Robot.movement.move4x4(0.3,0.3,0.3,0.3);
-        //sleep(500);
-        //Robot.movement.move4x4(0,0,0,0);
-
-        // Move right a little so we are aligned with the power shots
-        Trajectory traj = drive.trajectoryBuilder(new Pose2d())
-                .strafeLeft(DRIVEX*DRIVEFUDGE) // we tell it to go left, but it goes right. whatever
-                .build();
-
-        //drive.followTrajectory(traj);
-
         // Go to the white line
-        Robot.whiteLine(REDFUDGE, GREENFUDGE, BLUEFUDGE, Naming.COLOR_SENSOR_PARK, 0.4);
+        Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
 
         // Move so we are in the launch zone
         Trajectory moveback = drive.trajectoryBuilder(new Pose2d())
@@ -77,6 +60,6 @@ public class PowerShot extends LinearOpMode {
         Robot.shootAuto(Naming.MOTOR_FLYWHEEL, Naming.SERVO_LAUNCHER, 0.8, 1);
         //drive.turn(0.3*TURNFUDGE);
         // Go back to the white line and park
-        Robot.whiteLine(REDFUDGE, GREENFUDGE, BLUEFUDGE, Naming.COLOR_SENSOR_PARK, 0.4);
+        Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
     }
 }

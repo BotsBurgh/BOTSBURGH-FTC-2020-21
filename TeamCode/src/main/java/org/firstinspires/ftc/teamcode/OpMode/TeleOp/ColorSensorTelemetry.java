@@ -10,8 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.HW.SmartColorSensor;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
+import org.firstinspires.ftc.teamcode.API.Sensor;
 
 /*
  * This is a simple program to reach the white line
@@ -19,14 +21,17 @@ import org.firstinspires.ftc.teamcode.API.Robot;
 @Config
 @TeleOp(name="Color Sensor Telemetry")
 public class ColorSensorTelemetry extends LinearOpMode {
-    private static final double REDFUDGE   = 25*30;
-    private static final double GREENFUDGE = 15*30;
-    private static final double BLUEFUDGE  = 15*30;
     @Override
     public void runOpMode() throws InterruptedException {
         InitRobot.init(this);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        SmartColorSensor sensor = Sensor.getColorSensor(Naming.COLOR_SENSOR_ARM);
+
+        double redFudge = sensor.getRedFudge();
+        double greenFudge = sensor.getGreenFudge();
+        double blueFudge = sensor.getBlueFudge();
+
 
         telemetry.addLine();
         telemetry.addData(">", "Press start");
@@ -36,9 +41,9 @@ public class ColorSensorTelemetry extends LinearOpMode {
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData(">", "Press stop");
-            int red   = (int) Range.clip(Robot.sensor.getRed(Naming.COLOR_SENSOR_PARK) * 255 * REDFUDGE, 0, 255);
-            int green = (int) Range.clip(Robot.sensor.getGreen(Naming.COLOR_SENSOR_PARK) * 255 * GREENFUDGE, 0, 255);
-            int blue  = (int) Range.clip(Robot.sensor.getBlue(Naming.COLOR_SENSOR_PARK) * 255 * BLUEFUDGE, 0, 255);
+            int red   = (int) Range.clip(Sensor.getRed(Naming.COLOR_SENSOR_ARM) * 255 * redFudge, 0, 255);
+            int green = (int) Range.clip(Sensor.getGreen(Naming.COLOR_SENSOR_ARM) * 255 * greenFudge, 0, 255);
+            int blue  = (int) Range.clip(Sensor.getBlue(Naming.COLOR_SENSOR_ARM) * 255 * blueFudge, 0, 255);
 
             float[] hsv = new float[3];
             Color.RGBToHSV(red, green, blue, hsv);
@@ -49,7 +54,7 @@ public class ColorSensorTelemetry extends LinearOpMode {
             telemetry.addData("Hue", hsv[0]);
             telemetry.addData("Saturation", hsv[1]);
             telemetry.addData("Value", hsv[2]);
-            telemetry.addData("Detected", Robot.sensor.getRGB(Naming.COLOR_SENSOR_PARK, REDFUDGE, GREENFUDGE, BLUEFUDGE));
+            telemetry.addData("Detected", Sensor.getRGB(Naming.COLOR_SENSOR_ARM));
 
             telemetry.update();
         }

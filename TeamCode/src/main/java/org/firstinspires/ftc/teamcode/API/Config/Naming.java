@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.API.Config;
 
+import org.firstinspires.ftc.teamcode.API.Sensor;
+
 /**
  * The Naming class makes it easier to prevent NullPointerExceptions when adding and getting items
  * from a HashMap or for Autonomous sides
@@ -18,6 +20,7 @@ public class Naming {
     public static final String SERVO_LAUNCHER                     = "launcher";
 
     public static final String COLOR_SENSOR_PARK                  = "parkSensor";
+    public static final String COLOR_SENSOR_ARM                   = "armSensor";
 
     public static final String GYRO_0                             = "imu";
     public static final String GYRO_1                             = "imu 1";
