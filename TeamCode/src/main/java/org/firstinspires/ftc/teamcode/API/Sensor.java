@@ -29,16 +29,21 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.Encoder;
 import org.firstinspires.ftc.teamcode.API.HW.SmartColorSensor;
+import org.firstinspires.ftc.teamcode.BuildConfig;
+import org.firstinspires.ftc.teamcode.R;
 
 import java.io.File;
 import java.util.HashMap;
@@ -95,41 +100,17 @@ public class Sensor {
 
     // VuForia global variables
     // Class Members
-    private OpenGLMatrix lastLocation;
-    private VuforiaLocalizer vuforia;
-    private List<VuforiaTrackable> allTrackables;
-    private VuforiaTrackables targetsSkyStone;
-    @Getter TFObjectDetector tfod;
 
-    // To get this to work, copy the file VuForiaKey.java.java.example to VuForiaKey.java.java and add your key in that file.
-    //private static final String VUFORIA_KEY = VuForiaKey.java.VUFORIAKEY;
 
-    // Since ImageTarget trackables use mm to specify their dimensions, we must use mm for all the physical dimension.
+    private static final String VUFORIA_KEY = BuildConfig.VUFORIA_KEY;
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
+
+    private static VuforiaLocalizer vuforia;
+    private static TFObjectDetector tfod;
+
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = (6) * mmPerInch; // the height of the center of the target image above the floor
-
-    // Constant for Stone Target
-    private static final float stoneZ = 2.00f * mmPerInch;
-
-    // Constants for the center support targets
-    private static final float bridgeZ = 6.42f * mmPerInch;
-    private static final float bridgeY = 23f   * mmPerInch;
-    private static final float bridgeX = 5.18f * mmPerInch;
-    private static final float bridgeRotY = 59; // Units are degrees
-    private static final float bridgeRotZ = 180;
-
-    // Constants for perimeter targets
-    private static final float halfField = 72 * mmPerInch;
-    private static final float quadField  = 36 * mmPerInch;
-
-    // VuForia object detection
-    private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
-
-    private boolean targetVisible;
-
     // TODO: Add more sensor capability
     public static HashMap<String, BNO055IMU> gyros; // Initialize gyroscopes
     public static HashMap<String, AnalogInput> pots; // Initialize potentiometers
@@ -150,6 +131,12 @@ public class Sensor {
         GRAY,
         BLACK,
         BROWN
+    }
+    
+    public enum Disks {
+        NONE,
+        ONE,
+        FOUR
     }
 
     /**
@@ -339,5 +326,50 @@ public class Sensor {
         }
         return result;
     }
-}
 
+    /**
+     * Initialize the Vuforia localization engine.
+     */
+    public static void initVuforia(String webcamName) {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = Robot.sensor.getWebcam(webcamName);
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+    }
+
+    /**
+     * Initialize the TensorFlow Object Detection engine.
+     */
+    public static void initTfod() {
+        int tfodMonitorViewId = Robot.linearOpMode.hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", Robot.linearOpMode.hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minResultConfidence = 0.8f;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+    
+    public static Disks detectDisks() {
+        if (tfod != null) {
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                // step through the list of recognitions and display boundary info.
+                for (Recognition recognition : updatedRecognitions) {
+                    if (recognition.getLabel().compareTo("Quad") == 0) {
+                        return Disks.FOUR;
+                    } else {
+                        return Disks.ONE;
+                    }
+                }
+            }
+        } 
+        return Disks.NONE;
+    }
+}
