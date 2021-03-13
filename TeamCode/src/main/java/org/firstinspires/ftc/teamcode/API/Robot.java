@@ -68,23 +68,19 @@ public class Robot {
         if (command) {
             armMotor.setDirection(DcMotor.Direction.FORWARD);
             target = Constants.ARM_EXTEND_COLOR;
-            current = Constants.ARM_CLOSE_COLOR;
         } else {
             armMotor.setDirection(DcMotor.Direction.REVERSE);
             target = Constants.ARM_CLOSE_COLOR;
-            current = Constants.ARM_EXTEND_COLOR;
         }
         
         long end = System.currentTimeMillis() + 5000;
         
-        if (Sensor.getRGB(sensor) != current) {
-            while ((Sensor.getRGB(sensor) != target) &&
-                    (!linearOpMode.isStopRequested()) &&
-                    (System.currentTimeMillis() < end)) {
-                armMotor.setPower(Constants.MOTOR_ARM_POWER);
-            }
+        while ((Sensor.getRGB(sensor) != target) &&
+                (!linearOpMode.isStopRequested()) &&
+                (System.currentTimeMillis() < end)) {
+            armMotor.setPower(Constants.MOTOR_ARM_POWER);
         }
-        
+
         armMotor.setPower(0);
     }
 }

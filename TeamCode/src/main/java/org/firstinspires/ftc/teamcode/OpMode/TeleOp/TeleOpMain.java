@@ -29,6 +29,7 @@ import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Movement;
 import org.firstinspires.ftc.teamcode.API.Robot;
+import org.firstinspires.ftc.teamcode.API.Sensor;
 
 @TeleOp(name = "TeleOp Main", group = "Linear OpMode")
 public class TeleOpMain extends LinearOpMode {
@@ -63,7 +64,6 @@ public class TeleOpMain extends LinearOpMode {
             double frPower = Range.clip((-x1 - y1 - rotation), -maxspeed, maxspeed);
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
-            //Robot.movement.moveFlywheel(Math.log10(gamepad2.left_trigger*9+1));
             if (gamepad2.left_trigger < 0.33) {
                 Robot.movement.moveFlywheel(0);
             } else if (gamepad2.left_trigger < 0.66) {
@@ -99,9 +99,13 @@ public class TeleOpMain extends LinearOpMode {
 
             // Moving the wobble
             if (gamepad2.x) {
-                Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+                if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.RED) {
+                    Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+                }
             } else if (gamepad2.y) {
-                Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+                if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.BLUE) {
+                    Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+                }
             }
             
             if (gamepad2.a) {
