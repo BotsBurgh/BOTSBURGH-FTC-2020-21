@@ -369,7 +369,7 @@ public class Sensor {
                     for (Recognition recognition : updatedRecognitions) {
                         if (recognition.getLabel().compareTo("Quad") == 0) {
                             return Disks.FOUR;
-                        } else {
+                        } else if (recognition.getLabel().compareTo("Single") == 0) {
                             return Disks.ONE;
                         }
                     }

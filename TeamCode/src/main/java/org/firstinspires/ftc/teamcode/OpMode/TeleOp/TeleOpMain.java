@@ -64,9 +64,9 @@ public class TeleOpMain extends LinearOpMode {
             double frPower = Range.clip((-x1 - y1 - rotation), -maxspeed, maxspeed);
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
-            if (gamepad2.left_trigger < 0.33) {
+            if (gamepad2.left_trigger < 0.1) {
                 Robot.movement.moveFlywheel(0);
-            } else if (gamepad2.left_trigger < 0.66) {
+            } else if (gamepad2.left_trigger < 0.9) {
                 Robot.movement.moveFlywheel(10.0/Robot.sensor.getBatteryVoltage(hardwareMap.voltageSensor));
             } else if (gamepad2.left_trigger <= 1) {
                 Robot.movement.moveFlywheel(11.27/Robot.sensor.getBatteryVoltage(hardwareMap.voltageSensor));
