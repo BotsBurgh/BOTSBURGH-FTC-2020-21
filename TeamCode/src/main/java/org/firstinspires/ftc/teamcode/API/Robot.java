@@ -50,7 +50,7 @@ public class Robot {
         }
     }
     
-    public static void shootAuto(String flywheel, String launcher, double power, int count) {
+    public static void shootAuto(int count) {
         // Power up flywheel
         movement.moveFlywheel(10.00/Robot.sensor.getBatteryVoltage(linearOpMode.hardwareMap.voltageSensor));
         linearOpMode.sleep(500);
@@ -63,7 +63,7 @@ public class Robot {
     
     public static void moveArm(boolean command, String sensor, String arm) {
         SmartMotor armMotor = Movement.getMotor(arm);
-        Sensor.Colors target, current;
+        Sensor.Colors target;
 
         if (command) {
             armMotor.setDirection(DcMotor.Direction.FORWARD);

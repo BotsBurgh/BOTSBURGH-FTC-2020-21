@@ -354,22 +354,28 @@ public class Sensor {
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        if (tfod != null) {
+            tfod.activate();
+            tfod.setZoom(1, 16.0/9.0);
+        }
     }
     
     public static Disks detectDisks() {
-        if (tfod != null) {
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                // step through the list of recognitions and display boundary info.
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLabel().compareTo("Quad") == 0) {
-                        return Disks.FOUR;
-                    } else {
-                        return Disks.ONE;
+        for (int i = 0; i<5000000; i++) {
+            if (tfod != null) {
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    // step through the list of recognitions and display boundary info.
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().compareTo("Quad") == 0) {
+                            return Disks.FOUR;
+                        } else {
+                            return Disks.ONE;
+                        }
                     }
                 }
             }
-        } 
+        }
         return Disks.NONE;
     }
 }
