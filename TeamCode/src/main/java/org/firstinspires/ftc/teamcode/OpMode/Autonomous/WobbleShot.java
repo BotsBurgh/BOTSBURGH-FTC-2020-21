@@ -45,58 +45,51 @@ public class WobbleShot extends LinearOpMode {
 
         telemetry.addData("Detected:", disks);
         telemetry.update();
-
-        drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).strafeRight(45*DRIVEFUDGE).build()); // Right 10
-
         // Go to the white line
         Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
-        
-        if (disks == Sensor.Disks.ONE) {
-            drive.turn(0.4*TURNFUDGE);
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).forward(20*DRIVEFUDGE).build()); // Forward 20
-        } else if (disks == Sensor.Disks.FOUR) {
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).forward(400*DRIVEFUDGE).build()); // Forward 40
-        } else {
-            drive.turn(-100*TURNFUDGE);
-        }
-        
-        Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
-        Robot.movement.grabWobble(false);
-        sleep(500);
-        Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
-
-        if (disks == Sensor.Disks.ONE) {
-            drive.turn(-0.8*TURNFUDGE);
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).forward(-25*DRIVEFUDGE).build()); // Backward 20
-            drive.turn(0.4*TURNFUDGE);
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).strafeRight(10*DRIVEFUDGE).build()); // Left 10
-        } else if (disks == Sensor.Disks.FOUR) {
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).forward(-400*DRIVEFUDGE).build()); // Backward 20
-            drive.turn(100*TURNFUDGE);
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).forward(-400*DRIVEFUDGE).build()); // Backward 20
-        } else {
-            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).back(-24*DRIVEFUDGE).build()); // Backward 24
-            drive.turn(100*TURNFUDGE);
-        }
 
         // Move so we are in the launch zone
         Trajectory moveback = drive.trajectoryBuilder(new Pose2d())
                 .back(DRIVEY*DRIVEFUDGE)
                 .build();
         drive.followTrajectory(moveback);
-
-        drive.turn(-0.1*TURNFUDGE);
+        drive.turn(0.1*TURNFUDGE);
 
         // Shoot the first disk
-        Robot.shootAuto(1);
-        drive.turn(-0.3*TURNFUDGE);
+        Robot.shootAuto( 1);
+        drive.turn(-0.25*TURNFUDGE);
         // Shoot again
         Robot.shootAuto(1);
-        drive.turn(-0.2*TURNFUDGE);
+        drive.turn(-0.3*TURNFUDGE);
         // And again
         Robot.shootAuto(1);
-        //drive.turn(0.3*TURNFUDGE);
         // Go back to the white line and park
         Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
+        Robot.movement.moveFlywheel(0);
+
+        drive.turn(-1.85*TURNFUDGE); // Roughly 90 degrees
+        Robot.driveToColor(Naming.COLOR_SENSOR_PARK, 0.4, Sensor.Colors.RED);
+        
+        if (disks == Sensor.Disks.ONE) {
+            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).strafeLeft(40).build());
+            Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+            Robot.wobbleDrop();
+            drive.followTrajectory(drive.trajectoryBuilder(new Pose2d()).strafeRight(40).build());
+        } else if (disks == Sensor.Disks.NONE) {
+            drive.turn(-2*TURNFUDGE); // Roughly 90 degrees
+            Robot.wobbleDrop();
+        } else {
+            Robot.movement.move1x4(-0.4);
+            sleep(500);
+            Robot.movement.move1x4(0);
+            drive.turn(-2*TURNFUDGE); // Roughly 90 degrees
+            Robot.driveToColor(Naming.COLOR_SENSOR_PARK, -0.4, Sensor.Colors.RED);
+            Robot.movement.move1x4(-0.4);
+            sleep(500);
+            Robot.movement.move1x4(0);
+            Robot.driveToColor(Naming.COLOR_SENSOR_PARK, -0.4, Sensor.Colors.RED);
+            Robot.wobbleDrop();
+            Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
+        }
     }
 }

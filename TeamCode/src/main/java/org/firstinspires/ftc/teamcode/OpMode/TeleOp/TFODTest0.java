@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * your Vuforia key below and select the 'Camera' preset on top right of the dashboard. This sample
  * also works for UVCs with slight adjustments.
  */
-@Autonomous
+@Autonomous(name="TFOD Test", group="99-test")
 public class TFODTest0 extends LinearOpMode {
 
     @Override

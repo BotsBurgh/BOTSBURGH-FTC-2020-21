@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 
-@TeleOp(name = "Zero Servo", group = "Linear OpMode")
+@TeleOp(name="Zero Servo", group="50-util")
 public class ZeroServo extends LinearOpMode {
     @Override
     public void runOpMode() {

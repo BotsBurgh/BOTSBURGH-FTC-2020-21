@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 
-@TeleOp(name = "Forward!", group = "Linear OpMode")
+@TeleOp(name = "Forward!", group = "99-test")
 public class Forward extends LinearOpMode {
     private static final double MAX_SPEED = 0.8;
     @Override

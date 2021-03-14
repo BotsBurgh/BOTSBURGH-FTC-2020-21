@@ -33,7 +33,7 @@ import static org.firstinspires.ftc.teamcode.API.Config.Constants.rpmToVelocity;
  *      regression.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name="Automatic feed-forward tuner", group="50-tuning")
 public class AutomaticFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
     public static final double DISTANCE = 100; // in

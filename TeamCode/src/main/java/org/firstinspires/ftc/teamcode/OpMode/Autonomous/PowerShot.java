@@ -54,15 +54,10 @@ public class PowerShot extends LinearOpMode {
         drive.turn(-0.3*TURNFUDGE);
         // Shoot again
         Robot.shootAuto(1);
-        drive.turn(0.5*TURNFUDGE);
+        drive.turn(0.38*TURNFUDGE);
         // And again
-        Robot.movement.moveFlywheel(1); // We add vibrations
-        sleep(2100); // And wait so the last wheel doesn't get stuck
-        Robot.movement.moveFlywheel(0);
-        sleep(500);
         Robot.shootAuto(1);
-        //drive.turn(0.3*TURNFUDGE);
-        // Go back to the white line and par
+        // Go back to the white line and park
         Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
     }
 }

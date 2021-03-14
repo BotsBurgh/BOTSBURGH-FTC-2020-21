@@ -75,9 +75,9 @@ public class Constants {
     public static final double PARK_GREEN_FUDGE = 150;
     public static final double PARK_BLUE_FUDGE  = 150;
 
-    public static final double ARM_RED_FUDGE   = 25*4;
-    public static final double ARM_GREEN_FUDGE = 15*4;
-    public static final double ARM_BLUE_FUDGE  = 15*4;
+    public static final double ARM_RED_FUDGE   = 25*2;
+    public static final double ARM_GREEN_FUDGE = 15*2;
+    public static final double ARM_BLUE_FUDGE  = 15*2;
     
     public static final Sensor.Colors ARM_EXTEND_COLOR = Sensor.Colors.RED;
     public static final Sensor.Colors ARM_CLOSE_COLOR = Sensor.Colors.BLUE;

@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.API.Movement;
 import org.firstinspires.ftc.teamcode.API.Robot;
 import org.firstinspires.ftc.teamcode.API.Sensor;
 
-@TeleOp(name = "TeleOp Main", group = "Linear OpMode")
+@TeleOp(name = "TeleOp Main", group = "00-teleop")
 public class TeleOpMain extends LinearOpMode {
     private double maxspeed = 0.6;
     private boolean brakeSwitch = false;

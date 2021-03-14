@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.API.Config.Constants;
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 
 import java.util.Timer;
@@ -39,9 +40,13 @@ public class Robot {
     public static Movement movement;
     public static LinearOpMode linearOpMode;
     public static void whiteLine(String sensor, double power) {
+        driveToColor(sensor, power, Sensor.Colors.WHITE);
+    }
+    
+    public static void driveToColor(String sensor, double power, Sensor.Colors targetColor) {
         while (true) {
             Sensor.Colors color = Sensor.getRGB(sensor);
-            if (color == Sensor.Colors.WHITE) {
+            if (color == targetColor) {
                 movement.move1x4(0);
                 break;
             } else {
@@ -82,5 +87,16 @@ public class Robot {
         }
 
         armMotor.setPower(0);
+    }
+    
+    public static void wobbleDrop() {
+        Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+        //linearOpMode.sleep(3000);
+        Robot.movement.grabWobble(true);
+        linearOpMode.sleep(500);
+        Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+        //linearOpMode.sleep(500);
+        //Robot.movement.grabWobble(false);
+        //linearOpMode.sleep(500);
     }
 }

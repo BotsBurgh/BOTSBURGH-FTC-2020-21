@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name="", group = "drive")
 public class AutonomousShooter extends LinearOpMode {
 
     @Override

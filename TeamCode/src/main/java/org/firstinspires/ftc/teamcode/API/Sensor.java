@@ -356,12 +356,15 @@ public class Sensor {
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(1, 16.0/9.0);
+            tfod.setZoom(2, 16.0/9.0);
         }
     }
     
     public static Disks detectDisks() {
-        for (int i = 0; i<5000000; i++) {
+        for (int i = 0; i<1000000; i++) {
+            if (Robot.linearOpMode.isStopRequested()) {
+                break;
+            }
             if (tfod != null) {
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
