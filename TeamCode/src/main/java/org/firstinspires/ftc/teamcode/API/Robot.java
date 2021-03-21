@@ -55,15 +55,19 @@ public class Robot {
         }
     }
     
-    public static void shootAuto(int count) {
+    public static void shootAuto(int count, double volts) {
         // Power up flywheel
-        movement.moveFlywheel(10.00/Robot.sensor.getBatteryVoltage(linearOpMode.hardwareMap.voltageSensor));
+        movement.moveFlywheel(volts/Robot.sensor.getBatteryVoltage(linearOpMode.hardwareMap.voltageSensor));
         linearOpMode.sleep(500);
         for (int i =  0; i < count; i++) {
             movement.launch(true);
             linearOpMode.sleep(500);
             movement.launch(false);
         }
+    }
+    
+    public static void shootAuto(int count) {
+        shootAuto(count, 10.00);
     }
     
     public static void moveArm(boolean command, String sensor, String arm) {

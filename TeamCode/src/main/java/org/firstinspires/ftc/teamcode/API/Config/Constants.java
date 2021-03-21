@@ -75,7 +75,7 @@ public class Constants {
     public static final double PARK_GREEN_FUDGE = 150;
     public static final double PARK_BLUE_FUDGE  = 150;
 
-    public static final double ARM_RED_FUDGE   = 25*2;
+    public static final double ARM_RED_FUDGE   = 20*2;
     public static final double ARM_GREEN_FUDGE = 15*2;
     public static final double ARM_BLUE_FUDGE  = 15*2;
     
@@ -84,4 +84,10 @@ public class Constants {
 
     // Motor power config
     public static final double MOTOR_ARM_POWER = 0.6;
+
+    // Drive Adjustments
+    public static final double MOTOR_BL_POWERMOD = 0.94;
+    public static final double MOTOR_BR_POWERMOD = 0.90;
+    public static final double MOTOR_FL_POWERMOD = 1.00;
+    public static final double MOTOR_FR_POWERMOD = 0.92;
 }

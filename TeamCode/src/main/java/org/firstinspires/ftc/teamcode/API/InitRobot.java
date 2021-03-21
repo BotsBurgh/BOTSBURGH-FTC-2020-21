@@ -109,6 +109,11 @@ public class InitRobot {
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
+        bl.setPowerModifier(Constants.MOTOR_BL_POWERMOD);
+        br.setPowerModifier(Constants.MOTOR_BR_POWERMOD);
+        fl.setPowerModifier(Constants.MOTOR_FL_POWERMOD);
+        fr.setPowerModifier(Constants.MOTOR_FR_POWERMOD);
+
         // Get color sensors
         SmartColorSensor parkSensor = new SmartColorSensor((NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK));
         parkSensor.setRedFudge(Constants.PARK_RED_FUDGE);
@@ -119,7 +124,6 @@ public class InitRobot {
         armSensor.setRedFudge(Constants.ARM_RED_FUDGE);
         armSensor.setGreenFudge(Constants.ARM_GREEN_FUDGE);
         armSensor.setBlueFudge(Constants.ARM_BLUE_FUDGE);
-
 
         // Add color sensors into list
         HashMap<String, SmartColorSensor> colorSensors = new HashMap<>();

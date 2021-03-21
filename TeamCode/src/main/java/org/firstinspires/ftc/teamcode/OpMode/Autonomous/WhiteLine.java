@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.API.Sensor;
  * This is a simple program to reach the white line
  */
 @Config
-@Autonomous(name="White Line", group = "drive")
+@Autonomous(name="White Line", group = "00-drive")
 public class WhiteLine extends LinearOpMode {
     public static double FUDGE = 10;
     public static double REDFUDGE   = 25*FUDGE;

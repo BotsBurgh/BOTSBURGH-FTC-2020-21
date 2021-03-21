@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
  * encoder localizer heading may be significantly off if the track width has not been tuned).
  */
 @Config
-@TeleOp(group = "drive")
+@TeleOp(name="Localization Test", group = "60-test")
 public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

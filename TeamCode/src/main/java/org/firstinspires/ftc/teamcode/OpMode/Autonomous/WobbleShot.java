@@ -16,10 +16,10 @@ import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.API.Sensor;
 
 /*
- * This is a simple program to reach the white line
+ * This is an autonomous program to shoot the power shots, drop off the wobble goals, and park
  */
 @Config
-@Autonomous(name="Wobble Shot", group = "drive")
+@Autonomous(name="Wobble Shot", group = "00-drive")
 public class WobbleShot extends LinearOpMode {
     public static double DRIVEFUDGE = 60.0/42;
     public static double DRIVEY     = 15;
@@ -53,21 +53,21 @@ public class WobbleShot extends LinearOpMode {
                 .back(DRIVEY*DRIVEFUDGE)
                 .build();
         drive.followTrajectory(moveback);
-        drive.turn(0.1*TURNFUDGE);
+        drive.turn(0.2*TURNFUDGE);
 
         // Shoot the first disk
-        Robot.shootAuto( 1);
+        Robot.shootAuto( 1, 9.75);
         drive.turn(-0.25*TURNFUDGE);
         // Shoot again
         Robot.shootAuto(1);
-        drive.turn(-0.3*TURNFUDGE);
+        drive.turn(-0.30*TURNFUDGE);
         // And again
         Robot.shootAuto(1);
-        // Go back to the white line and park
+        // Go back to the white line
         Robot.whiteLine(Naming.COLOR_SENSOR_PARK, 0.4);
         Robot.movement.moveFlywheel(0);
 
-        drive.turn(-1.85*TURNFUDGE); // Roughly 90 degrees
+        drive.turn(-1.80*TURNFUDGE); // Roughly 90 degrees
         Robot.driveToColor(Naming.COLOR_SENSOR_PARK, 0.4, Sensor.Colors.RED);
         
         if (disks == Sensor.Disks.ONE) {
@@ -80,12 +80,12 @@ public class WobbleShot extends LinearOpMode {
             Robot.wobbleDrop();
         } else {
             Robot.movement.move1x4(-0.4);
-            sleep(500);
+            sleep(400);
             Robot.movement.move1x4(0);
             drive.turn(-2*TURNFUDGE); // Roughly 90 degrees
             Robot.driveToColor(Naming.COLOR_SENSOR_PARK, -0.4, Sensor.Colors.RED);
             Robot.movement.move1x4(-0.4);
-            sleep(500);
+            sleep(600);
             Robot.movement.move1x4(0);
             Robot.driveToColor(Naming.COLOR_SENSOR_PARK, -0.4, Sensor.Colors.RED);
             Robot.wobbleDrop();

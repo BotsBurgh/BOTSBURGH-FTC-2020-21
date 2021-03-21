@@ -51,7 +51,7 @@ import static org.firstinspires.ftc.teamcode.API.Config.Constants.kV;
  * control back to the tuning process.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name="Drive Velocity PID Tuner", group = "50-tuning")
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 

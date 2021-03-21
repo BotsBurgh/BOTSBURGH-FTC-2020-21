@@ -67,7 +67,7 @@ import java.util.Objects;
  * precision. The heading should still line up.
  */
 @Config
-@TeleOp(group = "drive")
+@TeleOp(name="Tracking Wheel Lateral Distance Tuner", group = "50-tuning")
 public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
     public static int NUM_TURNS = 10;
 

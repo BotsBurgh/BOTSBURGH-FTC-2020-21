@@ -43,9 +43,13 @@ public class Forward extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.x) {
-                Robot.movement.move4x4(1, 1, 1, 1);
+                Robot.movement.move1x4(1);
+            } else if (gamepad1.y) {
+                Robot.movement.move1x4(0.3);
+            } else if (gamepad1.a) {
+                Robot.movement.move1x4(-0.2);
             } else {
-                Robot.movement.move4x4(0,0,0,0);
+                Robot.movement.move1x4(0);
             }
         }
     }

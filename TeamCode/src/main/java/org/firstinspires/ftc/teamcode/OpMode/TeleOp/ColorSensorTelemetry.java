@@ -26,11 +26,10 @@ public class ColorSensorTelemetry extends LinearOpMode {
         InitRobot.init(this);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        SmartColorSensor sensor = Sensor.getColorSensor(Naming.COLOR_SENSOR_PARK);
+        SmartColorSensor sensor;
 
-        double redFudge = sensor.getRedFudge();
-        double greenFudge = sensor.getGreenFudge();
-        double blueFudge = sensor.getBlueFudge();
+        double redFudge, greenFudge, blueFudge;
+        int red, green, blue;
 
 
         telemetry.addLine();
@@ -41,20 +40,29 @@ public class ColorSensorTelemetry extends LinearOpMode {
 
         while (!isStopRequested() && opModeIsActive()) {
             telemetry.addData(">", "Press stop");
-            int red   = (int) Range.clip(Sensor.getRed(Naming.COLOR_SENSOR_PARK) * 255 * redFudge, 0, 255);
-            int green = (int) Range.clip(Sensor.getGreen(Naming.COLOR_SENSOR_PARK) * 255 * greenFudge, 0, 255);
-            int blue  = (int) Range.clip(Sensor.getBlue(Naming.COLOR_SENSOR_PARK) * 255 * blueFudge, 0, 255);
+            
+            for (String key : Sensor.colorSensors.keySet()) {
+                sensor = Sensor.getColorSensor(key);
 
-            float[] hsv = new float[3];
-            Color.RGBToHSV(red, green, blue, hsv);
+                redFudge = sensor.getRedFudge();
+                greenFudge = sensor.getGreenFudge();
+                blueFudge = sensor.getBlueFudge();
 
-            telemetry.addData("Red", red);
-            telemetry.addData("Green", green);
-            telemetry.addData("Blue", blue);
-            telemetry.addData("Hue", hsv[0]);
-            telemetry.addData("Saturation", hsv[1]);
-            telemetry.addData("Value", hsv[2]);
-            telemetry.addData("Detected", Sensor.getRGB(Naming.COLOR_SENSOR_PARK));
+                red   = (int) Range.clip(Sensor.getRed(Naming.COLOR_SENSOR_ARM) * 255 * redFudge, 0, 255);
+                green = (int) Range.clip(Sensor.getGreen(Naming.COLOR_SENSOR_ARM) * 255 * greenFudge, 0, 255);
+                blue  = (int) Range.clip(Sensor.getBlue(Naming.COLOR_SENSOR_ARM) * 255 * blueFudge, 0, 255);
+
+                float[] hsv = new float[3];
+                Color.RGBToHSV(red, green, blue, hsv);
+
+                telemetry.addData(key + " Red", red);
+                telemetry.addData(key + " Green", green);
+                telemetry.addData(key + " Blue", blue);
+                telemetry.addData(key + " Hue", hsv[0]);
+                telemetry.addData(key + " Saturation", hsv[1]);
+                telemetry.addData(key + " Value", hsv[2]);
+                telemetry.addData(key + " Detected", Sensor.getRGB(key));
+            }
 
             telemetry.update();
         }

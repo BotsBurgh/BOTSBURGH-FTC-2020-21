@@ -18,10 +18,10 @@ import org.firstinspires.ftc.teamcode.API.Sensor;
 import org.firstinspires.ftc.teamcode.R;
 
 /*
- * This is a simple program to reach the white line
+ * This is a simple program to shoot the power shots
  */
 @Config
-@Autonomous(name="Power Shot", group = "drive")
+@Autonomous(name="Power Shot", group = "00-drive")
 public class PowerShot extends LinearOpMode {
     public static double DRIVEFUDGE = 60.0/42;
     public static double DRIVEY     = 15;
