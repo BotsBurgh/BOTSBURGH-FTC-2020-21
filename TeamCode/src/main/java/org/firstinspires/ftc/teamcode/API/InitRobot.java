@@ -172,6 +172,8 @@ public class InitRobot {
         Robot.movement = movement;
         Robot.sensor = sensor;
         Robot.linearOpMode = l;
+        
+        Robot.state = new StateMachine();
 
         // Send power to servos so they don't move
         for (String key : servos.keySet()) {

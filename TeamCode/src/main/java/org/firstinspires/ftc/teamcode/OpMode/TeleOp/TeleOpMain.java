@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Movement;
 import org.firstinspires.ftc.teamcode.API.Robot;
 import org.firstinspires.ftc.teamcode.API.Sensor;
+import org.firstinspires.ftc.teamcode.API.StateMachine;
 
 @TeleOp(name = "TeleOp Main", group = "00-teleop")
 public class TeleOpMain extends LinearOpMode {
@@ -100,14 +101,15 @@ public class TeleOpMain extends LinearOpMode {
             // Moving the wobble
             if (gamepad2.x) {
                 if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.RED) {
-                    Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+                    Robot.state.setCurrentState(StateMachine.State.ARMOUT);
                 }
             } else if (gamepad2.y) {
                 if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.BLUE) {
-                    Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+                    Robot.state.setCurrentState(StateMachine.State.ARMIN);
                 }
             }
-            
+            Robot.moveArm(Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+
             if (gamepad2.a) {
                 Robot.movement.grabWobble(true);
             } else if (gamepad2.b) {

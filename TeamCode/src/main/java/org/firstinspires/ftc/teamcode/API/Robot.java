@@ -38,6 +38,7 @@ import lombok.Builder;
 public class Robot {
     public static Sensor sensor;
     public static Movement movement;
+    public static StateMachine state;
     public static LinearOpMode linearOpMode;
     public static void whiteLine(String sensor, double power) {
         driveToColor(sensor, power, Sensor.Colors.WHITE);
@@ -70,6 +71,36 @@ public class Robot {
         shootAuto(count, 10.00);
     }
     
+    public static void moveArm(String sensor, String arm) {
+        SmartMotor armMotor = Movement.getMotor(arm);
+        Sensor.Colors target;
+
+        if (state.getCurrentState() == StateMachine.State.ARMOUT) {
+            armMotor.setDirection(DcMotor.Direction.FORWARD);
+            target = Constants.ARM_EXTEND_COLOR;
+        } else if (state.getCurrentState() == StateMachine.State.ARMIN) {
+            armMotor.setDirection(DcMotor.Direction.REVERSE);
+            target = Constants.ARM_CLOSE_COLOR;
+        } else {
+            target = null;
+        }
+        
+        long end = System.currentTimeMillis() + 5000;
+        
+        if (
+                ((state.getCurrentState() == StateMachine.State.ARMIN) ||
+                        (state.getCurrentState() == StateMachine.State.ARMOUT)) &&
+                (Sensor.getRGB(sensor) != target) &&
+                (!linearOpMode.isStopRequested()) &&
+                (System.currentTimeMillis() < end)
+        ) {
+            armMotor.setPower(Constants.MOTOR_ARM_POWER);
+        } else {
+            state.setCurrentState(StateMachine.State.DRIVE);
+            armMotor.setPower(0);
+        }
+    }
+
     public static void moveArm(boolean command, String sensor, String arm) {
         SmartMotor armMotor = Movement.getMotor(arm);
         Sensor.Colors target;
@@ -81,26 +112,25 @@ public class Robot {
             armMotor.setDirection(DcMotor.Direction.REVERSE);
             target = Constants.ARM_CLOSE_COLOR;
         }
-        
+
         long end = System.currentTimeMillis() + 5000;
-        
-        while ((Sensor.getRGB(sensor) != target) &&
-                (!linearOpMode.isStopRequested()) &&
-                (System.currentTimeMillis() < end)) {
+
+        while (
+                    (Sensor.getRGB(sensor) != target) &&
+                    (!linearOpMode.isStopRequested()) &&
+                    (System.currentTimeMillis() < end)
+        ) {
             armMotor.setPower(Constants.MOTOR_ARM_POWER);
         }
 
         armMotor.setPower(0);
     }
-    
+
+
     public static void wobbleDrop() {
         Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
-        //linearOpMode.sleep(3000);
         Robot.movement.grabWobble(true);
         linearOpMode.sleep(500);
         Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
-        //linearOpMode.sleep(500);
-        //Robot.movement.grabWobble(false);
-        //linearOpMode.sleep(500);
     }
 }
