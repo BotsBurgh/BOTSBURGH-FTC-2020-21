@@ -84,6 +84,7 @@ android {
         //
         versionCode vCode
         versionName vName
+<<<<<<< HEAD
         def vuForiaKey = System.getenv("VUFORIA_KEY")
         if (vuForiaKey == null) {
             Properties properties = new Properties()
@@ -91,6 +92,8 @@ android {
             vuForiaKey = properties.getProperty('VUFORIA_KEY')?:"\"\""
         }
         buildConfigField "String" , "VUFORIA_KEY" ,  vuForiaKey
+=======
+>>>>>>> ftc/master
     }
 
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed
@@ -122,6 +125,10 @@ android {
         jni.srcDirs = []
         jniLibs.srcDir rootProject.file('libs')
     }
+<<<<<<< HEAD
+=======
+    ndkVersion '21.3.6528147'
+>>>>>>> ftc/master
 }
 
 repositories {
@@ -129,3 +136,7 @@ repositories {
         dirs rootProject.file('libs')
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ftc/master
