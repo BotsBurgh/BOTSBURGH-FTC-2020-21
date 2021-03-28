@@ -49,6 +49,11 @@ public class Movement {
     private final static double WOBBLE_RELEASE   = 0;
     private final static double LAUNCHER_OPEN    = 0.6;
     private final static double LAUNCHER_CLOSE   = 1;
+    private final static double HOOK_OPEN        = 1;
+    private final static double HOOK_CLOSE       = 0.4;
+    private final static double HOOK_IN          = 0.6;
+    private final static double HOOK_OUT         = 0;
+
 
     public static HashMap<String, SmartMotor> motors;
     public static HashMap<String, SmartServo> servos;
@@ -194,6 +199,22 @@ public class Movement {
             Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_OPEN);
         } else {
             Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_CLOSE);
+        }
+    }
+    
+    public void hook(boolean command) {
+        if (command) {
+            Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_2)).setPosition(HOOK_CLOSE);
+        } else {
+            Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_2)).setPosition(HOOK_OPEN);
+        }
+    }
+    
+    public void extendHook(boolean command) {
+        if (command) {
+            Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_1)).setPosition(HOOK_OUT);
+        } else {
+            Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_1)).setPosition(HOOK_IN);
         }
     }
 }

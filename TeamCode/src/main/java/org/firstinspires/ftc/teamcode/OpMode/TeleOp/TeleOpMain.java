@@ -115,6 +115,18 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             Robot.movement.launch(gamepad2.right_bumper);
+            
+            if (gamepad2.dpad_down) {
+                Robot.movement.extendHook(true);
+            } else if (gamepad2.dpad_up) {
+                Robot.movement.extendHook(false);
+            }
+            
+            if (gamepad2.dpad_right) {
+                Robot.movement.hook(true);
+            } else if (gamepad2.dpad_left) {
+                Robot.movement.hook(false);
+            }
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);

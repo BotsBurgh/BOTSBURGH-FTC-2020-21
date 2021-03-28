@@ -15,6 +15,9 @@ public class Naming {
 
     public static final String SERVO_WOBBLE_GRABBER               = "wobbleGrabber";
     public static final String SERVO_LAUNCHER                     = "launcher";
+    
+    public static final String SERVO_HOOK_1                       = "hook1";
+    public static final String SERVO_HOOK_2                       = "hook2";
 
     public static final String COLOR_SENSOR_PARK                  = "parkSensor";
     public static final String COLOR_SENSOR_ARM                   = "armSensor";

@@ -76,12 +76,16 @@ public class InitRobot {
         // Get servos
         SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER));
         SmartServo launcher = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_LAUNCHER));
+        SmartServo hook1 = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_HOOK_1));
+        SmartServo hook2 = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_HOOK_2));
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
         //servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
         servos.put(Naming.SERVO_WOBBLE_GRABBER, wobbleGrabber);
         servos.put(Naming.SERVO_LAUNCHER, launcher);
+        servos.put(Naming.SERVO_HOOK_1, hook1);
+        servos.put(Naming.SERVO_HOOK_2, hook2);
 
         // Add CRServos into the list
         HashMap<String, CRServo> crServos = new HashMap<>();
