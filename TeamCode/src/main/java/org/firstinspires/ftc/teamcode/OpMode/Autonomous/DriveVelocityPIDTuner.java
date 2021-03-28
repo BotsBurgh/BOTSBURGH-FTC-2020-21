@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.SampleMecanumDrive;
 
 import java.util.List;
@@ -50,7 +51,7 @@ import static org.firstinspires.ftc.teamcode.API.Config.Constants.kV;
  * control back to the tuning process.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(name="Drive Velocity PID Tuner", group = "50-tuning")
 public class DriveVelocityPIDTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 
@@ -67,6 +68,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        InitRobot.init(this);
         if (!RUN_USING_ENCODER) {
             RobotLog.setGlobalErrorMsg("%s does not need to be run if the built-in motor velocity" +
                     "PID is not in use", getClass().getSimpleName());

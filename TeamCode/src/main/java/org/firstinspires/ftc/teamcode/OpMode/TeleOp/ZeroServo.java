@@ -20,11 +20,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Zero Servo", group = "Linear OpMode")
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
+
+@TeleOp(name="Zero Servo", group="50-util")
 public class ZeroServo extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Servo zeroServo = hardwareMap.get(Servo.class, "launcher");
+        Servo zeroServo = hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -39,10 +41,10 @@ public class ZeroServo extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()) {
-            if (gamepad2.left_bumper) {
-                zeroServo.setPosition(0.7);
-            } else {
-                zeroServo.setPosition(1);
+            if (gamepad2.a) {
+                zeroServo.setPosition(0.3);
+            } else if (gamepad2.b) {
+                zeroServo.setPosition(0);
             }
         }
     }

@@ -23,28 +23,28 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.API.HW.Encoder;
+import org.firstinspires.ftc.teamcode.API.HW.SmartColorSensor;
+import org.firstinspires.ftc.teamcode.BuildConfig;
+import org.firstinspires.ftc.teamcode.R;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
-import lombok.Getter;
-
-import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 /**
  * The Sensor class.
@@ -57,29 +57,8 @@ public class Sensor {
     private static final double Vmax    = 0.004; // Minimum voltage
     private static final double Vmin    = 3.304; // Maximum voltage
 
-    // VuForia configuration
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK; // Back camera or front
-    private static final boolean PHONE_IS_PORTRAIT = true; // Set to true because our camera is rotated at 90 degrees
-    private final float CAMERA_FORWARD_DISPLACEMENT  = 7.88f  * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
-    private final float CAMERA_VERTICAL_DISPLACEMENT = 4.5f   * mmPerInch;   // eg: Camera is 8 Inches above ground
-    private final float CAMERA_LEFT_DISPLACEMENT     = 5.625f * mmPerInch;   // eg: Camera is ON the robot's center line
-
-    // Phone configuration
-    private static final float phoneXRotate    = 0;
-    private static final float phoneZRotate    = 9.5f;
-
-    // Color sensor configuration
-    // TODO: implement
     private static final double BLACK_THRESH  = 0.2;
     private static final double WHITE_THRESH  = 0.9;
-    private static final double RED_THRESH    = 600;
-    private static final double ORANGE_THRESH = 600;
-    private static final double YELLOW_THRESH = 600;
-    private static final double GREEN_THRESH  = 600;
-    private static final double BLUE_THRESH   = 600;
-    private static final double PURPLE_THRESH = 600;
-
-    private static final double THRESH_LIMIT = 0.15;
 
     /*
         ######  #######    #     # ####### #######    ####### ######  ### #######
@@ -112,46 +91,22 @@ public class Sensor {
 
     // VuForia global variables
     // Class Members
-    private OpenGLMatrix lastLocation;
-    private VuforiaLocalizer vuforia;
-    private List<VuforiaTrackable> allTrackables;
-    private VuforiaTrackables targetsSkyStone;
-    @Getter TFObjectDetector tfod;
 
-    // To get this to work, copy the file VuForiaKey.java.example to VuForiaKey.java and add your key in that file.
-    //private static final String VUFORIA_KEY = VuForiaKey.VUFORIAKEY;
 
-    // Since ImageTarget trackables use mm to specify their dimensions, we must use mm for all the physical dimension.
+    private static final String VUFORIA_KEY = BuildConfig.VUFORIA_KEY;
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
+
+    private static VuforiaLocalizer vuforia;
+    private static TFObjectDetector tfod;
+
     // We will define some constants and conversions here
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmTargetHeight   = (6) * mmPerInch; // the height of the center of the target image above the floor
-
-    // Constant for Stone Target
-    private static final float stoneZ = 2.00f * mmPerInch;
-
-    // Constants for the center support targets
-    private static final float bridgeZ = 6.42f * mmPerInch;
-    private static final float bridgeY = 23f   * mmPerInch;
-    private static final float bridgeX = 5.18f * mmPerInch;
-    private static final float bridgeRotY = 59; // Units are degrees
-    private static final float bridgeRotZ = 180;
-
-    // Constants for perimeter targets
-    private static final float halfField = 72 * mmPerInch;
-    private static final float quadField  = 36 * mmPerInch;
-
-    // VuForia object detection
-    private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
-
-    private boolean targetVisible;
-
     // TODO: Add more sensor capability
     public static HashMap<String, BNO055IMU> gyros; // Initialize gyroscopes
     public static HashMap<String, AnalogInput> pots; // Initialize potentiometers
     public static HashMap<String, DigitalChannel> buttons; // Initialize buttons
-    public static HashMap<String, NormalizedColorSensor> colorSensors; // Initialize color sensors
+    public static HashMap<String, SmartColorSensor> colorSensors; // Initialize color sensors
     public static HashMap<String, DistanceSensor> distances; // Initialize distance sensors
     public static HashMap<String, WebcamName> webcams; // Initialize webcams
     public static HashMap<String, Encoder> encoders; // Special encoders
@@ -168,12 +123,23 @@ public class Sensor {
         BLACK,
         BROWN
     }
+    
+    public enum Disks {
+        NONE,
+        ONE,
+        FOUR
+    }
 
     /**
      * Gets the RGB value of the color sensor
      * @return enum for color
      */
-    public Colors getRGB(String id, double redFudge, double greenFudge, double blueFudge) {
+    public static Colors getRGB(String id) {
+        SmartColorSensor sensor = Objects.requireNonNull(colorSensors.get(id));
+        double redFudge = sensor.getRedFudge();
+        double greenFudge = sensor.getGreenFudge();
+        double blueFudge = sensor.getBlueFudge();
+
         float[] hsv = new float[3];
         Color.RGBToHSV(
                 (int) Range.clip(getRed(id) * 255 * redFudge, 0, 255),
@@ -221,7 +187,7 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects red or not
      */
-    public double getRed(String id) {
+    public static double getRed(String id) {
         return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().red;
     }
 
@@ -230,7 +196,7 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects green or not
      */
-    public double getGreen(String id) {
+    public static double getGreen(String id) {
         return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().green;
     }
 
@@ -239,8 +205,12 @@ public class Sensor {
      * @param id ID of the color sensor
      * @return Boolean on if the sensor detects blue or not
      */
-    public double getBlue(String id) {
+    public static double getBlue(String id) {
         return Objects.requireNonNull(colorSensors.get(id)).getNormalizedColors().blue;
+    }
+    
+    public static SmartColorSensor getColorSensor(String id) {
+        return Objects.requireNonNull(colorSensors.get(id));
     }
 
     /**
@@ -264,6 +234,11 @@ public class Sensor {
     public static Encoder getEncoder(String id) {
         return encoders.get(id);
     }
+
+    public CameraName getWebcam(String id) {
+        return webcams.get(id);
+    }
+
 
     /**
      * Initializes the gyroscope.
@@ -330,5 +305,71 @@ public class Sensor {
 
         return hsv;
     }
-}
 
+    // Computes the current battery voltage
+    public double getBatteryVoltage(HardwareMap.DeviceMapping<VoltageSensor> voltageSensors) {
+        double result = Double.POSITIVE_INFINITY;
+        for (VoltageSensor sensor : voltageSensors) {
+            double voltage = sensor.getVoltage();
+            if (voltage > 0) {
+                result = Math.min(result, voltage);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Initialize the Vuforia localization engine.
+     */
+    public static void initVuforia(String webcamName) {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = Robot.sensor.getWebcam(webcamName);
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+    }
+
+    /**
+     * Initialize the TensorFlow Object Detection engine.
+     */
+    public static void initTfod() {
+        int tfodMonitorViewId = Robot.linearOpMode.hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", Robot.linearOpMode.hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minResultConfidence = 0.8f;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        if (tfod != null) {
+            tfod.activate();
+            tfod.setZoom(2, 16.0/9.0);
+        }
+    }
+    
+    public static Disks detectDisks() {
+        for (int i = 0; i<1000000; i++) {
+            if (Robot.linearOpMode.isStopRequested()) {
+                break;
+            }
+            if (tfod != null) {
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    // step through the list of recognitions and display boundary info.
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().compareTo("Quad") == 0) {
+                            return Disks.FOUR;
+                        } else if (recognition.getLabel().compareTo("Single") == 0) {
+                            return Disks.ONE;
+                        }
+                    }
+                }
+            }
+        }
+        return Disks.NONE;
+    }
+}

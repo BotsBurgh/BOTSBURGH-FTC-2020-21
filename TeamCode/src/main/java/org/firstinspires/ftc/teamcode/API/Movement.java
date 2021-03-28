@@ -40,21 +40,13 @@ public class Movement {
     private final static double ELEVATOR_POWER   = 1.00;
     
     // Motor configuration
-    private final static double INTAKE2_THRESH   = 0.8;
+    private final static double INTAKE2_THRESH   = 1.0;
 
     // Servo configuration
     private final static int    SERVO_SLEEP      = 10; // Milliseconds
     private final static double SERVO_STEP       = 0.01;  // on a scale of  0-1
-    private final static double GRABBER_OPEN     = 0; // on a scale of  0-1
-    private final static double GRABBER_CLOSE    = 0.65; // on a scale of  0-1
-    private final static double WOBBLE_IN        = 0.75; // on a scale of  0-1
-    private final static double WOBBLE_OUT       = 0.3; // on a scale of  0-1
-    private final static double WOBBLE_GRAB      = 1;
+    private final static double WOBBLE_GRAB      = 0.3;
     private final static double WOBBLE_RELEASE   = 0;
-    private final static double SWIVEL_OPEN      = 0; // on a scale of  0-1
-    private final static double SWIVEL_CLOSE     = 1; // on a scale of  0-1
-    private final static double FOUNDATION_OPEN  = 0.3;
-    private final static double FOUNDATION_CLOSE = 0.95;
     private final static double LAUNCHER_OPEN    = 0.6;
     private final static double LAUNCHER_CLOSE   = 1;
 
@@ -64,7 +56,7 @@ public class Movement {
 
     // Getters
 
-    public SmartMotor getMotor(String id) {
+    public static SmartMotor getMotor(String id) {
         return motors.get(id);
     }
 
@@ -89,6 +81,15 @@ public class Movement {
         Objects.requireNonNull(motors.get(Naming.MOTOR_BL)).setPower(blPower);
         Objects.requireNonNull(motors.get(Naming.MOTOR_BR)).setPower(brPower);
     }
+
+    /**
+     * Moves each of the four motors individually. Best for mecanum drives.
+     * @param power Power to all the wheels
+     */
+    public void move1x4(double power) {
+        move4x4(power,power,power,power);
+    }
+
 
     /**
      * Move the base with four motors based on individual sides, not wheels
@@ -170,18 +171,6 @@ public class Movement {
     public void moveIntake(double intakePower) {
         Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE)).setPower(intakePower);
         Objects.requireNonNull(motors.get(Naming.MOTOR_INTAKE2)).setPower(intakePower*INTAKE2_THRESH);
-    }
-
-    /**
-     * Opens the grabber based on a boolean assignment
-     * @param command tue to open
-     */
-    public void moveWobble(boolean command) {
-        if (command) {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_IN); // Opens the grabber
-        } else {
-            Objects.requireNonNull(servos.get(Naming.SERVO_WOBBLE_ARM)).setPosition(WOBBLE_OUT); // Closes the grabber
-        }
     }
 
     /**

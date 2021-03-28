@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
 import org.firstinspires.ftc.teamcode.API.Robot;
 
-@TeleOp(name = "Forward!", group = "Linear OpMode")
+@TeleOp(name = "Forward!", group = "99-test")
 public class Forward extends LinearOpMode {
     private static final double MAX_SPEED = 0.8;
     @Override
@@ -43,9 +43,13 @@ public class Forward extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad1.x) {
-                Robot.movement.move4x4(1, 1, 1, 1);
+                Robot.movement.move1x4(1);
+            } else if (gamepad1.y) {
+                Robot.movement.move1x4(0.3);
+            } else if (gamepad1.a) {
+                Robot.movement.move1x4(-0.2);
             } else {
-                Robot.movement.move4x4(0,0,0,0);
+                Robot.movement.move1x4(0);
             }
         }
     }

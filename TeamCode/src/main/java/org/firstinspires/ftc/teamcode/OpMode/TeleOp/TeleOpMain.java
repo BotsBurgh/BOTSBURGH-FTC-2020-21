@@ -25,9 +25,12 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
+import org.firstinspires.ftc.teamcode.API.Movement;
 import org.firstinspires.ftc.teamcode.API.Robot;
+import org.firstinspires.ftc.teamcode.API.Sensor;
+import org.firstinspires.ftc.teamcode.API.StateMachine;
 
-@TeleOp(name = "TeleOp Main", group = "Linear OpMode")
+@TeleOp(name = "TeleOp Main", group = "00-teleop")
 public class TeleOpMain extends LinearOpMode {
     private double maxspeed = 0.6;
     private boolean brakeSwitch = false;
@@ -60,21 +63,29 @@ public class TeleOpMain extends LinearOpMode {
             double frPower = Range.clip((-x1 - y1 - rotation), -maxspeed, maxspeed);
 
             Robot.movement.move4x4(flPower, frPower, blPower, brPower);
-            Robot.movement.moveFlywheel(Range.clip(Math.log10(gamepad2.left_trigger*10+1), 0, 1));
+            if (gamepad2.left_trigger < 0.1) {
+                Robot.movement.moveFlywheel(0);
+            } else if (gamepad2.left_trigger < 0.9) {
+                Robot.movement.moveFlywheel(10.0/Robot.sensor.getBatteryVoltage(hardwareMap.voltageSensor));
+            } else if (gamepad2.left_trigger <= 1) {
+                Robot.movement.moveFlywheel(11.27/Robot.sensor.getBatteryVoltage(hardwareMap.voltageSensor));
+            } else {
+                Robot.movement.moveFlywheel(0);
+            }
             Robot.movement.moveIntake(gamepad2.right_trigger);
-            Robot.movement.moveIntake((gamepad2.right_bumper ? -1 : 0));
+            Robot.movement.moveIntake((gamepad2.left_bumper ? -1 : 0));
             
             if (gamepad1.left_bumper) {
                 if (brakeSwitch) {
-                    Robot.movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    Robot.movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    Robot.movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                    Robot.movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                    Movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 } else {
-                    Robot.movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    Robot.movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    Robot.movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                    Robot.movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("fl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("fr").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("bl").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                    Movement.getMotor("br").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
                 }
                 brakeSwitch = !brakeSwitch;
             }
@@ -87,25 +98,30 @@ public class TeleOpMain extends LinearOpMode {
 
             // Moving the wobble
             if (gamepad2.x) {
-                Robot.movement.moveWobble(true);
+                if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.RED) {
+                    Robot.state.setCurrentState(StateMachine.State.ARMOUT);
+                }
             } else if (gamepad2.y) {
-                Robot.movement.moveWobble(false);
+                if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.BLUE) {
+                    Robot.state.setCurrentState(StateMachine.State.ARMIN);
+                }
             }
-            
+            Robot.moveArm(Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
+
             if (gamepad2.a) {
                 Robot.movement.grabWobble(true);
             } else if (gamepad2.b) {
                 Robot.movement.grabWobble(false);
             }
 
-            // Launch async because we don't want the robot to hang while it does stuff
-            Robot.movement.launch(gamepad2.left_bumper);
+            Robot.movement.launch(gamepad2.right_bumper);
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);
             telemetry.addData("Front Left", flPower);
             telemetry.addData("Front Right", frPower);
-            telemetry.addData("Flywheel", Robot.movement.getMotor(Naming.MOTOR_FLYWHEEL).getPower());
+            telemetry.addData("Flywheel", Movement.getMotor(Naming.MOTOR_FLYWHEEL).getPower());
+            telemetry.addData("Wobble Arm", Movement.getMotor(Naming.MOTOR_WOBBLE_ARM).getCurrentPosition());
             telemetry.update();
         }
     }

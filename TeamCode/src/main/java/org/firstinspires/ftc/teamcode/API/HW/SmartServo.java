@@ -22,7 +22,6 @@ package org.firstinspires.ftc.teamcode.API.HW;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

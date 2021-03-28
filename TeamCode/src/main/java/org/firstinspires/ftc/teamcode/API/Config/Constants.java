@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.API.Config;
 
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.teamcode.API.Sensor;
+
 public class Constants {
     /*
      * These are motor constants that should be listed online for your motors.
@@ -50,8 +52,8 @@ public class Constants {
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling). All distance units are inches.
      */
-    public static double MAX_VEL = 40.0;
-    public static double MAX_ACCEL = 40.0;
+    public static double MAX_VEL = 30.0;
+    public static double MAX_ACCEL = 20.0;
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
     public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
 
@@ -67,4 +69,25 @@ public class Constants {
         // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
         return 32767 / ticksPerSecond;
     }
+
+    // Color sensor configuration
+    public static final double PARK_RED_FUDGE   = 250;
+    public static final double PARK_GREEN_FUDGE = 150;
+    public static final double PARK_BLUE_FUDGE  = 150;
+
+    public static final double ARM_RED_FUDGE   = 20*2;
+    public static final double ARM_GREEN_FUDGE = 15*2;
+    public static final double ARM_BLUE_FUDGE  = 15*2;
+    
+    public static final Sensor.Colors ARM_EXTEND_COLOR = Sensor.Colors.RED;
+    public static final Sensor.Colors ARM_CLOSE_COLOR = Sensor.Colors.BLUE;
+
+    // Motor power config
+    public static final double MOTOR_ARM_POWER = 0.6;
+
+    // Drive Adjustments
+    public static final double MOTOR_BL_POWERMOD = 0.94;
+    public static final double MOTOR_BR_POWERMOD = 0.90;
+    public static final double MOTOR_FL_POWERMOD = 1.00;
+    public static final double MOTOR_FR_POWERMOD = 0.92;
 }

@@ -10,10 +10,13 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.API.Config.Constants;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.Encoder;
+import org.firstinspires.ftc.teamcode.API.HW.SmartColorSensor;
 import org.firstinspires.ftc.teamcode.API.HW.SmartMotor;
 import org.firstinspires.ftc.teamcode.API.HW.SmartServo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -28,7 +31,7 @@ public class InitRobot {
     private static SmartMotor fr;
 
     // TODO: JavaDoc
-    public static void init(LinearOpMode l) {
+    public static void init(@NotNull LinearOpMode l) {
         /*
         * #######                   ######
         * #       #####  # #####    #     # ###### #       ####  #    #
@@ -49,9 +52,11 @@ public class InitRobot {
         SmartMotor flywheel = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_FLYWHEEL));
         SmartMotor intake = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.ENCODER_LEFT));
         SmartMotor intake2 = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_INTAKE2));
+        SmartMotor wobbleArm = new SmartMotor(l.hardwareMap.get(DcMotorEx.class, Naming.MOTOR_WOBBLE_ARM));
         flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        wobbleArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         HashMap<String, SmartMotor> motors = new HashMap<>();
         motors.put(Naming.MOTOR_BL, bl);
@@ -63,22 +68,17 @@ public class InitRobot {
         motors.put(Naming.MOTOR_FLYWHEEL, flywheel);
         motors.put(Naming.MOTOR_INTAKE, intake);
         motors.put(Naming.MOTOR_INTAKE2, intake2);
+        motors.put(Naming.MOTOR_WOBBLE_ARM, wobbleArm);
 
         // Get servos
-        SmartServo wobbleArm = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_ARM));
         SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER));
         SmartServo launcher = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_LAUNCHER));
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
-        servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
+        //servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
         servos.put(Naming.SERVO_WOBBLE_GRABBER, wobbleGrabber);
         servos.put(Naming.SERVO_LAUNCHER, launcher);
-
-        // Get CRServos
-        
-        // Set direction of CRServos
-        //intake2.setDirection(CRServo.Direction.REVERSE);
 
         // Add CRServos into the list
         HashMap<String, CRServo> crServos = new HashMap<>();
@@ -109,15 +109,26 @@ public class InitRobot {
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
-        // Switch direction of servo
-        //rotate.setDirection(Servo.Direction.REVERSE);
+        bl.setPowerModifier(Constants.MOTOR_BL_POWERMOD);
+        br.setPowerModifier(Constants.MOTOR_BR_POWERMOD);
+        fl.setPowerModifier(Constants.MOTOR_FL_POWERMOD);
+        fr.setPowerModifier(Constants.MOTOR_FR_POWERMOD);
 
         // Get color sensors
-        NormalizedColorSensor parkSensor = (NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK);
+        SmartColorSensor parkSensor = new SmartColorSensor((NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK));
+        parkSensor.setRedFudge(Constants.PARK_RED_FUDGE);
+        parkSensor.setGreenFudge(Constants.PARK_GREEN_FUDGE);
+        parkSensor.setBlueFudge(Constants.PARK_BLUE_FUDGE);
+
+        SmartColorSensor armSensor = new SmartColorSensor((NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_ARM));
+        armSensor.setRedFudge(Constants.ARM_RED_FUDGE);
+        armSensor.setGreenFudge(Constants.ARM_GREEN_FUDGE);
+        armSensor.setBlueFudge(Constants.ARM_BLUE_FUDGE);
 
         // Add color sensors into list
-        HashMap<String, NormalizedColorSensor> colorSensors = new HashMap<>();
+        HashMap<String, SmartColorSensor> colorSensors = new HashMap<>();
         colorSensors.put(Naming.COLOR_SENSOR_PARK, parkSensor);
+        colorSensors.put(Naming.COLOR_SENSOR_ARM, armSensor);
 
         // Get webcams
         WebcamName webcam1 = l.hardwareMap.get(WebcamName.class, Naming.WEBCAM_0);
@@ -161,6 +172,8 @@ public class InitRobot {
         Robot.movement = movement;
         Robot.sensor = sensor;
         Robot.linearOpMode = l;
+        
+        Robot.state = new StateMachine();
 
         // Send power to servos so they don't move
         for (String key : servos.keySet()) {
@@ -173,4 +186,3 @@ public class InitRobot {
         }
     }
 }
-
