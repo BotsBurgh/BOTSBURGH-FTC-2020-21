@@ -57,14 +57,30 @@ public class Constants {
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
     public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
 
+
+    /**
+     * Returns encoder ticks in converted inches
+     * @param ticks number of encoder ticks as stated by the encoder
+     * @return encoder ticks converted to inches
+     */
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
     }
 
+    /**
+     * Returns rpm in converted velocity
+     * @param rpm revolutions per minute of the motor
+     * @return velocity of the robot using the rpm information and some math
+     */
     public static double rpmToVelocity(double rpm) {
         return rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS / 60.0;
     }
 
+    /**
+     * Returns ticks per second in converted velocity
+     * @param ticksPerSecond ticks per second information as listed on the encoder
+     * @return
+     */
     public static double getMotorVelocityF(double ticksPerSecond) {
         // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
         return 32767 / ticksPerSecond;

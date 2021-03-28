@@ -30,7 +30,10 @@ public class InitRobot {
     private static SmartMotor fl;
     private static SmartMotor fr;
 
-    // TODO: JavaDoc
+    /**
+     * Initializes the robot as per information stored in the passed LinearOpMode
+     * @param l LinearOpMode object consisting of all the robot's information
+     */
     public static void init(@NotNull LinearOpMode l) {
         /*
         * #######                   ######

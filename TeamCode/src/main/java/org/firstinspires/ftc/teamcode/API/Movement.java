@@ -175,7 +175,7 @@ public class Movement {
 
     /**
      * Opens the grabber based on a boolean assignment
-     * @param command tue to open
+     * @param command true to open
      */
     public void grabWobble(boolean command) {
         if (command) {
@@ -185,7 +185,10 @@ public class Movement {
         }
     }
 
-
+    /**
+     * Pushes the disk for launch based on a boolean assignment
+     * @param command true to push the disk
+     */
     public void launch(boolean command) {
         if (command) {
             Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_OPEN);

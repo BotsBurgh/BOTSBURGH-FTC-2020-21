@@ -176,6 +176,11 @@ public class SampleMecanumDrive extends MecanumDrive {
        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
 
+    /**
+     * Builds a trajectory for the robot to move according to in autonomous
+     * @param startPose starting position of the robot on the field
+     * @return the trajectory the robot must follow
+     */
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, velConstraint, accelConstraint);
     }
