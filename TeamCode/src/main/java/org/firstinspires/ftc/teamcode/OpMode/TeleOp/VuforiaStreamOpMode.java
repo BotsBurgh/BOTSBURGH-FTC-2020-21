@@ -1,16 +1,15 @@
 package org.firstinspires.ftc.teamcode.OpMode.TeleOp;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-
-import org.firstinspires.ftc.teamcode.API.Config.Naming;
-import org.firstinspires.ftc.teamcode.API.InitRobot;
-import org.firstinspires.ftc.teamcode.API.Robot;
-import org.firstinspires.ftc.teamcode.BuildConfig;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.API.Config.Naming;
+import org.firstinspires.ftc.teamcode.API.InitRobot;
+import org.firstinspires.ftc.teamcode.API.Robot;
+import org.firstinspires.ftc.teamcode.BuildConfig;
 import org.firstinspires.ftc.teamcode.R;
 
 /*

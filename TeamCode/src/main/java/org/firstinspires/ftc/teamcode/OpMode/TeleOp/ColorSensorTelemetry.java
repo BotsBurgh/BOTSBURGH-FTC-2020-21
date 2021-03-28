@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.API.Config.Naming;
 import org.firstinspires.ftc.teamcode.API.HW.SmartColorSensor;
 import org.firstinspires.ftc.teamcode.API.InitRobot;
-import org.firstinspires.ftc.teamcode.API.Robot;
 import org.firstinspires.ftc.teamcode.API.Sensor;
 
 /*
