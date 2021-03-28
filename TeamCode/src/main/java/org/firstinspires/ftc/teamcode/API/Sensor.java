@@ -325,7 +325,8 @@ public class Sensor {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+        int cameraMonitorViewId = Robot.linearOpMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", Robot.linearOpMode.hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = Robot.sensor.getWebcam(webcamName);
