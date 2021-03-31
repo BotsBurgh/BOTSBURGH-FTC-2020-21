@@ -201,7 +201,11 @@ public class Movement {
             Objects.requireNonNull(servos.get(Naming.SERVO_LAUNCHER)).setPosition(LAUNCHER_CLOSE);
         }
     }
-    
+
+    /**
+     * Pushes the disk into the intake based on a boolean assignment
+     * @param command true to push the disk
+     */
     public void hook(boolean command) {
         if (command) {
             Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_2)).setPosition(HOOK_CLOSE);
@@ -209,7 +213,11 @@ public class Movement {
             Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_2)).setPosition(HOOK_OPEN);
         }
     }
-    
+
+    /**
+     * Opens the hook to push the disk into the intake based on a boolean assignment
+     * @param command true to open the hook
+     */
     public void extendHook(boolean command) {
         if (command) {
             Objects.requireNonNull(servos.get(Naming.SERVO_HOOK_1)).setPosition(HOOK_OUT);
