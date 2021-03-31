@@ -35,6 +35,10 @@ public class SmartMotor {
     // Motor configuration
     @Getter @Setter double powerModifier = 1;
 
+    /**
+     * Creates a SmartMotor object based on motor object
+     * @param motor motor object that is being "converted" into a SmartMotor
+     */
     public SmartMotor(DcMotorEx motor) {
         this.motor = motor;
         power = 0;
