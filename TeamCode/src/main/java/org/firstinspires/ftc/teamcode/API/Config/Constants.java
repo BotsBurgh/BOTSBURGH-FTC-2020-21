@@ -8,7 +8,7 @@ public class Constants {
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = 4096;
+    public static final double TICKS_PER_REV = 8192;
     public static final double MAX_RPM = 340;
 
     /*
@@ -32,7 +32,7 @@ public class Constants {
      */
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.5; // in
+    public static double TRACK_WIDTH = 14.4; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -40,9 +40,9 @@ public class Constants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
+    public static double kV = 0.0170;
     public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kStatic = 0.07;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -53,7 +53,7 @@ public class Constants {
      * forces acceleration-limited profiling). All distance units are inches.
      */
     public static double MAX_VEL = 30.0;
-    public static double MAX_ACCEL = 20.0;
+    public static double MAX_ACCEL = 17.5;
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
     public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
 
