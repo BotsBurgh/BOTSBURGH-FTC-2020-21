@@ -51,7 +51,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
         leftEncoder.setDirection(Encoder.Direction.FORWARD);
         rightEncoder.setDirection(Encoder.Direction.REVERSE);
-        lateralEncoder.setDirection(Encoder.Direction.FORWARD);
+        lateralEncoder.setDirection(Encoder.Direction.REVERSE);
     }
 
     public static double encoderTicksToInches(double ticks) {
