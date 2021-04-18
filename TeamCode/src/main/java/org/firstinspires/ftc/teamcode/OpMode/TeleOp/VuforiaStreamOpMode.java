@@ -30,7 +30,9 @@ public class VuforiaStreamOpMode extends LinearOpMode {
         // gives Vuforia more time to exit before the watchdog notices
         msStuckDetectStop = 2500;
 
-        VuforiaLocalizer.Parameters vuforiaParams = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId);
+        int cameraMonitorViewId = Robot.linearOpMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", Robot.linearOpMode.hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters vuforiaParams = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+
         vuforiaParams.cameraName = Robot.sensor.getWebcam(Naming.WEBCAM_0);
         vuforiaParams.vuforiaLicenseKey = VUFORIA_LICENSE_KEY;
         vuforiaParams.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
