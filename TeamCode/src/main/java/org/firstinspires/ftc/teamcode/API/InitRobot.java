@@ -30,7 +30,10 @@ public class InitRobot {
     private static SmartMotor fl;
     private static SmartMotor fr;
 
-    // TODO: JavaDoc
+    /**
+     * Initializes the robot as per information stored in the passed LinearOpMode
+     * @param l LinearOpMode object consisting of all the robot's information
+     */
     public static void init(@NotNull LinearOpMode l) {
         /*
         * #######                   ######
@@ -73,12 +76,16 @@ public class InitRobot {
         // Get servos
         SmartServo wobbleGrabber = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER));
         SmartServo launcher = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_LAUNCHER));
+        SmartServo hook1 = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_HOOK_1));
+        SmartServo hook2 = new SmartServo(l.hardwareMap.get(Servo.class, Naming.SERVO_HOOK_2));
 
         // Add servos into the list
         HashMap<String, SmartServo> servos = new HashMap<>();
         //servos.put(Naming.SERVO_WOBBLE_ARM, wobbleArm);
         servos.put(Naming.SERVO_WOBBLE_GRABBER, wobbleGrabber);
         servos.put(Naming.SERVO_LAUNCHER, launcher);
+        servos.put(Naming.SERVO_HOOK_1, hook1);
+        servos.put(Naming.SERVO_HOOK_2, hook2);
 
         // Add CRServos into the list
         HashMap<String, CRServo> crServos = new HashMap<>();
@@ -109,10 +116,10 @@ public class InitRobot {
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
-        bl.setPowerModifier(Constants.MOTOR_BL_POWERMOD);
-        br.setPowerModifier(Constants.MOTOR_BR_POWERMOD);
-        fl.setPowerModifier(Constants.MOTOR_FL_POWERMOD);
-        fr.setPowerModifier(Constants.MOTOR_FR_POWERMOD);
+        //bl.setPowerModifier(Constants.MOTOR_BL_POWERMOD);
+        //br.setPowerModifier(Constants.MOTOR_BR_POWERMOD);
+        //fl.setPowerModifier(Constants.MOTOR_FL_POWERMOD);
+        //fr.setPowerModifier(Constants.MOTOR_FR_POWERMOD);
 
         // Get color sensors
         SmartColorSensor parkSensor = new SmartColorSensor((NormalizedColorSensor)l.hardwareMap.get(ColorSensor.class, Naming.COLOR_SENSOR_PARK));

@@ -97,24 +97,36 @@ public class TeleOpMain extends LinearOpMode {
             }
 
             // Moving the wobble
-            if (gamepad2.x) {
+            if (gamepad1.x) {
                 if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.RED) {
                     Robot.state.setCurrentState(StateMachine.State.ARMOUT);
                 }
-            } else if (gamepad2.y) {
+            } else if (gamepad1.y) {
                 if (Sensor.getRGB(Naming.COLOR_SENSOR_ARM) != Sensor.Colors.BLUE) {
                     Robot.state.setCurrentState(StateMachine.State.ARMIN);
                 }
             }
             Robot.moveArm(Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
 
-            if (gamepad2.a) {
+            if (gamepad1.a) {
                 Robot.movement.grabWobble(true);
-            } else if (gamepad2.b) {
+            } else if (gamepad1.b) {
                 Robot.movement.grabWobble(false);
             }
 
             Robot.movement.launch(gamepad2.right_bumper);
+            
+            if (gamepad2.a) {
+                Robot.movement.extendHook(true);
+            } else if (gamepad2.y) {
+                Robot.movement.extendHook(false);
+            }
+            
+            if (gamepad2.b) {
+                Robot.movement.hook(true);
+            } else if (gamepad2.x) {
+                Robot.movement.hook(false);
+            }
 
             telemetry.addData("Back Left", blPower);
             telemetry.addData("Back Right", brPower);

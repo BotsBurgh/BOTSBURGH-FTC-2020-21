@@ -23,6 +23,10 @@ public class PowerShot extends LinearOpMode {
     public static double DRIVEY     = 15;
     public static double TURNFUDGE  = 180.0/150;
     @Override
+
+    /**
+     * Drives the robot to the appropriate spot to shoot the powershot pegs down and parks it at the white line
+     */
     public void runOpMode() throws InterruptedException {
         InitRobot.init(this);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);

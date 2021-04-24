@@ -21,6 +21,10 @@ import org.firstinspires.ftc.teamcode.API.Sensor;
 @TeleOp(name="Color Sensor Telemetry", group="99-test")
 public class ColorSensorTelemetry extends LinearOpMode {
     @Override
+
+    /**
+     * Drives the robot to the white line until the color is detected or user presses stop
+     */
     public void runOpMode() throws InterruptedException {
         InitRobot.init(this);
 

@@ -62,8 +62,8 @@ import static org.firstinspires.ftc.teamcode.API.Config.Constants.kV;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0.6, 0.7, 1.2);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0.65, 0.5, 1.2);
 
     public static double LATERAL_MULTIPLIER = 1;
 
@@ -134,7 +134,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: adjust the names of the following hardware devices to match your configuration
-        imu = Sensor.getGyro(Naming.GYRO_0);
+        imu = Sensor.getGyro(Naming.GYRO_1);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
@@ -176,6 +176,11 @@ public class SampleMecanumDrive extends MecanumDrive {
        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
     }
 
+    /**
+     * Builds a trajectory for the robot to move according to in autonomous
+     * @param startPose starting position of the robot on the field
+     * @return the trajectory the robot must follow
+     */
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
         return new TrajectoryBuilder(startPose, velConstraint, accelConstraint);
     }

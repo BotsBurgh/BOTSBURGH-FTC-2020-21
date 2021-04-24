@@ -273,6 +273,11 @@ public class Sensor {
         ReadWriteFile.writeFile(file, calibrationData.serialize());
     }
 
+    /**
+     * Converts RGB to HSV values for color sensor detection
+     * @param rgb color stored in RGB that is to be converted
+     * @return the color converted to HSV
+     */
     public static double[] RGBtoHSV(double[] rgb) {
         double[] hsv = new double[] {0, 0, 0};
         double max = Math.max(Math.max(rgb[0], rgb[1]), rgb[2]);
@@ -306,7 +311,11 @@ public class Sensor {
         return hsv;
     }
 
-    // Computes the current battery voltage
+    /**
+     * Computes the current battery voltage
+     * @param voltageSensors all the powers of the sensors in the robot
+     * @return the current battery voltage of the robot
+     */
     public double getBatteryVoltage(HardwareMap.DeviceMapping<VoltageSensor> voltageSensors) {
         double result = Double.POSITIVE_INFINITY;
         for (VoltageSensor sensor : voltageSensors) {
@@ -350,7 +359,11 @@ public class Sensor {
             tfod.setZoom(2, 16.0/9.0);
         }
     }
-    
+
+    /**
+     * Returns the number of disks the robot sees using the camera
+     * @return the number of disks detected (none, zero, or four)
+     */
     public static Disks detectDisks() {
         for (int i = 0; i<1000000; i++) {
             if (Robot.linearOpMode.isStopRequested()) {

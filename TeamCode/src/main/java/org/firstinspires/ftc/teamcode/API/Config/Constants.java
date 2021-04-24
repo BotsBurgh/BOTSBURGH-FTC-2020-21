@@ -1,14 +1,16 @@
 package org.firstinspires.ftc.teamcode.API.Config;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.API.Sensor;
 
+@Config
 public class Constants {
     /*
      * These are motor constants that should be listed online for your motors.
      */
-    public static final double TICKS_PER_REV = 4096;
+    public static final double TICKS_PER_REV = 8192;
     public static final double MAX_RPM = 340;
 
     /*
@@ -32,7 +34,7 @@ public class Constants {
      */
     public static double WHEEL_RADIUS = 2; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15.5; // in
+    public static double TRACK_WIDTH = 14.4; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -40,9 +42,9 @@ public class Constants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
+    public static double kV = 0.0170;
     public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kStatic = 0.07;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -53,18 +55,34 @@ public class Constants {
      * forces acceleration-limited profiling). All distance units are inches.
      */
     public static double MAX_VEL = 30.0;
-    public static double MAX_ACCEL = 20.0;
+    public static double MAX_ACCEL = 17.5;
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
-    public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
+    public static double MAX_ANG_ACCEL = Math.toRadians(90.0);
 
+
+    /**
+     * Returns encoder ticks in converted inches
+     * @param ticks number of encoder ticks as stated by the encoder
+     * @return encoder ticks converted to inches
+     */
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
     }
 
+    /**
+     * Returns rpm in converted velocity
+     * @param rpm revolutions per minute of the motor
+     * @return velocity of the robot using the rpm information and some math
+     */
     public static double rpmToVelocity(double rpm) {
         return rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS / 60.0;
     }
 
+    /**
+     * Returns ticks per second in converted velocity
+     * @param ticksPerSecond ticks per second information as listed on the encoder
+     * @return
+     */
     public static double getMotorVelocityF(double ticksPerSecond) {
         // see https://docs.google.com/document/d/1tyWrXDfMidwYyP_5H4mZyVgaEswhOC35gvdmP-V-5hA/edit#heading=h.61g9ixenznbx
         return 32767 / ticksPerSecond;

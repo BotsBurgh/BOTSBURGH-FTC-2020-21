@@ -41,7 +41,13 @@ public class Robot {
     public static void whiteLine(String sensor, double power) {
         driveToColor(sensor, power, Sensor.Colors.WHITE);
     }
-    
+
+    /**
+     * Stops the robot once it detects the desired color
+     * @param sensor name of the color sensor as noted in Naming
+     * @param power amount of power to be delivered
+     * @param targetColor the specific color as noted in Sensor that the robot must detect
+     */
     public static void driveToColor(String sensor, double power, Sensor.Colors targetColor) {
         while (true) {
             Sensor.Colors color = Sensor.getRGB(sensor);
@@ -53,7 +59,12 @@ public class Robot {
             }
         }
     }
-    
+
+    /**
+     * Shoots the desired number of disks based on desired voltage autonomously
+     * @param count number of disks to be shot
+     * @param volts amount of power assigned to shoot the disk
+     */
     public static void shootAuto(int count, double volts) {
         // Power up flywheel
         movement.moveFlywheel(volts/Robot.sensor.getBatteryVoltage(linearOpMode.hardwareMap.voltageSensor));
@@ -64,11 +75,20 @@ public class Robot {
             movement.launch(false);
         }
     }
-    
+
+    /**
+     * Shoots the desired number of disks based on assigned voltage autonomously
+     * @param count number of disks to be shot
+     */
     public static void shootAuto(int count) {
         shootAuto(count, 10.00);
     }
-    
+
+    /**
+     * Moves the robot arm autonomously to interact with the wobble goal
+     * @param sensor name of the color sensor to assist arm movement
+     * @param arm name of the arm motor that is moving the arm
+     */
     public static void moveArm(String sensor, String arm) {
         SmartMotor armMotor = Movement.getMotor(arm);
         Sensor.Colors target;
@@ -99,6 +119,12 @@ public class Robot {
         }
     }
 
+    /**
+     * Moves the robot arm based on boolean assignment to interact with the wobble goal
+     * @param command true to open the arm
+     * @param sensor name of the color sensor to assist arm movement
+     * @param arm name of the arm motor that is moving the arm
+     */
     public static void moveArm(boolean command, String sensor, String arm) {
         SmartMotor armMotor = Movement.getMotor(arm);
         Sensor.Colors target;
@@ -124,10 +150,12 @@ public class Robot {
         armMotor.setPower(0);
     }
 
-
+    /**
+     * Pulls the arm out and drop the wobble goal
+     */
     public static void wobbleDrop() {
         Robot.moveArm(true, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
-        Robot.movement.grabWobble(true);
+        Robot.movement.grabWobble(true); // TODO modify this function because it's confusing
         linearOpMode.sleep(500);
         Robot.moveArm(false, Naming.COLOR_SENSOR_ARM, Naming.MOTOR_WOBBLE_ARM);
     }

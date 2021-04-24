@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.API.Config.Naming;
 public class ZeroServo extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Servo zeroServo = hardwareMap.get(Servo.class, Naming.SERVO_WOBBLE_GRABBER);
+        Servo zeroServo = hardwareMap.get(Servo.class, Naming.SERVO_HOOK_2);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -42,9 +42,9 @@ public class ZeroServo extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             if (gamepad2.a) {
-                zeroServo.setPosition(0.3);
+                zeroServo.setPosition(1);
             } else if (gamepad2.b) {
-                zeroServo.setPosition(0);
+                zeroServo.setPosition(0.4);
             }
         }
     }
