@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.API.Config;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.API.Sensor;
 
+@Config
 public class Constants {
     /*
      * These are motor constants that should be listed online for your motors.
@@ -55,7 +57,7 @@ public class Constants {
     public static double MAX_VEL = 30.0;
     public static double MAX_ACCEL = 17.5;
     public static double MAX_ANG_VEL = Math.toRadians(180.0);
-    public static double MAX_ANG_ACCEL = Math.toRadians(180.0);
+    public static double MAX_ANG_ACCEL = Math.toRadians(90.0);
 
 
     /**
